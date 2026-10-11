@@ -21,6 +21,12 @@ the current session log. Earlier discussion, repository creation, and release
 documentation are excluded from this experiment baseline. Instrumentation was
 requested during drafting, so the initial sample is retrospective and labeled.
 
+The operator's explicit autonomous-run go-ahead is **2026-10-12 01:02:52
+Australia/Sydney** (`2026-10-11T14:02:52.177Z`). Report elapsed time and usage from
+that point separately from design preparation. Samples labeled `autonomous-*`
+use this second baseline. Do not add their cumulative deltas to the overlapping
+design-to-delivery deltas.
+
 Main session: GPT-6.1 Sol, high reasoning, as reported by local session metadata.
 Reviewer models/effort and costs are recorded separately when their session
 usage is available. Frontend voice usage, unavailable tool fees, subscription
@@ -60,7 +66,7 @@ delivery. The JSONL observations supply numbers; this ledger supplies meanings.
 
 | Phase | Outcome/evidence |
 | --- | --- |
-| Design | Detailed draft created; independent review pending. |
+| Design | Initial reviews both NO-GO: one bounded blocking finding on each axis and two first-use documentation findings. One merged remediation defines construction reads and fences callbacks. Fresh replacement reviews will verify closure. |
 | Planning | Separate TDD plan follows design review. |
 | Implementation | Not started. |
 | Quality | Record canonical tests, narrow fault tests, regeneration, wheel smoke, reviewer findings and verdicts. |

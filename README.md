@@ -14,6 +14,10 @@ This repository currently contains the design, not an implemented package.
 
 Names below describe the intended API and are not available to import yet.
 
+Unmarked annotated fields are plain and nontransactional. Use `managed` for data
+that rollback and undo must restore; plain fields and management storage survive
+both operations unchanged.
+
 ```python
 from yidl_undoable import UndoRedoManager, const, local_store, managed, undoable
 
@@ -50,3 +54,34 @@ exit commits, and exceptional exit rolls back, following Lifecycle.
 
 Undo restores managed model data. It does not rewind caches, file descriptors,
 external resources, or side effects.
+
+## Nested objects and committed reads
+
+The relationship itself must be managed to belong to history:
+
+```python
+@undoable
+class Node:
+    label: str = managed(default="")
+    children: tuple["Node", ...] = managed(default=(), thaw=list, freeze=tuple)
+
+
+tree_history = UndoRedoManager()
+child = Node(label="before", transaction_manager=tree_history)
+parent = Node(children=(child,), transaction_manager=tree_history)
+tree_history.initialize(parent)
+
+with tree_history.begin():
+    parent.working.children[0].label = "after"
+    assert parent.current.children[0].label == "before"
+    assert parent.working.children[0].label == "after"
+
+assert tree_history.undo()
+assert parent.children[0].label == "before"
+assert tree_history.redo()
+assert parent.children[0].label == "after"
+```
+
+Current and working views propagate to their children. Nonversioned references
+do not establish historical membership. Holding a live view follows the selected
+frame; use a snapshot to retain historical managed data.

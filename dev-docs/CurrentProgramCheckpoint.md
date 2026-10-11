@@ -29,12 +29,13 @@ checks and review. No further routine confirmation is needed.
 
 ## Lane state
 
-- Initial drafting: in progress.
-- Independent review: pending.
-- Blocking findings: not yet assessed.
-- Remediation rounds used: zero of two.
+- Initial drafting: settled at `dbd89160ed54d6bab5887ee43bb75c4217459d21`.
+- Independent review: initial axes both NO-GO; verbatim reports filed.
+- Blocking findings: Consistency P2-1 and Safety P2-1 awaiting reviewer closure.
+- Remediation rounds used: one; bounded lifetime/read and callback-fence correction.
 - Implementation: not started.
-- Next action: settle the design checkpoint, then dispatch the two reviewers.
+- Next action: settle the single remediation patch and dispatch two replacement
+  reviewers with originating-counterexample closure duties.
 
 The [experiment ledger](ExperimentLedger.md) records timing, token observations,
 API-equivalent cost estimates, remediation, and quality evidence. The experiment

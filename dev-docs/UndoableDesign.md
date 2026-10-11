@@ -214,6 +214,27 @@ for current views or idle access. Identity, manager diagnostics, and
 nonversioned management fields remain accessible when the node is absent.
 Presence policy applies specifically to managed field reads.
 
+### Construction-only provider reads
+
+While a node's constructor is evaluating declared defaults/factories, reads of
+that node's default/current/working facades resolve already-evaluated private
+constructor baselines. This temporary construction read context takes precedence
+over published-frame resolution and never thaws or enables managed assignment.
+Named providers use that same resolved-value table; opt-in `self` factories
+receive the facade bound to this construction context. The rule applies equally
+to setup construction and transaction-created provisional construction.
+
+Named dependencies are evaluated in their declared dependency order. A self
+factory reading an unresolved field, including itself, raises a contextual
+`UndoableDefinitionError`; recursive lazy/provider evaluation is detected rather
+than recursing indefinitely. Construction success registers the complete node
+privately in setup or the active edit. Failure registers no partially initialized
+node and publishes no values. Private node IDs already allocated are not reused.
+After construction, setup baselines remain readable through generated views
+until initialization; managed writes still require a transaction. No read creates
+frame zero, root membership, or history. A setup node omitted from initialization
+subsequently follows the normal unavailable-node rule.
+
 ### Absence policies
 
 Policies are behavior objects, not enums or magic strings. `AbsentReadPolicy`
@@ -328,6 +349,31 @@ fields or all values compare equal. Each touched, finally reachable field gets
 one version record. Untouched fields reuse predecessor values. No-op suppression
 and exact mutation instrumentation are optional future optimizations.
 
+### Operation-owned application callbacks
+
+Every generated operation that invokes application code captures its original
+transaction token and overlay identity (or its setup/construction context) before
+the call. This includes thaw/freeze, value comparison and truth conversion of its
+result, constructor/lazy/working factories, and validators. Run the call inside a
+same-manager callback fence. While fenced, begin, commit, rollback, navigation,
+initialization, root edits, and generated managed/transient writes raise
+`ReentrantOperationError` before changing lifecycle state. Token scope callbacks
+are fenced too, not merely explicit manager methods.
+
+Read-only provider access may materialize another provider under the same token,
+with nested fences and recursive-field detection. Controlled nested construction
+may register private setup/provisional nodes under that same context; it cannot
+publish or replace the transaction. Nonversioned management effects remain
+nontransactional and callables are still required to obey their purity contract.
+
+After application code returns, verify the original token, overlay identity, and
+editable/construction state before installing the target result. Callback failure
+or lost ownership installs no new result for that field. Do not reacquire a fresh
+token and continue the suspended operation under it. A failure leaves earlier
+valid overlays under the original token available for explicit rollback/repair;
+it cannot transfer them to a replacement transaction. During final preparation,
+the completion-state fence and the operation fence both apply.
+
 ## 8. Sparse storage and frame lookup
 
 Handwritten support records are dataclasses, frozen where appropriate. Generated
@@ -412,6 +458,12 @@ are rejected at the binding boundary. This gives one completion participant
 for all roots/nodes and avoids partial per-node frame publication.
 
 The returned `LifecycleTransaction` owns token fencing and nested scope behavior.
+Bind its scope callbacks through `LifecycleTransaction.bind_scope`: the guarded
+callbacks first check the Undoable callback fence, then delegate to the original
+token-bound backend callbacks. Keep their stale-token/exceptional-exit semantics;
+do not replace them with unqualified manager completion. Every nested begin
+rebinds through this guarded path. Thus an application callback cannot bypass
+the fence by invoking a previously retained token's scope exit.
 Generated write guards confirm that the backend's active token still matches the
 overlay, and that the manager is in editable state. Nested begins join the token;
 inner commit decrements the nesting count and publishes nothing. Rollback at
@@ -647,12 +699,17 @@ Canonical generated-source fixtures cover:
 9. Provisional creation, removed final nodes, rollback-invalidated handles,
    discarded future-only handles, unavailable resurrection, and cross-manager edges.
 10. Container/nested stability, retained working lists after completion, converter
-    reentry, candidate validator reentry, invalid freeze output, and managed cycles.
+    reentry, equality/truth-conversion rollback/replacement attempts, transient
+    working-factory completion attempts (including retained scope exits), candidate
+    validator reentry, invalid freeze output, and managed cycles.
 11. Snapshots before branch truncation, pinned nested aliases, absence and unknown
     field errors, and management resources excluded from snapshots.
 12. Constants, scratch stores, bindings, transient baseline/working-factory/cleanup
     behavior, lazy write policies, factories/provider dependencies,
     inheritance, unsupported markers, and reserved-name diagnostics.
+    Include setup/provisional named providers and opt-in self factories reading
+    already-resolved managed baselines; unresolved/recursive providers must fail
+    contextually without earlier publication.
 
 Narrow tests cover binary-search/truncation edge cases, schema recognition,
 diagnostic grouping, and synthetic backend ownership/cleanup faults that the
