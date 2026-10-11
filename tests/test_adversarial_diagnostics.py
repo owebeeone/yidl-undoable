@@ -51,7 +51,7 @@ def test_pending_mapping_proxy_traversal_cannot_complete_its_edit():
     node = Model(transaction_manager=h)
     h.initialize(node)
     token = h.begin()
-    _ = node.working.value
+    node.value = MappingProxyType(ProviderMap())
     with pytest.raises(ReentrantOperationError):
         _ = node.value
     assert h.active_transaction_for() is token

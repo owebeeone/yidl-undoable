@@ -13,11 +13,11 @@ from .history import (
 from .values import normalize, decode, project_working
 from .errors import TransactionRequiredError, UnavailableNodeError, ForeignManagerError
 from .states import Setup, Idle, Editing, Completing, Faulted
-from .callbacks import call, capture, require_mutation
+from .callbacks import call, capture, dispatch, require_mutation
 from .graph import traverse
 from .policies import RaiseAbsent, ReadLastVisible
 from .snapshots import FrameSnapshot
-from .errors import ObjectAbsentError, HistoryFaultError
+from .errors import ObjectAbsentError, HistoryFaultError, ReentrantOperationError
 from .candidates import CandidateRead
 from yidl_lifecycle.transaction_yidl import DEFAULT_TRANSACTION, GroupTransactionManager
 
@@ -68,7 +68,9 @@ class Aggregate:
 
 class UndoRedoManager:
     def __init__(self, *, tx_key=DEFAULT_TRANSACTION, absent_policy=None):
-        hash(tx_key)
+        self._callback_depth = 0
+        self._state = Setup()
+        dispatch(self, "transaction key hashing", lambda: hash(tx_key))
         self._tx_key = tx_key
         self._absent_policy = RaiseAbsent() if absent_policy is None else absent_policy
         if type(self.absent_policy) not in (RaiseAbsent, ReadLastVisible):
@@ -77,12 +79,10 @@ class UndoRedoManager:
         self._nodes = {}
         self._next_node_id = 1
         self._next_frame_id = 1
-        self._state = Setup()
         self._backend = GroupTransactionManager(tx_key)
         self._aggregate = Aggregate(self)
         self._edit = None
         self._prepared = None
-        self._callback_depth = 0
         self._fault_reason = None
         self._confirmed_selection = True
         self._installed_selection = None
@@ -98,8 +98,11 @@ class UndoRedoManager:
         return self._absent_policy
 
     def _key(self, key):
-        if key != self.tx_key:
-            raise RuntimeError(f"unknown transaction key {key!r}")
+        def check():
+            if key != self.tx_key:
+                raise RuntimeError(f"unknown transaction key {key!r}")
+
+        self._call("transaction key comparison/diagnostic", check)
 
     def _allocate_node(self):
         if isinstance(self._state, (Completing, Faulted)):
@@ -113,16 +116,19 @@ class UndoRedoManager:
         return result
 
     def _register(self, state):
-        for fact in state.schema.fields:
-            if (
-                fact["field_kind"] in ("managed", "transient")
-                and fact["tx_key_key"] != self.tx_key
-            ):
-                raise RuntimeError(
-                    f"{state.schema.name}.{fact['field_name']}: wrong transaction key"
-                )
-        for name, key in state.schema.validators:
-            self._key(key)
+        def check_keys():
+            for fact in state.schema.fields:
+                if (
+                    fact["field_kind"] in ("managed", "transient")
+                    and fact["tx_key_key"] != self.tx_key
+                ):
+                    raise RuntimeError(
+                        f"{state.schema.name}.{fact['field_name']}: wrong transaction key"
+                    )
+            for name, key in state.schema.validators:
+                self._key(key)
+
+        self._call(f"{state.schema.name}: registration keys", check_keys)
         self._nodes[state.node_id] = state
         if self._edit:
             state.provisional = self._edit.token
@@ -246,19 +252,27 @@ class UndoRedoManager:
         owner = capture(self)
         token = None
         try:
-            token = self._backend.begin(tx_key)
+            token = dispatch(self, "backend begin", lambda: self._backend.begin(tx_key))
             if owner.edit is None:
                 self._edit = EditOverlay(
                     owner.selection, token, list(owner.selection.frame.roots)
                 )
-                self._backend.enlist(self._aggregate, tx_key)
+                dispatch(
+                    self,
+                    "backend enlist",
+                    lambda: self._backend.enlist(self._aggregate, tx_key),
+                )
             original_commit, original_rollback = (
                 token._scope_commit,
                 token._scope_rollback,
             )
-            token.bind_scope(
-                commit=lambda: self._scope_complete(original_commit, token),
-                rollback=lambda: self._scope_complete(original_rollback, token),
+            dispatch(
+                self,
+                "wrapper scope binding",
+                lambda: token.bind_scope(
+                    commit=lambda: self._scope_complete(original_commit, token),
+                    rollback=lambda: self._scope_complete(original_rollback, token),
+                ),
             )
             if (
                 self._backend.active_transaction is not token
@@ -272,6 +286,14 @@ class UndoRedoManager:
             ):
                 raise HistoryFaultError("begin setup lost its original ownership")
         except BaseException as setup_failure:
+            # A rejected key callback before backend acquisition changes nothing,
+            # including a previously joined edit. Later setup failures must close.
+            if (
+                isinstance(setup_failure, ReentrantOperationError)
+                and token is None
+                and owner.intact(self)
+            ):
+                raise
             self._abort_begin_setup(owner, token, setup_failure)
             raise
         self._state = Editing()
@@ -299,7 +321,11 @@ class UndoRedoManager:
         try:
             if owned:
                 try:
-                    self._backend.rollback(self.tx_key)
+                    dispatch(
+                        self,
+                        "backend setup abort",
+                        lambda: self._backend.rollback(self.tx_key),
+                    )
                 except BaseException as abort_failure:
                     failures.append(abort_failure)
         finally:
@@ -338,12 +364,15 @@ class UndoRedoManager:
     def _scope_complete(self, callback, token):
         require_mutation(self)
         if self._backend.active_transaction is not token:
-            return callback()
+            return dispatch(self, "backend stale scope completion", callback)
         return self._complete(callback, token)
 
     def active_transaction_for(self, tx_key=DEFAULT_TRANSACTION):
         self._key(tx_key)
-        return self._backend.active_transaction_for(tx_key)
+        return self._call(
+            "backend active transaction lookup",
+            lambda: self._backend.active_transaction_for(tx_key),
+        )
 
     def commit(self, tx_key=DEFAULT_TRANSACTION):
         require_mutation(self)
@@ -502,7 +531,9 @@ class UndoRedoManager:
                             if provisional
                             else self._committed_value(facade, name)
                         )
-                        return fact["thaw"](value)
+                        return project_working(
+                            fact["thaw"](value), self, "working", in_place=True
+                        )
 
                     value = self._call(
                         f"{state.schema.name}.{name}: projection and thaw", materialize
@@ -618,6 +649,7 @@ class UndoRedoManager:
         self._prepared = None
 
     def validate(self, tx_key=DEFAULT_TRANSACTION):
+        require_mutation(self)
         self._key(tx_key)
         edit = self._require_edit()
         before = self._state
@@ -630,11 +662,11 @@ class UndoRedoManager:
 
     def _complete(self, callback, token):
         if token is None:
-            return callback()
+            return dispatch(self, "backend completion", callback)
         before = self._selection
         result, failure = None, None
         try:
-            result = callback()
+            result = dispatch(self, "backend completion", callback)
         except BaseException as exc:
             failure = exc
         completion = token.completion

@@ -108,3 +108,40 @@ unchanged. No adjacent source edits, platform fallback or version restriction.
 These artifacts supersede earlier draft artifacts; later evidence-only commits
 may update documentation without changing tested runtime bytes. Machine-path
 scan has no matches and whitespace check passes. Runtime review still pending.
+
+## Third runtime gate
+
+At `38662bc`, both fresh reviewers closed all ten historical counterexamples.
+Code reported first-thaw-result child projection and State reported application
+key-comparison ownership as two additional bounded P2s. These are filed verbatim
+in the round3 reports. The 89-test/wheel matrix remains true for that object;
+acceptance remains blocked pending the merged cycle3 correction and closure.
+
+The State reviewer first ended with a service content-flag error without a full
+report or verdict. That attempt is not a completed review. The same reviewer
+completed its report on retry; measured usage includes the failed attempt.
+
+## Remediation cycle 3 independent checks
+
+| Python | Full source suite | Rebuilt installed-wheel examples/base/import isolation |
+| --- | --- | --- |
+| 3.12.12 | 138 passed in 12.68s | All passed. |
+| 3.13.12 | 138 passed in 14.06s | All passed. |
+| 3.14.3 | 138 passed in 13.61s | All passed. |
+
+All twenty canonical stories and generated-source comparisons pass. Independent
+wheel-from-sdist build succeeds; artifact SHA-256:
+
+- Wheel: `cedebeb168cdbef31bd8d4bed9e6ce1418b84cceb82868c44a90d4fbeb4a4bdd`
+- Sdist: `1b31ae98e681bbef1c5583e9b3298f1a994157c3d4c5c2e08e18198bfef0379f`
+
+All nine YIDL resources, `_generated_undoable_base.py`, and `py.typed` are in the
+wheel; the sdist also contains the canonical tests. The contents helper initially
+asserted the wrong generated-base filename without its prefix; inspection showed
+the packaged correct filename, and the corrected helper passed. This was a
+verification-helper error, not a missing packaged resource or runtime correction.
+
+Pinned dependencies, native engine and isolated environment method are unchanged.
+Whitespace and machine-path scans pass. These checks do not self-close the two
+round3 findings; a fresh replacement dual gate must verify all twelve original
+runtime counterexamples and the corrected package before acceptance.

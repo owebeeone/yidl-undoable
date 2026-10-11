@@ -103,6 +103,34 @@ faults. Current provisional absence and stale backend scope behavior remain as
 designed. Root repeats independent supported-version/build/wheel checks and fresh
 dual runtime review; no originating closure or acceptance is claimed here.
 
+## Runtime remediation cycle 3
+
+The third dual review at `38662bcbbe7758fb5f980859675fa9efcb41d614`
+closed all ten historical findings and identified two bounded roots. This
+operator-authorized merged revision retains the original regression cases.
+
+| Finding | Correction and regression |
+| --- | --- |
+| Code round 3 P2-6 | Thaw results project recursively to working views inside the original call before installation. Canonical 19 covers first-read pending data/nested thaw for committed/provisional parents returning default/current child handles, nested list/dict/set identities, repeat access and ordinary no-thaw reads. Eight proxy cases cover completion/replacement/scope attacks and plain traversal failures, preserve token/pending data/untouched target and permit retry. |
+| State round 3 P2-1 | Ownership-preserving key/registration/read calls plus one backend dispatch fence protect all subsequent comparison/truth/diagnostic execution while allowing authorized transitions. Successive callback stages cover manager/backend commit, rollback, begin join, lookup, scope originals, managed/transient/validator registration, enlist and abort. Wrong-key equality/truth/repr and non-one-shot validate callbacks preserve the original edit. Constructor hashing and completion-error key diagnostics are also fenced. Canonical 20 preserves custom hashable equal aliases, exact original token identity, healthy nested scopes, validator reads and exceptional/stale behavior. |
+
+A key callback rejected before acquisition leaves an existing edit/nesting
+unchanged. Acquired setup failures retain the shared clean-abort-or-fault path
+and original setup/abort causes. Public mutating entries require mutation before
+calling application-backed keys; backend transitions have a depth-only fence
+because legitimate begin/completion changes the captured context. Acquisition
+and terminal evidence remain the ownership checks for those transitions.
+Declaration harvesting still uses Lifecycle key normalization before any manager
+is provided. No key type restriction, token substitution, API change, extra
+participant, fallback engine or neighbor source change is introduced.
+
+The final local native suite has 20 canonical stories and 138 passing tests.
+Both examples, all source goldens, deterministic base checks, compile checks
+and wheel/sdist build pass. No mandatory section 13 coverage was removed.
+
+`TddEvidence.md` records actual behavioral reds and the local gates. Fresh
+originating closure and independent matrix/build/wheel acceptance belong to root.
+
 ## Verification and limits
 
 `TddEvidence.md` records actual red/green/refactor tranches, including behavioral

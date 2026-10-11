@@ -69,3 +69,20 @@ def require_mutation(manager):
         )
     if isinstance(manager._state, Faulted):
         manager._state.require_initialized()
+
+
+def dispatch(manager, context, function):
+    """Fence backend callbacks while permitting their authorized state transition.
+
+    Begin/completion ownership is checked by their callers against acquisition or
+    terminal evidence. Unlike application calls, those transitions must change
+    the captured token, nesting, overlay or selection.
+    """
+    manager._callback_depth += 1
+    try:
+        return function()
+    except BaseException as exc:
+        exc.add_note(context)
+        raise
+    finally:
+        manager._callback_depth -= 1

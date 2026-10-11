@@ -19,7 +19,11 @@ one root. Setup views expose constructor baselines without creating history.
 one begin: inner completion returns `None`, outer completion returns the token ID.
 `rollback(key)` closes the entire joined edit and returns its token ID.
 `validate(key)` freezes/validates a preview and keeps editing; commit validates again.
-Pass a custom key explicitly. `active_transaction_for(key)` reports the active token.
+Pass a custom hashable key explicitly. Its comparison, truth conversion, hashing
+and manager/backend diagnostics run inside the same-manager mutation fence.
+`active_transaction_for(key)` reports the active token and remains a permitted
+read during application callbacks. Authorized backend transitions may change
+transaction ownership while retaining this fence.
 Normal token scope exit commits; exceptional exit rolls back. Manually completing a
 scope makes its subsequent normal exit stale. A stale exceptional exit preserves
 the body's exception and cannot abort a replacement edit.
@@ -52,7 +56,12 @@ returns committed current roots. `node.present` follows the corresponding graph;
 Managed stable values admit exact built-in scalar types, recursive tuples/frozensets,
 framework-owned immutable mappings and node references. Mutable/custom input needs a
 `freeze` conversion to this surface. Read-only mapping wrappers are copied into private
-immutable backing stores. Mutable working containers can be created with `thaw`.
+immutable backing stores. Mutable working containers can be created with `thaw`. The first working read
+recursively projects the converter result's child handles to working views,
+including nested containers, before installation. Repeated reads preserve the
+owned mutable container; ordinary reads project children to ordinary views.
+Result traversal shares the converter's fence, and a failed traversal installs
+no touched value, permitting a pure retry.
 `compare="value"` compares and truth-converts under the callback fence; `"identity"`
 skips only the same reference. Touching via thaw records a version even if equal.
 
@@ -101,7 +110,9 @@ Preview failure leaves editing repairable. Initialization failure remains retrya
 `HistoryFaultError` signals unexpected backend ownership/cleanup evidence. Confirmed
 live data and snapshots can remain readable; unconfirmed publication blocks them.
 There is no reset/recovery API. `last_completion` retains Lifecycle terminal evidence.
-Failed begin setup always detaches its private overlay, including when it joined
+A rejected key callback before backend acquisition preserves the original edit
+and nesting unchanged. Once setup has acquired or joined a token, failed begin
+setup detaches its private overlay, including when it joined
 an existing edit. That joined edit is aborted as a whole. Retry is permitted only
 after confirmed clean closure, with no hidden nesting left behind; abort failure
 or incomplete ownership evidence faults immediately. Discard cleanup after an incomplete installed publication also
