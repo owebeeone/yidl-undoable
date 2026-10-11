@@ -10,6 +10,11 @@ cost, and usability for another LLM. The operator may leave while work continues
 Internal TDD iterations and bounded review remediation are allowed and recorded;
 "one-shot" means no further routine human intervention, not a perfect first patch.
 
+The operator permits extra remediation cycles for minor corrections. An
+architecturally broken design must be replaced by an explicit redesign and fresh
+review, never continued through accumulating patches. Additional rounds and
+redesign time remain part of this experiment's cost and duration.
+
 Design started at **2026-10-12 00:51:42 Australia/Sydney**
 (`2026-10-11T13:51:42.490Z`), recovered from the first design-request message in
 the current session log. Earlier discussion, repository creation, and release

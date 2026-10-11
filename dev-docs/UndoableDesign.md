@@ -683,8 +683,11 @@ a release, or permission to modify adjacent packages silently.
 The operator invoked the personal `review-loop` skill. Apply two peer-blind axes:
 Consistency plus Surface, and Safety. Settle a committed design revision, record
 the exact object and source revisions, file complete reports verbatim, merge
-blocking findings into one remediation patch, and permit at most two remediation
-rounds. The checkpoint records verdicts and the accepted scope. Interface or
+blocking findings into one remediation patch. The operator subsequently extended
+the default two-round cap for bounded, nonarchitectural corrections. If the
+design itself is broken, stop patching it and produce an explicitly reviewed
+redesign before continuing. The checkpoint records rounds, verdicts, and the
+accepted scope. Interface or
 architectural changes replace the two reviewers with fresh contexts; closure
 duties stay within those two reviewers, never an extra axis.
 

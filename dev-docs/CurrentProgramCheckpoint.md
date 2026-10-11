@@ -43,3 +43,13 @@ tests autonomous completion from this directive, not zero internal iterations.
 The loop's outputs are committed checkpoints, verbatim reports, any merged
 remediation plan, and an explicit scope-limited acceptance record. No pushes,
 tags, releases, or changes to neighboring packages are part of this directive.
+
+## Operator override of remediation cap
+
+The operator authorized additional rounds for bounded, nonarchitectural
+corrections. If review establishes that the current design is broken or cannot
+be repaired coherently, stop patching that object. Redesign explicitly, file the
+new controlling document/revision, and obtain fresh dual review before continuing.
+The override permits autonomous redesign; it does not permit stacking guards on
+an unsound architecture. Record extra rounds and any redesign in the experiment
+ledger. The two-reviewer ceiling and peer-blindness still apply.
