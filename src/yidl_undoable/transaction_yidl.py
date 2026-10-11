@@ -274,8 +274,12 @@ class UndoRedoManager:
                 self,
                 "wrapper scope binding",
                 lambda: token.bind_scope(
-                    commit=lambda: self._scope_complete(original_commit, token),
-                    rollback=lambda: self._scope_complete(original_rollback, token),
+                    commit=lambda: self._scope_complete(
+                        original_commit, token, "commit"
+                    ),
+                    rollback=lambda: self._scope_complete(
+                        original_rollback, token, "rollback"
+                    ),
                 ),
             )
             if (
@@ -365,7 +369,7 @@ class UndoRedoManager:
             raise HistoryFaultError(self._fault_reason) from cause
         self._state = Idle()
 
-    def _scope_complete(self, callback, token):
+    def _scope_complete(self, callback, token, operation):
         require_mutation(self)
         if self._backend.active_transaction is not token:
             owner = capture(self)
@@ -375,7 +379,7 @@ class UndoRedoManager:
             if failure is not None:
                 raise failure
             return result
-        return self._complete(callback, token)
+        return self._complete(callback, token, operation)
 
     def active_transaction_for(self, tx_key=DEFAULT_TRANSACTION):
         self._key(tx_key)
@@ -388,14 +392,18 @@ class UndoRedoManager:
         require_mutation(self)
         self._key(tx_key)
         return self._complete(
-            lambda: self._backend.commit(tx_key), self._backend.active_transaction
+            lambda: self._backend.commit(tx_key),
+            self._backend.active_transaction,
+            "commit",
         )
 
     def rollback(self, tx_key=DEFAULT_TRANSACTION):
         require_mutation(self)
         self._key(tx_key)
         return self._complete(
-            lambda: self._backend.rollback(tx_key), self._backend.active_transaction
+            lambda: self._backend.rollback(tx_key),
+            self._backend.active_transaction,
+            "rollback",
         )
 
     def _require_edit(self):
@@ -677,7 +685,13 @@ class UndoRedoManager:
             return None, exc
 
     def _completion_selection_intact(self, owner):
-        return self._selection is owner.selection or (
+        return (
+            self._selection is owner.selection
+            or self._completion_publication_intact(owner)
+        )
+
+    def _completion_publication_intact(self, owner):
+        return (
             owner.token is not None
             and type(owner.token_id) is int
             and type(self._installed_token) is int
@@ -685,6 +699,24 @@ class UndoRedoManager:
             and self._installed_selection is not None
             and self._selection is self._installed_selection
         )
+
+    def _completion_outcome_intact(self, owner, operation, completion, failure):
+        discarded = (
+            not completion.publication_started
+            and not completion.publication_complete
+            and completion.discard_complete
+            and self._selection is owner.selection
+        )
+        if operation == "rollback":
+            return discarded
+        if operation != "commit" or owner.begin_count != 1:
+            return False
+        if completion.publication_complete:
+            return (
+                completion.publication_started
+                and self._completion_publication_intact(owner)
+            )
+        return failure is not None and bool(completion.failures) and discarded
 
     def _completion_fault(self, owner, failure):
         token = owner.token
@@ -695,7 +727,7 @@ class UndoRedoManager:
         self._fault("backend ownership/publication/cleanup evidence is incomplete")
         raise HistoryFaultError(self._fault_reason) from failure
 
-    def _complete(self, callback, token):
+    def _complete(self, callback, token, operation):
         owner = capture(self)
         if token is None:
             authorized = (
@@ -729,6 +761,7 @@ class UndoRedoManager:
                 raise failure
             if (
                 failure is None
+                and operation == "commit"
                 and token is not None
                 and owner.begin_count > 1
                 and result is None
@@ -749,10 +782,7 @@ class UndoRedoManager:
             and completion.ownership_preserved
             and completion.finalized
             and completion.after_actions_complete
-            and (
-                completion.publication_complete
-                or (completion.discard_complete and self._selection is owner.selection)
-            )
+            and self._completion_outcome_intact(owner, operation, completion, failure)
             and self._backend.active_transaction is None
             and type(self._backend.begin_count) is int
             and self._backend.begin_count == 0

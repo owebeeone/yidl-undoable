@@ -301,3 +301,76 @@ def test_terminal_cleanup_cannot_revive_diagnosed_operation_fault():
     assert token.completion.discard_complete and token.completion.finalized
     assert h.last_completion is token.completion
     assert_faulted(h, node, old)
+
+
+@pytest.mark.parametrize("entry", ("explicit", "scope"))
+@pytest.mark.parametrize("fails", (False, True))
+@pytest.mark.parametrize(
+    "requested,joined,observed",
+    (
+        ("commit", True, "publication"),
+        ("rollback", True, "inner_commit"),
+        ("rollback", False, "publication"),
+        ("commit", False, "discard"),
+        ("commit", True, "discard"),
+    ),
+)
+def test_completion_outcome_requires_requested_operation(
+    monkeypatch, entry, fails, requested, joined, observed
+):
+    h, node, old = initialized()
+    token = h.begin()
+    if joined:
+        assert h.begin() is token
+    node.value = 7
+    backend_type = type(h._backend)
+    original_commit = backend_type.commit
+    original_rollback = backend_type.rollback
+    failure = LookupError("raised after operation-incompatible transition")
+
+    def substitute(backend, key):
+        if observed == "publication":
+            backend.begin_count = 1
+            result = original_commit(backend, key)
+        elif observed == "inner_commit":
+            result = original_commit(backend, key)
+        else:
+            result = original_rollback(backend, key)
+        if fails:
+            raise failure
+        return result
+
+    monkeypatch.setattr(backend_type, requested, substitute)
+    with pytest.raises(HistoryFaultError) as caught:
+        if entry == "explicit":
+            getattr(h, requested)()
+        else:
+            getattr(token, "_scope_" + requested)()
+    assert caught.value.__cause__ is (failure if fails else None)
+    assert h.last_completion is token.completion
+    expected = 7 if observed == "publication" else 0
+    assert_faulted(h, node, old, expected)
+    if observed == "inner_commit":
+        assert token.completion is None
+        assert h._backend.active_transaction is token and h._backend.begin_count == 1
+    else:
+        assert token.completion.finalized and token.completion.after_actions_complete
+        assert not token.completion.failures
+        assert token.completion.publication_complete is (observed == "publication")
+        assert token.completion.discard_complete is (observed == "discard")
+        assert h._backend.active_transaction is None and h._backend.begin_count == 0
+
+
+@pytest.mark.parametrize("entry", ("explicit", "scope"))
+def test_outer_commit_requires_confirmed_selection_installation(monkeypatch, entry):
+    h, node, old = initialized()
+    token = h.begin()
+    node.value = 7
+    monkeypatch.setattr(
+        h._aggregate, "_apply_prepared_commit_tx_by_key", lambda *_: None
+    )
+    with pytest.raises(HistoryFaultError):
+        complete(h, token, entry)
+    assert h.last_completion is token.completion
+    assert token.completion.publication_complete and token.completion.finalized
+    assert_faulted(h, node, old)

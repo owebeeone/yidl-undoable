@@ -165,6 +165,42 @@ checks, both examples and wheel/sdist build passed. All mandatory section 13
 coverage is retained. Root owns independent matrix/build
 and fresh same-tuple review acceptance.
 
+## Runtime remediation cycle 5
+
+At `adcdc3071c00330787c12d05faeb381705215d2d`, Code/Surface returned
+GO and State independently closed all thirteen historical originals. Bounded
+State P2-1 concerned operation-specific completion legality. This merged
+correction carries the requested commit/rollback through explicit dispatch and
+the original token-bound scope callback. It retains the shared captured owner,
+authentic terminal evidence and fault path.
+
+Only joined commit may return a nonterminal exact decrement. Joined commit
+cannot terminally publish or discard, including when the backend raises after
+that transition. Outer commit requires actual confirmed installation for its
+original token; preparation rejection can close through unchanged-selection
+discard only while a recorded backend failure is propagated. Rollback at every
+joined depth requires complete discard with unchanged selection and no
+publication. Incompatible outcomes retain causal failures and actual terminal
+evidence, detach overlays and fault immediately. Confirmed installed publication
+remains readable and is never rewound. Stale original callbacks retain their
+separate unchanged-replacement ownership rule.
+
+Twenty-two narrow new cases cover all four report rows through explicit and
+retained-scope entry, their failure variants, premature joined discard and
+publication without actual installation. All prior canonical success stories,
+preparation-failure discard and historical diagnostic cases remain unchanged.
+No accepted-design, public API, generator/base, dependency or neighbor changes
+are introduced. Root owns supported-version/wheel gates and fresh same-tuple
+dual runtime acceptance.
+
+Final local native evidence is **215 passing tests**, including all 20 canonical
+stories and 77 completion-authority cases. All canonical generated-source goldens,
+the base check, two deterministic native base renders, compile/format checks,
+both examples and wheel/sdist build passed. Mandatory design section 13 coverage
+and all historical counterexamples remain in the suite. Source edits are stopped;
+this is a complete bounded correction for independent review, not an acceptance
+claim.
+
 ## Verification and limits
 
 `TddEvidence.md` records actual red/green/refactor tranches, including behavioral

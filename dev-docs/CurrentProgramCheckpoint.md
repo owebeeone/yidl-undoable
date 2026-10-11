@@ -2,7 +2,7 @@
 
 Status: design accepted at `616f2f65473b1240535a6317d8cc79d5cec18414` after
 `UndoableDesign-ReviewConsistency-3.md` and `UndoableDesign-ReviewSafety-3.md`
-reported GO. This accepts the design/API contract only. Runtime acceptance blocked by one additional bounded State P2 at the fourth gate; all twelve historical counterexamples closed, Code/Surface GO at d0f85e6.
+reported GO. This accepts the design/API contract only. Runtime acceptance blocked by one bounded residual State P2 at the fifth gate; all thirteen historical originals closed, Code/Surface GO at adcdc307.
 
 ## Directive and scope
 
@@ -37,7 +37,8 @@ checks and review. No further routine confirmation is needed.
 - Implementation plan: `UndoableImplementationPlan.md`, strict red/green/refactor.
 - Runtime acceptance tier: dual Code plus Surface and State review, settled implementation.
 - Implementation: 138 independent tests and rebuilt wheel gates pass on Python 3.12–3.14 at d0f85e6. Fourth gate: Code/Surface GO; State NO-GO for one bounded completion-nesting authority root. Merged cycle4 correction complete under operator extra-round authorization; 193 independent tests and rebuilt wheel gates pass on all three versions; no architecture failure or redesign.
-- Next action: settle cycle4 correction and fresh dual review with all thirteen historical finding closure duties.
+- Fifth gate: Code/Surface GO; State NO-GO for missing operation-specific completion legality. All thirteen original counterexamples closed. Merged cycle5 correction complete as bounded; 215 independent tests and rebuilt installed-wheel checks pass on all three versions; no architecture failure.
+- Next action: settle cycle5 correction and fresh dual review with fourteen historical closure duties.
 
 The [experiment ledger](ExperimentLedger.md) records timing, token observations,
 API-equivalent cost estimates, remediation, and quality evidence. The experiment

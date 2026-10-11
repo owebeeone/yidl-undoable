@@ -177,3 +177,36 @@ machine-path scans. Dependency tuple and installation isolation are unchanged.
 These runtime artifacts supersede earlier drafts; scope remains local and
 unpublished. Passing gates still require fresh peer-blind closure of all
 thirteen historical runtime counterexamples.
+
+## Fifth runtime gate
+
+At `adcdc307`, Code/Surface GO and State NO-GO: all thirteen historical
+originals closed, one bounded operation-specific completion P2 remained. Both
+complete reports are verbatim. The 193-test matrix remains valid for that object;
+cycle5 is the operator-authorized correction, without architecture/API redesign.
+
+## Remediation cycle 5 independent checks
+
+| Python | Full source suite | Rebuilt installed-wheel examples/base/import isolation |
+| --- | --- | --- |
+| 3.12.12 | 215 passed in 17.04s | All passed. |
+| 3.13.12 | 215 passed in 17.34s | All passed. |
+| 3.14.3 | 215 passed in 16.47s | All passed. |
+
+All twenty native canonical stories/goldens and nine inheritable generation
+concepts remain. The authority suite now contains 77 narrow cases. Actual REDs
+and complementary already-passing cases are distinguished in TddEvidence.md.
+No owning YIDL resource, generated base, public API or dependency-source change.
+
+Independent wheel-from-sdist build and resource/py.typed/base/sdist-test content
+checks pass. Runtime-correction artifact SHA-256:
+
+- Wheel: `e63818caa79b4c361d8c6203f572f79d4bb098f6ece09a3bf6b149e6206e5620`
+- Sdist: `f344540bba0d3a48e6216ef99fd8ddc594aa48396bce1a7481cfd5f348e71127`
+
+Pinned dependencies, native generation and isolated noneditable-install method
+remain unchanged. Machine-path scan has no matches and whitespace check passes.
+These artifacts supersede prior drafts. Evidence/status-only landing may change
+documentation after review without changing tested runtime bytes. Runtime
+acceptance still needs fresh dual GO at the exact corrected tuple, including
+original replay of six Code and eight State historical findings.
