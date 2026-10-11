@@ -66,9 +66,9 @@ delivery. The JSONL observations supply numbers; this ledger supplies meanings.
 
 | Phase | Outcome/evidence |
 | --- | --- |
-| Design | Initial reviews both NO-GO: one bounded blocking finding on each axis and two first-use documentation findings. One merged remediation defines construction reads and fences callbacks. Fresh replacement reviews will verify closure. |
-| Planning | Separate TDD plan follows design review. |
-| Implementation | Not started. |
+| Design | Both axes GO at `616f2f6` after two bounded remediation cycles. Initial review found constructor reads, callback fencing, and two Surface omissions; round 2 found idle-lazy wording. All five findings closed at design level. No architectural root or redesign. |
+| Planning | Separate strict TDD plan created after design acceptance; runtime gate is dual Code/Surface plus State. |
+| Implementation | Starting after accepted design and separate plan; outcome pending. |
 | Quality | Record canonical tests, narrow fault tests, regeneration, wheel smoke, reviewer findings and verdicts. |
 | LLM usability | Cold first-use walkthrough belongs to the Consistency/Surface reviewer; document unsupported behavior and complete examples. |
 
