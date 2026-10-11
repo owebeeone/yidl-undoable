@@ -10,3 +10,8 @@
 
 Review reports and remediation plans are filed here under the `UndoableDesign`
 name. Acceptance of a design does not certify runtime implementation.
+
+- [TDD implementation plan](UndoableImplementationPlan.md).
+- [Actual TDD evidence](TddEvidence.md): timestamped red/green/refactor tranches.
+- [Implementation mapping](ImplementationDraft.md): delivered design coverage.
+- [Independent verification](VerificationEvidence.md): version matrix and wheels.

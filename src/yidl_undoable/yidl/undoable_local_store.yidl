@@ -1,0 +1,26 @@
+module undoable.local_store
+import "undoable_binding.yidl" as previous
+export concept UndoableLocalStore
+concept UndoableLocalStore extends previous.UndoableBinding {
+    family previous.UndoableField {
+        variant LocalStoreField {}
+    }
+    computed collection LocalStoreFields: UndoableField from Fields where FieldKind == "local_store"
+    resource LocalStoreFieldProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            return self._u_read_plain(astichi_bind_external(field_name))
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            self._u_write_plain(astichi_bind_external(field_name), value)
+    ]$
+    contribution LocalStoreFieldAccessor = LocalStoreFieldProperty {
+        index FieldOrder order FieldOrder target properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    matcher LocalStoreFieldAccessors(field: LocalStoreFields) -> contribution { default -> LocalStoreFieldAccessor }
+    extend production ClassProduction {
+        phase properties_local_store after properties_plain from field: LocalStoreFields { apply LocalStoreField_properties using LocalStoreFieldAccessors }
+    }
+}

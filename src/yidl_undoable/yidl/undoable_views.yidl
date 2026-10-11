@@ -1,0 +1,55 @@
+module undoable.views
+import "undoable_local_store.yidl" as previous
+export concept UndoableViews
+concept UndoableViews extends previous.UndoableLocalStore {
+    computed collection ManagedAccessViews: FieldView from AccessViews where FieldKind == "managed"
+    resource CurrentManagedProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            return self._u_read_current_managed(astichi_bind_external(field_name))
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            self._u_write_current_managed(astichi_bind_external(field_name), value)
+    ]$
+    contribution CurrentManagedAccessor = CurrentManagedProperty {
+        index FieldOrder order FieldOrder target current_properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    resource WorkingManagedProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            return self._u_read_working_managed(astichi_bind_external(field_name))
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            self._u_write_managed(astichi_bind_external(field_name), value)
+    ]$
+    contribution WorkingManagedAccessor = WorkingManagedProperty {
+        index FieldOrder order FieldOrder target working_properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    resource ThawManagedProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            return self._u_read_thaw_managed(astichi_bind_external(field_name))
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            self._u_write_managed(astichi_bind_external(field_name), value)
+    ]$
+    contribution ThawManagedAccessor = ThawManagedProperty {
+        index FieldOrder order FieldOrder target working_properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    matcher ManagedViewAccessors(field: ManagedAccessViews) -> contribution {
+        rule current when View == "current" -> CurrentManagedAccessor
+        rule thaw when View == "working" and HasThaw == True -> ThawManagedAccessor
+        rule working when View == "working" and HasThaw == False -> WorkingManagedAccessor
+    }
+    extend production ClassProduction {
+        phase managed_view_properties after properties_managed from field: ManagedAccessViews {
+            apply managed_view_properties using ManagedViewAccessors
+        }
+    }
+}

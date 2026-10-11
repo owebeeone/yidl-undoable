@@ -1,0 +1,42 @@
+module undoable.transient
+import "undoable_default_factories.yidl" as previous
+export concept UndoableTransient
+concept UndoableTransient extends previous.UndoableDefaultFactories {
+    family previous.UndoableField {
+        variant TransientField {}
+    }
+    computed collection TransientFields: UndoableField from Fields where FieldKind == "transient"
+    resource TransientBaselineProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            return self._u_read_baseline_transient(astichi_bind_external(field_name))
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            self._u_write_transient(astichi_bind_external(field_name), value)
+    ]$
+    contribution TransientBaselineAccessor = TransientBaselineProperty {
+        index FieldOrder order FieldOrder target properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    resource TransientFactoryProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            return self._u_read_factory_transient(astichi_bind_external(field_name))
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            self._u_write_transient(astichi_bind_external(field_name), value)
+    ]$
+    contribution TransientFactoryAccessor = TransientFactoryProperty {
+        index FieldOrder order FieldOrder target properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    matcher TransientFieldAccessors(field: TransientFields) -> contribution {
+        rule factory when HasWorkingDefaultFactory == True -> TransientFactoryAccessor
+        rule baseline when HasWorkingDefaultFactory == False -> TransientBaselineAccessor
+    }
+    extend production ClassProduction {
+        phase properties_transient after properties_plain from field: TransientFields { apply TransientField_properties using TransientFieldAccessors }
+    }
+}

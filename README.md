@@ -1,26 +1,14 @@
 # YIDL Undoable
 
-Proposed generated data classes with Lifecycle-style transactions and frame-based
-undo/redo. Committed fields use sparse ordered histories; constants and management
-storage remain outside history.
+Generate application data classes with transactions and frame-based undo/redo.
+Managed data has immutable sparse histories; caches, constants and resources have
+shared nonversioned storage. Python 3.12 or newer is required.
 
-This repository currently contains the design, not an implemented package.
-
-- [Detailed design](dev-docs/UndoableDesign.md)
-- [Current checkpoint and review status](dev-docs/CurrentProgramCheckpoint.md)
-- [Developer documents](dev-docs/README.md)
-
-## Proposed first use
-
-Names below describe the intended API and are not available to import yet.
-
-Unmarked annotated fields are plain and nontransactional. Use `managed` for data
-that rollback and undo must restore; plain fields and management storage survive
-both operations unchanged.
+This is the local implementation draft of the [accepted design](dev-docs/UndoableDesign.md).
+Runtime acceptance and publication remain tracked in the [checkpoint](dev-docs/CurrentProgramCheckpoint.md).
 
 ```python
 from yidl_undoable import UndoRedoManager, const, local_store, managed, undoable
-
 
 @undoable
 class Document:
@@ -28,60 +16,58 @@ class Document:
     items: tuple[str, ...] = managed(default=(), thaw=list, freeze=tuple)
     cache: dict[str, object] = local_store(default_factory=dict)
 
-
 history = UndoRedoManager()
 document = Document(transaction_manager=history)
 history.initialize(document)
-
-history.begin()
-try:
+with history.begin():
     document.working.items.append("first")
-except BaseException:
-    history.rollback()
-    raise
-else:
-    history.commit()
-
-assert history.undo()
-assert document.items == ()
-assert history.redo()
-assert document.items == ("first",)
+assert history.undo() and document.items == ()
+assert history.redo() and document.items == ("first",)
 ```
 
-The manager controls the selected frame. `rollback()` discards a pending edit;
-`undo()` selects a previous committed frame. Successful ordinary context-manager
-exit commits, and exceptional exit rolls back, following Lifecycle.
+The manager owns begin, commit, rollback and validation. A successful outer scope
+exit publishes one frame; an exceptional exit rolls back the entire joined edit.
+Unmarked annotations are ordinary `field` values. Use `managed` for data that
+rollback and navigation must restore.
 
-Undo restores managed model data. It does not rewind caches, file descriptors,
-external resources, or side effects.
+`node.default` is the ordinary live handle. It reads pending values while editing.
+`node.current` reads the selected committed frame; `node.working` may thaw a field
+once in the active transaction. Child views propagate through managed relationships.
+Holding these handles follows the cursor. `history.snapshot()` instead pins committed
+managed data, including nested aliases, across later edits and branches.
 
-## Nested objects and committed reads
+Initialize one or more same-manager roots after setup construction. New objects
+require an edit after initialization; provisional objects can be edited before
+attachment. Managed relationships must be acyclic; aliases and empty final root
+sets are supported. Strict absent reads raise by default. `ReadLastVisible()`
+resolves prior visible data and pins descendants to that fallback frame.
 
-The relationship itself must be managed to belong to history:
+Supported markers are Lifecycle's `managed`, `const`, `field`, `binding`,
+`local_store`, `lazy`/`static`, `transient`, `initvar`, and `classvar`.
+`validate_commit(DEFAULT_TRANSACTION)` marks a pure candidate validator.
+Constants keep one reference; their contents can still change. Bindings require
+Lifecycle `BindingBase` values (or mappings of them). Resources remain application-owned;
+undo never closes, accepts, reopens or rewinds them.
 
-```python
-@undoable
-class Node:
-    label: str = managed(default="")
-    children: tuple["Node", ...] = managed(default=(), thaw=list, freeze=tuple)
+History is in-memory and linear. Committing after undo discards redo; prior snapshots
+retain their original epoch. One manager has one key and cursor. Disk persistence,
+resource ownership/hooks, multiple generated bases, custom stored stable-value
+adapters, thread/task isolation and multi-key atomic edits are outside this version.
+Callbacks must be pure; same-manager transactional reentry is rejected. Escaped
+working containers remain ordinary Python objects but are detached on completion.
 
+See the [API and field guide](docs/API.md), [generation architecture](docs/Architecture.md),
+[executable examples](examples/first_use.py), and [TDD evidence](dev-docs/TddEvidence.md).
 
-tree_history = UndoRedoManager()
-child = Node(label="before", transaction_manager=tree_history)
-parent = Node(children=(child,), transaction_manager=tree_history)
-tree_history.initialize(parent)
+Development uses relative sibling sources with `uv`. The tested dependency tuple is
+YIDL and Lifecycle source revisions recorded in the accepted design, plus Astichi
+1.1.3. Both YIDL and Lifecycle currently identify as 0.1.0; local wheel tests establish
+that pinned source tuple, not compatibility with every older wheel bearing the same
+version. No package release is claimed.
 
-with tree_history.begin():
-    parent.working.children[0].label = "after"
-    assert parent.current.children[0].label == "before"
-    assert parent.working.children[0].label == "after"
-
-assert tree_history.undo()
-assert parent.children[0].label == "before"
-assert tree_history.redo()
-assert parent.children[0].label == "after"
+```sh
+uv run --with pytest python -m pytest -q
+uv run python -m yidl_undoable.regenerate_undoable_base
+uv run python tests/regenerate_golden.py
+uv build
 ```
-
-Current and working views propagate to their children. Nonversioned references
-do not establish historical membership. Holding a live view follows the selected
-frame; use a snapshot to retain historical managed data.

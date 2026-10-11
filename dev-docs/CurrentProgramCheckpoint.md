@@ -36,8 +36,8 @@ checks and review. No further routine confirmation is needed.
 - Remediation cycles used: two; no architectural root or redesign.
 - Implementation plan: `UndoableImplementationPlan.md`, strict red/green/refactor.
 - Runtime acceptance tier: dual Code plus Surface and State review, settled implementation.
-- Implementation: starting under the accepted contract; not accepted or released.
-- Next action: TDD package draft, full checks, then fresh independent implementation reviewers.
+- Implementation: drafted and independently verified on Python 3.12–3.14; runtime review pending, not released.
+- Next action: commit the implementation checkpoint and dispatch fresh Code/Surface and State reviewers.
 
 The [experiment ledger](ExperimentLedger.md) records timing, token observations,
 API-equivalent cost estimates, remediation, and quality evidence. The experiment

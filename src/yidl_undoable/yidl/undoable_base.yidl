@@ -1,0 +1,5 @@
+module undoable.base
+import "undoable_views.yidl" as previous
+export concept UndoableBase
+concept UndoableBase extends previous.UndoableViews {
+}

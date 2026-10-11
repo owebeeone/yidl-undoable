@@ -1,0 +1,93 @@
+module undoable.const_static
+import "undoable_core.yidl" as previous
+export concept UndoableConstStatic
+concept UndoableConstStatic extends previous.UndoableCore {
+    family previous.UndoableField {
+        variant ConstField {}
+        variant StaticField {}
+    }
+    computed collection ConstFields: UndoableField from Fields where FieldKind == "const"
+    resource ConstFieldProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            return self._u_read_const(astichi_bind_external(field_name))
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            self._u_write_const(astichi_bind_external(field_name), value)
+    ]$
+    contribution ConstFieldAccessor = ConstFieldProperty {
+        index FieldOrder order FieldOrder target properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    matcher ConstFieldAccessors(field: ConstFields) -> contribution { default -> ConstFieldAccessor }
+    extend production ClassProduction {
+        phase properties_const after properties_plain from field: ConstFields { apply ConstField_properties using ConstFieldAccessors }
+    }
+    computed collection StaticFields: UndoableField from Fields where FieldKind == "static"
+    resource StaticUnsetProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            return self._u_read_unset_static(astichi_bind_external(field_name))
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            with astichi_hole(lazy_setter) as astichi_fallback:
+                self._u_write_once_static(astichi_bind_external(field_name), value)
+    ]$
+    contribution StaticUnsetAccessor = StaticUnsetProperty {
+        as StaticAccessor index FieldOrder order FieldOrder
+        target properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    resource StaticDefaultProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            return self._u_read_default_static(astichi_bind_external(field_name))
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            with astichi_hole(lazy_setter) as astichi_fallback:
+                self._u_write_once_static(astichi_bind_external(field_name), value)
+    ]$
+    contribution StaticDefaultAccessor = StaticDefaultProperty {
+        as StaticAccessor index FieldOrder order FieldOrder
+        target properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    resource StaticFactoryProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            return self._u_read_factory_static(astichi_bind_external(field_name))
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            with astichi_hole(lazy_setter) as astichi_fallback:
+                self._u_write_once_static(astichi_bind_external(field_name), value)
+    ]$
+    contribution StaticFactoryAccessor = StaticFactoryProperty {
+        as StaticAccessor index FieldOrder order FieldOrder
+        target properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    resource MutableStaticSetter = template $[
+        astichi_pass(self, outer_bind=True)._u_write_mutable_static(astichi_bind_external(field_name), astichi_pass(value, outer_bind=True))
+    ]$
+    contribution MutableStaticSetterContribution = MutableStaticSetter {
+        index FieldOrder order FieldOrder
+        target lazy_setter { build /ClassDef/StaticAccessor[FieldOrder] }
+        external field_name = FieldName
+    }
+    matcher StaticFieldAccessors(field: StaticFields) -> contribution {
+        rule factory when HasDefaultFactory == True -> StaticFactoryAccessor
+        rule default_value when HasDefault == True -> StaticDefaultAccessor
+        rule unset when HasDefaultFactory == False and HasDefault == False -> StaticUnsetAccessor
+    }
+    matcher MutableStaticSetters(field: StaticFields) -> contribution {
+        rule mutable when Mutable == True -> MutableStaticSetterContribution
+    }
+    extend production ClassProduction {
+        phase properties_static after properties_plain from field: StaticFields { apply StaticField_properties using StaticFieldAccessors }
+        phase mutable_static_setters after properties_static from field: StaticFields { apply mutable_static_setters using MutableStaticSetters }
+    }
+}

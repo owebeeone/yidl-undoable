@@ -68,9 +68,22 @@ delivery. The JSONL observations supply numbers; this ledger supplies meanings.
 | --- | --- |
 | Design | Both axes GO at `616f2f6` after two bounded remediation cycles. Initial review found constructor reads, callback fencing, and two Surface omissions; round 2 found idle-lazy wording. All five findings closed at design level. No architectural root or redesign. |
 | Planning | Separate strict TDD plan created after design acceptance; runtime gate is dual Code/Surface plus State. |
-| Implementation | Starting after accepted design and separate plan; outcome pending. |
+| Implementation | Draft complete; 44 independent tests pass on Python 3.12–3.14, plus isolated wheel examples and regeneration. Runtime review pending. |
 | Quality | Record canonical tests, narrow fault tests, regeneration, wheel smoke, reviewer findings and verdicts. |
 | LLM usability | Cold first-use walkthrough belongs to the Consistency/Surface reviewer; document unsupported behavior and complete examples. |
 
 No success, completion duration, or total cost is claimed until the relevant
 work and observations are actually complete.
+
+## Timestamped milestones
+
+| UTC | Milestone |
+| --- | --- |
+| 2026-10-11T13:51:42.490Z | Design request / retrospective design baseline. |
+| 2026-10-11T14:02:52.177Z | Explicit autonomous go-ahead. |
+| 2026-10-11T14:03:08.414Z | Initial independent review starts. |
+| 2026-10-11T14:14:21.580Z | Replacement dual review starts after first remediation. |
+| 2026-10-11T14:22:48.193Z | Implementation drafter session starts after dual design GO and separate TDD plan settlement. |
+| 2026-10-11T14:23:42Z | Bootstrap canonical RED: import/generated package missing. |
+
+| 2026-10-11T14:59:56.828342+00:00 | Independent final 44-test matrix and installed wheel checks pass on all three versions; preparing runtime review. |

@@ -1,0 +1,26 @@
+module undoable.managed
+import "undoable_const_static.yidl" as previous
+export concept UndoableManaged
+concept UndoableManaged extends previous.UndoableConstStatic {
+    family previous.UndoableField {
+        variant ManagedField {}
+    }
+    computed collection ManagedFields: UndoableField from Fields where FieldKind == "managed"
+    resource ManagedFieldProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            return self._u_read_managed(astichi_bind_external(field_name))
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            self._u_write_managed(astichi_bind_external(field_name), value)
+    ]$
+    contribution ManagedFieldAccessor = ManagedFieldProperty {
+        index FieldOrder order FieldOrder target properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    matcher ManagedFieldAccessors(field: ManagedFields) -> contribution { default -> ManagedFieldAccessor }
+    extend production ClassProduction {
+        phase properties_managed after properties_plain from field: ManagedFields { apply ManagedField_properties using ManagedFieldAccessors }
+    }
+}

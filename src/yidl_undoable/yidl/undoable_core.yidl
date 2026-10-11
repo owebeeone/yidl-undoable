@@ -1,0 +1,168 @@
+module undoable.core
+export concept UndoableCore
+concept UndoableCore {
+    property ClassId: str
+    property CurrentClassName: str
+    property WorkingClassName: str
+    property View: str
+    property ClassName: str
+    property FieldId: str
+    property FieldName: str
+    property FieldOrder: int
+    property BindingShape: str = "scalar"
+    property FieldKind: str
+    property IsLazy: bool = False
+    property Init: bool = True
+    property HasDefault: bool = False
+    property HasDefaultFactory: bool = False
+    property Mutable: bool = False
+    property HasThaw: bool = False
+    property HasFreeze: bool = False
+    property HasWorkingDefaultFactory: bool = False
+    record UndoableClass { ClassId ClassName CurrentClassName WorkingClassName }
+    family UndoableField {
+        common FieldId, FieldName, FieldOrder, FieldKind, BindingShape
+        common IsLazy, Init, HasDefault, HasDefaultFactory, Mutable
+        common HasThaw, HasFreeze, HasWorkingDefaultFactory
+        variant PlainField {}
+        variant InitVarField {}
+        variant ClassVarField {}
+    }
+    record FieldView { FieldId FieldName FieldOrder FieldKind View HasThaw }
+    collection AccessViews: FieldView identity (FieldId, View) many
+    collection Classes: UndoableClass identity ClassId many
+    collection Fields: UndoableField identity FieldId many
+    computed collection PlainFields: UndoableField from Fields where FieldKind == "field"
+    computed collection InitVars: UndoableField from Fields where FieldKind == "initvar"
+    computed collection ClassVars: UndoableField from Fields where FieldKind == "classvar"
+    resource ModuleRoot = code $[
+        from yidl_undoable.undoable_markers import _HAS_DEFAULT_FACTORY
+        def build_undoable_class(base_cls, *, schema):
+            astichi_hole(class_body)
+            astichi_hole(return_statement)
+    ]$
+    resource ClassBundle = template $[
+        class class_name_0__astichi_arg__(astichi_pass(base_cls, outer_bind=True)):
+            __slots__ = ()
+            __undoable_schema__ = astichi_pass(schema, outer_bind=True)
+            with astichi_hole(class_values) as astichi_fallback:
+                pass
+            def __init__(self, init_params__astichi_param_hole__, *, transaction_manager):
+                state = self._u_start(transaction_manager)
+                with astichi_hole(init_values) as astichi_fallback:
+                    pass
+                self._u_finish(state)
+            with astichi_hole(properties) as astichi_fallback:
+                pass
+        class current_class_0__astichi_arg__(class_name_1__astichi_arg__):
+            __slots__ = ()
+            with astichi_hole(current_properties) as astichi_fallback:
+                pass
+        class working_class_0__astichi_arg__(class_name_2__astichi_arg__):
+            __slots__ = ()
+            with astichi_hole(working_properties) as astichi_fallback:
+                pass
+    ]$
+    resource RequiredParam = template $[
+        def astichi_params(*, field_name__astichi_arg__):
+            pass
+    ]$
+    resource OptionalParam = template $[
+        def astichi_params(*, field_name__astichi_arg__=_HAS_DEFAULT_FACTORY):
+            pass
+    ]$ { keep _HAS_DEFAULT_FACTORY }
+    resource InitValue = template $[
+        astichi_pass(state, outer_bind=True).inputs[astichi_bind_external(field_name)] = astichi_pass(field_value__astichi_arg__, outer_bind=True)
+    ]$
+    resource HiddenInitVar = template $[
+        @property
+        def getter__astichi_arg__(self):
+            raise AttributeError(astichi_bind_external(field_name) + ': constructor-only input')
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            raise AttributeError(astichi_bind_external(field_name) + ': constructor-only input')
+    ]$
+    contribution HiddenInitVarAccessor = HiddenInitVar {
+        index FieldOrder order FieldOrder target properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    matcher HiddenInitVarAccessors(field: InitVars) -> contribution { default -> HiddenInitVarAccessor }
+    resource ClassValue = template $[
+        field_name__astichi_arg__ = astichi_pass(schema, outer_bind=True).by_name[astichi_bind_external(field_literal)]["default_value"]
+    ]$
+    resource PlainProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            return self._u_read_plain(astichi_bind_external(field_name))
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            self._u_write_plain(astichi_bind_external(field_name), value)
+    ]$
+    resource Result = template $[
+        class_registry__astichi_arg__.__undoable_views__ = {
+            'default': class_default__astichi_arg__,
+            'current': class_current__astichi_arg__,
+            'working': class_working__astichi_arg__,
+        }
+        return class_result__astichi_arg__
+    ]$
+    contribution ClassDefinition = ClassProduction {
+        as ClassDef index 0 order 0
+        target class_body { build /Root }
+    }
+    contribution ReturnClass = Result {
+        index 0 order 0 target return_statement { build /Root }
+        ident class_registry = ClassName ident class_default = ClassName
+        ident class_current = CurrentClassName ident class_working = WorkingClassName
+        ident class_result = ClassName
+    }
+    contribution Required = RequiredParam {
+        as InitParam index FieldOrder order FieldOrder
+        target init_params { build /ClassDef }
+        ident field_name = FieldName
+    }
+    contribution Default = OptionalParam {
+        as InitParam index FieldOrder order FieldOrder
+        target init_params { build /ClassDef }
+        ident field_name = FieldName
+    }
+    contribution InitAssignment = InitValue {
+        index FieldOrder order FieldOrder
+        target init_values { build /ClassDef }
+        ident field_value = FieldName external field_name = FieldName
+    }
+    contribution PlainAccessor = PlainProperty {
+        index FieldOrder order FieldOrder target properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    contribution ClassAssignment = ClassValue {
+        index FieldOrder order FieldOrder target class_values { build /ClassDef }
+        ident field_name = FieldName external field_literal = FieldName
+    }
+    matcher ClassDefinitions(cls: Classes) -> contribution { default -> ClassDefinition }
+    matcher Results(cls: Classes) -> contribution { default -> ReturnClass }
+    matcher Constructors(field: Fields) -> contribution {
+        rule required when Init == True and HasDefault == False and HasDefaultFactory == False and IsLazy == False -> Required
+        rule default_value when Init == True and HasDefault == True -> Default
+        rule lazy_unset when Init == True and FieldKind == "static" and HasDefault == False and HasDefaultFactory == False -> Default
+    }
+    matcher InitAssignments(field: Fields) -> contribution { rule init when Init == True -> InitAssignment }
+    matcher PlainAccessors(field: PlainFields) -> contribution { default -> PlainAccessor }
+    matcher ClassAssignments(field: ClassVars) -> contribution { default -> ClassAssignment }
+    production ModuleProduction -> composable {
+        root Root = ModuleRoot
+        phase classes from cls: Classes { apply classes using ClassDefinitions }
+        phase result from cls: Classes { apply results using Results }
+    }
+    production ClassProduction(cls: Classes) -> composable {
+        root ClassDef = ClassBundle { ident class_name_0 = ClassName ident current_class_0 = CurrentClassName ident class_name_1 = ClassName ident working_class_0 = WorkingClassName ident class_name_2 = ClassName  }
+        phase init_params from field: Fields { apply init_params using Constructors }
+        phase init_values after init_params from field: Fields { apply init_values using InitAssignments }
+        phase class_values from field: ClassVars { apply values using ClassAssignments }
+        phase hidden_initvars from field: InitVars { apply hidden_initvars using HiddenInitVarAccessors }
+        phase properties_plain from field: PlainFields { apply properties using PlainAccessors }
+    }
+    assembly UndoableModule = ModuleProduction
+}

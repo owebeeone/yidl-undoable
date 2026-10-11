@@ -22,7 +22,9 @@ def collect(session: Path) -> tuple[list[dict[str, object]], list[dict[str, obje
         if row.get("type") == "event_msg" and payload.get("type") == "token_count":
             info = payload.get("info") or {}
             if info.get("total_token_usage"):
-                usage.append({"time": row["timestamp"], "counts": info["total_token_usage"]})
+                last = info.get("last_token_usage") or {}
+                usage.append({"time": row["timestamp"], "counts": info["total_token_usage"],
+                              "request_input_tokens": last.get("input_tokens")})
     return usage, contexts
 
 
@@ -41,6 +43,8 @@ def main() -> None:
     if not selected:
         raise SystemExit("No token observation available for this checkpoint")
     sample = selected[-1]
+    request_sizes = [item["request_input_tokens"] for item in selected
+                     if item["time"] >= args.start and item["request_input_tokens"] is not None]
     counts = sample["counts"]
     base = baseline[-1]["counts"] if baseline else {key: 0 for key in counts}
     delta = {key: counts[key] - base.get(key, 0) for key in counts}
@@ -62,6 +66,7 @@ def main() -> None:
         "usage_observed_utc": sample["time"], "retrospective": args.at is not None,
         "model": metadata.get("model"), "reasoning_effort": metadata.get("effort"),
         "baseline": base, "cumulative": counts, "experiment_delta": delta,
+        "maximum_observed_request_input_tokens": max(request_sizes) if request_sizes else None,
         "standard_api_equivalent_usd": cost, "actual_billed_usd": None,
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)

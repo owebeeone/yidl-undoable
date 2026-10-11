@@ -1,0 +1,42 @@
+module undoable.binding
+import "undoable_transient.yidl" as previous
+export concept UndoableBinding
+concept UndoableBinding extends previous.UndoableTransient {
+    family previous.UndoableField {
+        variant BindingField {}
+    }
+    computed collection BindingFields: UndoableField from Fields where FieldKind == "binding"
+    resource ScalarBindingProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            return self._u_read_binding(astichi_bind_external(field_name))
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            self._u_write_scalar_binding(astichi_bind_external(field_name), value)
+    ]$
+    contribution ScalarBindingAccessor = ScalarBindingProperty {
+        index FieldOrder order FieldOrder target properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    resource MapBindingProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            return self._u_read_binding(astichi_bind_external(field_name))
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            self._u_write_map_binding(astichi_bind_external(field_name), value)
+    ]$
+    contribution MapBindingAccessor = MapBindingProperty {
+        index FieldOrder order FieldOrder target properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    matcher BindingFieldAccessors(field: BindingFields) -> contribution {
+        rule scalar when BindingShape == "scalar" -> ScalarBindingAccessor
+        rule map when BindingShape == "map" -> MapBindingAccessor
+    }
+    extend production ClassProduction {
+        phase properties_binding after properties_plain from field: BindingFields { apply BindingField_properties using BindingFieldAccessors }
+    }
+}

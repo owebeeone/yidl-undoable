@@ -1,0 +1,13 @@
+module undoable.default_factories
+import "undoable_managed.yidl" as previous
+export concept UndoableDefaultFactories
+concept UndoableDefaultFactories extends previous.UndoableManaged {
+    contribution Factory = OptionalParam {
+        as InitParam index FieldOrder order FieldOrder
+        target init_params { build /ClassDef }
+        ident field_name = FieldName
+    }
+    matcher Constructors(field: Fields) -> contribution {
+        rule factory when Init == True and HasDefaultFactory == True -> Factory
+    }
+}
