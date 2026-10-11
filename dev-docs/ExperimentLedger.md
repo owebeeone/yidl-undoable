@@ -1,6 +1,6 @@
 # Autonomous Undoable Experiment
 
-Status: running; implementation and quality verdict pending.
+Status: complete for the authorized local implementation experiment. Runtime dual GO at `9d18d60`; measured results in [ExperimentResults.md](ExperimentResults.md).
 
 ## Measurement scope
 
@@ -68,12 +68,13 @@ delivery. The JSONL observations supply numbers; this ledger supplies meanings.
 | --- | --- |
 | Design | Both axes GO at `616f2f6` after two bounded remediation cycles. Initial review found constructor reads, callback fencing, and two Surface omissions; round 2 found idle-lazy wording. All five findings closed at design level. No architectural root or redesign. |
 | Planning | Separate strict TDD plan created after design acceptance; runtime gate is dual Code/Surface plus State. |
-| Implementation | Draft complete; 44 independent tests pass on Python 3.12–3.14, plus isolated wheel examples and regeneration. First runtime gate NO-GO: Code/Surface found three P2s, State found four distinct P2s; merged bounded remediation underway. |
-| Quality | Record canonical tests, narrow fault tests, regeneration, wheel smoke, reviewer findings and verdicts. |
-| LLM usability | Cold first-use walkthrough belongs to the Consistency/Surface reviewer; document unsupported behavior and complete examples. |
+| Implementation | Accepted local runtime after five bounded remediation cycles and sixth dual GO gate. 215 independent tests and rebuilt installed-wheel checks pass on Python 3.12–3.14. Native nine-layer YIDL generation, field-policy parity and whole-tree sparse history delivered. |
+| Quality | Five design findings and fourteen formal runtime P2 findings closed. All original runtime counterexamples independently replayed at acceptance. No open P0/P1/P2 or architectural root was established. Twenty canonical generated-source stories plus narrow fault/mechanics tests; genuine RED/GREEN evidence preserved. |
+| LLM usability | Fresh same-model Code/Surface reviewers read README/API/examples cold, executed first use and undo/redo, and reconstructed historical counterexamples. This establishes fresh-context usability, not a cross-vendor or downstream benchmark. |
 
-No success, completion duration, or total cost is claimed until the relevant
-work and observations are actually complete.
+Final timing, observed tokens and API-equivalent estimates are recorded in
+ExperimentResults.md. Actual Codex billing remains unavailable; both overlapping
+baselines must not be added together.
 
 ## Timestamped milestones
 
@@ -85,25 +86,16 @@ work and observations are actually complete.
 | 2026-10-11T14:14:21.580Z | Replacement dual review starts after first remediation. |
 | 2026-10-11T14:22:48.193Z | Implementation drafter session starts after dual design GO and separate TDD plan settlement. |
 | 2026-10-11T14:23:42Z | Bootstrap canonical RED: import/generated package missing. |
-
 | 2026-10-11T14:59:56.828342+00:00 | Independent final 44-test matrix and installed wheel checks pass on all three versions; preparing runtime review. |
-
 | 2026-10-11T15:06:38.263865+00:00 | Both runtime reports filed verbatim; seven distinct P2 findings, no blind overlap, no redesign indicated. One merged TDD remediation assigned to original drafter. |
-
 | 2026-10-11T15:12:39.446791+00:00 | Runtime cycle 1: all seven actual-red regressions corrected; independent 55-test three-version matrix and wheel checks pass. Fresh replacement dual review required by provider/failure call-path changes; design unchanged. |
-
 | 2026-10-11T15:19:20.532682+00:00 | Runtime round2: all seven original counterexamples closed; two provisional-read P2s and one broader begin-setup P2 remain. No architectural root; merged bounded remediation cycle2 assigned. |
-
 | 2026-10-11T15:27:07.658707+00:00 | Runtime cycle2 corrected complete begin setup and provisional projection/fencing; 89 independent tests pass on 3.12/3.13/3.14, rebuilt wheel examples/base/isolation pass. Preparing fresh dual closure gate. |
-
 | 2026-10-11T15:35:55.414254+00:00 | Runtime round3 closes all ten historical cases; two bounded new P2s (first thaw-result projection and custom-key comparison ownership) remain. Merged TDD cycle3 assigned under operator extra-round authorization. No architectural root or redesign. State reviewer service content-flag attempt produced no complete report/verdict; same reviewer retried and returned full NO-GO report, failed-attempt usage included. |
-
 | 2026-10-11T15:47:57.354616+00:00 | Runtime cycle3 completes: actual REDs, merged callback/projection correction, 138 independent tests on all three versions, rebuilt wheel examples/base/isolation and content checks pass. Preparing fresh replacement dual gate with all twelve historical counterexamples. |
-
 | 2026-10-11T15:56:01.971875+00:00 | Runtime round4: Code/Surface GO, State NO-GO for one bounded completion-nesting authority gap; all twelve historical cases closed. Merged TDD cycle4 assigned under operator override. No architectural root or redesign. |
-
 | 2026-10-11T16:08:54.658624+00:00 | Runtime cycle4 complete: captured completion authority, exact permitted transitions and persistent fault evidence; 193 independent tests on 3.12/3.13/3.14 and rebuilt wheel examples/base/isolation/content pass. Preparing fresh dual review with all thirteen historical cases. |
-
 | 2026-10-11T16:14:45.399007+00:00 | Runtime round5: Code/Surface GO, State NO-GO for operation-specific completion outcome checks; thirteen original findings closed. Bounded TDD cycle5 authorized; no architectural root or redesign. |
-
 | 2026-10-11T16:21:59.179804+00:00 | Runtime cycle5 complete: operation-specific completion legality; 215 independent tests and rebuilt wheel/base/examples/import isolation pass on Python 3.12–3.14. Fresh dual review must close fourteen historical findings. No architecture failure or redesign. |
+
+| 2026-10-11T16:28:43.143349+00:00 | Sixth runtime gate: dual GO at 9d18d60e2244183f3f4715577a1356bf85b517a9; all fourteen historical P2 findings closed. Authorized local experiment complete. Final observed totals and cost basis filed in ExperimentResults.md; evidence-only landing, no runtime edits/push/tag/release. |

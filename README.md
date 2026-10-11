@@ -4,8 +4,9 @@ Generate application data classes with transactions and frame-based undo/redo.
 Managed data has immutable sparse histories; caches, constants and resources have
 shared nonversioned storage. Python 3.12 or newer is required.
 
-This is the local implementation draft of the [accepted design](dev-docs/UndoableDesign.md).
-Runtime acceptance and publication remain tracked in the [checkpoint](dev-docs/CurrentProgramCheckpoint.md).
+The local implementation is accepted after independent Code/Surface and State
+review. See the [experiment results](dev-docs/ExperimentResults.md) for the
+TDD evidence, Python-version checks, elapsed time, observed cost and scope.
 
 ```python
 from yidl_undoable import UndoRedoManager, const, local_store, managed, undoable

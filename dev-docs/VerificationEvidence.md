@@ -1,6 +1,6 @@
 # Independent verification evidence
 
-Status: independent checks passed; runtime review pending. Paths below are repository-relative;
+Status: **accepted at `9d18d60e2244183f3f4715577a1356bf85b517a9` after round6 Code/Surface and State GO**. Independent checks pass. Paths below are repository-relative;
 external temporary environment prefixes are omitted from commands/results.
 
 Pinned dependency wheels were built independently from the accepted design's
@@ -210,3 +210,27 @@ These artifacts supersede prior drafts. Evidence/status-only landing may change
 documentation after review without changing tested runtime bytes. Runtime
 acceptance still needs fresh dual GO at the exact corrected tuple, including
 original replay of six Code and eight State historical findings.
+
+Final measurement audit: four early design samples predated request-size metadata
+in the recorder. The first delivery helper stopped with a missing-field error;
+no result or pricing claim was produced. Those samples were reread from their
+original logs at the same cutoffs, preserving counters and adding observed
+request maxima. Latest-per-actor aggregation still counts each actor once. This
+was an evidence-helper correction, not a runtime change.
+
+## Sixth runtime gate — accepted local implementation
+
+Both fresh peer-blind reviewers reported GO at
+`9d18d60e2244183f3f4715577a1356bf85b517a9`. Code/Surface independently
+replayed all six Code originals; State independently replayed all eight State
+originals. Both inspect changed completion semantics and prior invariant coverage.
+All fourteen formal runtime P2 findings are closed; no open P0/P1/P2 or
+architectural root was established. Complete reports are filed verbatim as
+UndoableImplementation-ReviewCode-6.md and -ReviewState-6.md.
+
+The cycle5 independent 215-test supported-version and rebuilt-wheel matrix above
+applies to these exact runtime bytes. Final landing changes only evidence/status
+and measurements; source, tests, API/architecture docs, examples, package config,
+accepted design and plan remain byte-identical to the accepted revision. No
+repeat of unchanged runtime gates is needed. The pinned local tuple and declared
+in-memory limits are the acceptance scope, with no registry release claim.

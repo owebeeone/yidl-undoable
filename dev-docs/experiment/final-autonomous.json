@@ -1,0 +1,123 @@
+{
+  "actors": [
+    {
+      "actor": "design-consistency",
+      "observed_utc": "2026-10-11T14:07:05.567Z",
+      "phase": "final-audit-design-metadata",
+      "standard_api_equivalent_usd": 0.37439520000000004
+    },
+    {
+      "actor": "design-consistency-2",
+      "observed_utc": "2026-10-11T14:21:39.359Z",
+      "phase": "final-audit-design-metadata",
+      "standard_api_equivalent_usd": 0.6485488
+    },
+    {
+      "actor": "design-safety",
+      "observed_utc": "2026-10-11T14:06:27.121Z",
+      "phase": "final-audit-design-metadata",
+      "standard_api_equivalent_usd": 0.3049452
+    },
+    {
+      "actor": "design-safety-2",
+      "observed_utc": "2026-10-11T14:21:13.899Z",
+      "phase": "final-audit-design-metadata",
+      "standard_api_equivalent_usd": 0.6216088000000001
+    },
+    {
+      "actor": "implementation-drafter",
+      "observed_utc": "2026-10-11T16:20:58.465Z",
+      "phase": "cycle5-final",
+      "standard_api_equivalent_usd": 5.5252052
+    },
+    {
+      "actor": "lane-owner",
+      "observed_utc": "2026-10-11T16:28:19.016Z",
+      "phase": "final-delivery-measurement",
+      "standard_api_equivalent_usd": 7.0532432
+    },
+    {
+      "actor": "runtime-code",
+      "observed_utc": "2026-10-11T15:05:46.998Z",
+      "phase": "runtime-first-review-complete",
+      "standard_api_equivalent_usd": 0.478488
+    },
+    {
+      "actor": "runtime-code-2",
+      "observed_utc": "2026-10-11T15:18:00.538Z",
+      "phase": "correction-review-complete",
+      "standard_api_equivalent_usd": 0.448558
+    },
+    {
+      "actor": "runtime-code-3",
+      "observed_utc": "2026-10-11T15:31:52.252Z",
+      "phase": "round3-no-go",
+      "standard_api_equivalent_usd": 0.4397836
+    },
+    {
+      "actor": "runtime-code-4",
+      "observed_utc": "2026-10-11T15:54:30.256Z",
+      "phase": "round4-go",
+      "standard_api_equivalent_usd": 0.7132864
+    },
+    {
+      "actor": "runtime-code-5",
+      "observed_utc": "2026-10-11T16:13:46.688Z",
+      "phase": "round5-verdict",
+      "standard_api_equivalent_usd": 0.6107332
+    },
+    {
+      "actor": "runtime-code-6",
+      "observed_utc": "2026-10-11T16:27:29.670Z",
+      "phase": "round6-verdict",
+      "standard_api_equivalent_usd": 0.6132536
+    },
+    {
+      "actor": "runtime-state",
+      "observed_utc": "2026-10-11T15:04:57.496Z",
+      "phase": "runtime-first-review-complete",
+      "standard_api_equivalent_usd": 0.3915232
+    },
+    {
+      "actor": "runtime-state-2",
+      "observed_utc": "2026-10-11T15:17:36.314Z",
+      "phase": "correction-review-complete",
+      "standard_api_equivalent_usd": 0.440334
+    },
+    {
+      "actor": "runtime-state-3",
+      "observed_utc": "2026-10-11T15:32:25.749Z",
+      "phase": "round3-retry-no-go",
+      "standard_api_equivalent_usd": 0.3701408
+    },
+    {
+      "actor": "runtime-state-4",
+      "observed_utc": "2026-10-11T15:53:55.661Z",
+      "phase": "round4-no-go",
+      "standard_api_equivalent_usd": 0.6133736
+    },
+    {
+      "actor": "runtime-state-5",
+      "observed_utc": "2026-10-11T16:14:22.880Z",
+      "phase": "round5-verdict",
+      "standard_api_equivalent_usd": 0.5753452
+    },
+    {
+      "actor": "runtime-state-6",
+      "observed_utc": "2026-10-11T16:28:01.656Z",
+      "phase": "round6-verdict",
+      "standard_api_equivalent_usd": 0.6494371999999999
+    }
+  ],
+  "actual_billed_usd": null,
+  "disjoint_observed_tokens": {
+    "cache_write_input_tokens": 0,
+    "cached_input_tokens": 95402112,
+    "input_tokens": 98353563,
+    "output_tokens": 542909,
+    "reasoning_output_tokens": 192974,
+    "total_tokens": 98896472
+  },
+  "lane_start_utc": "2026-10-11T14:02:52.177Z",
+  "standard_api_equivalent_usd": 20.8722032
+}

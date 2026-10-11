@@ -1,8 +1,12 @@
 # Current Program Checkpoint
 
-Status: design accepted at `616f2f65473b1240535a6317d8cc79d5cec18414` after
-`UndoableDesign-ReviewConsistency-3.md` and `UndoableDesign-ReviewSafety-3.md`
-reported GO. This accepts the design/API contract only. Runtime acceptance blocked by one bounded residual State P2 at the fifth gate; all thirteen historical originals closed, Code/Surface GO at adcdc307.
+Status: **runtime accepted at `9d18d60e2244183f3f4715577a1356bf85b517a9` after
+[Code/Surface](UndoableImplementation-ReviewCode-6.md) and
+[State](UndoableImplementation-ReviewState-6.md) reported GO**. This accepts the
+local serialized in-memory runtime and documented API at the pinned dependency
+tuple only. Design accepted at `616f2f65473b1240535a6317d8cc79d5cec18414`
+after the two round3 design GO reports. [Experiment results](ExperimentResults.md)
+record elapsed time, observed usage, cost assumptions and quality limits.
 
 ## Directive and scope
 
@@ -36,9 +40,10 @@ checks and review. No further routine confirmation is needed.
 - Remediation cycles used: two; no architectural root or redesign.
 - Implementation plan: `UndoableImplementationPlan.md`, strict red/green/refactor.
 - Runtime acceptance tier: dual Code plus Surface and State review, settled implementation.
-- Implementation: 138 independent tests and rebuilt wheel gates pass on Python 3.12–3.14 at d0f85e6. Fourth gate: Code/Surface GO; State NO-GO for one bounded completion-nesting authority root. Merged cycle4 correction complete under operator extra-round authorization; 193 independent tests and rebuilt wheel gates pass on all three versions; no architecture failure or redesign.
-- Fifth gate: Code/Surface GO; State NO-GO for missing operation-specific completion legality. All thirteen original counterexamples closed. Merged cycle5 correction complete as bounded; 215 independent tests and rebuilt installed-wheel checks pass on all three versions; no architecture failure.
-- Next action: settle cycle5 correction and fresh dual review with fourteen historical closure duties.
+- Implementation: 215 independent tests pass on Python 3.12.12, 3.13.12 and 3.14.3; rebuilt installed-wheel examples, generated base and isolated imports pass on all three.
+- Runtime acceptance: sixth dual gate, both GO at `9d18d60e2244183f3f4715577a1356bf85b517a9`; all fourteen historical formal P2 findings independently closed by original replay. No open P0/P1/P2.
+- Runtime remediation: five bounded cycles, including three extra cycles under the operator override. No architectural root or redesign was established.
+- Next action: none required for the authorized local implementation experiment. No registry publication or release is claimed.
 
 The [experiment ledger](ExperimentLedger.md) records timing, token observations,
 API-equivalent cost estimates, remediation, and quality evidence. The experiment
