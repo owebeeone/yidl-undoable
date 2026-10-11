@@ -21,3 +21,6 @@ Runtime acceptance has its own exact tuple and dual verdicts.
   observed tokens, API-equivalent cost, actual-billing limits and quality.
 - Final runtime [Code/Surface review](UndoableImplementation-ReviewCode-6.md)
   and [State review](UndoableImplementation-ReviewState-6.md), both GO.
+
+- [Original concept](archive/YidlUndoRedoConcept.md): archived pre-design discussion.
+- [GitHub publication](Publication.md): public repository scope and complete experiment record.

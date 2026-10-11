@@ -101,8 +101,10 @@ unsupported cases and canonical testing route.
 
 Acceptance covers the pinned YIDL/Lifecycle/Astichi/YIDL Cache tuple recorded in
 the reviews. It does not establish arbitrary older same-version wheels or public
-registry installation. This remains a local unpublished member. Disk history,
+registry installation. The accepted checkpoint was a local unpublished member;
+[subsequent GitHub publication](Publication.md) is outside the experiment baseline. Disk history,
 concurrency/collaboration, multi-key atomic history, resource ownership hooks,
 multiple generated bases and arbitrary stored custom-value adapters remain
 outside the accepted version. Review/test success is not a guarantee of no
-undiscovered defects. No tag, push or release was performed.
+undiscovered defects. No tag, push or release was performed during the measured
+experiment. The later GitHub publication does not establish a registry release.

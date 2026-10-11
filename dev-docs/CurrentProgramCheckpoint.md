@@ -62,3 +62,12 @@ new controlling document/revision, and obtain fresh dual review before continuin
 The override permits autonomous redesign; it does not permit stacking guards on
 an unsound architecture. Record extra rounds and any redesign in the experiment
 ledger. The two-reviewer ceiling and peer-blindness still apply.
+
+## Subsequent publication directive
+
+On 2026-10-12, after accepting the experiment, the operator authorized creating
+a public GitHub repository, setting Git origin, registering/capturing the remote
+in GWZ and pushing the member history with all experiment details. This supersedes
+the earlier no-push restriction for this member publication only. Runtime/API
+acceptance remains unchanged; publication is outside the recorded experiment
+cost/time baselines. See [publication record](Publication.md).

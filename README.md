@@ -4,7 +4,7 @@ Generate application data classes with transactions and frame-based undo/redo.
 Managed data has immutable sparse histories; caches, constants and resources have
 shared nonversioned storage. Python 3.12 or newer is required.
 
-The local implementation is accepted after independent Code/Surface and State
+The implementation is accepted after independent Code/Surface and State
 review. See the [experiment results](dev-docs/ExperimentResults.md) for the
 TDD evidence, Python-version checks, elapsed time, observed cost and scope.
 
@@ -72,3 +72,18 @@ uv run python -m yidl_undoable.regenerate_undoable_base
 uv run python tests/regenerate_golden.py
 uv build
 ```
+
+## Autonomous implementation experiment
+
+The [experiment results](dev-docs/ExperimentResults.md) record **2h 25m 50s**
+from autonomous go-ahead (**2h 37m** including earlier design preparation),
+**$20.87 Standard API-equivalent estimated cost**, and **215 tests passing**
+on Python 3.12–3.14. Actual Codex billing is unavailable. Final Code/Surface and
+State reviews both reported GO after five bounded runtime correction cycles.
+
+The [complete experiment record](dev-docs/README.md) includes the archived
+original concept, design, TDD plan and observed red/green evidence, every
+review/report/prompt/remediation plan, supported-version and isolated-wheel
+verification, timestamps, raw sanitized token counters and cost calculations.
+The [publication record](dev-docs/Publication.md) distinguishes this later
+GitHub upload from the completed experiment's measurements.
