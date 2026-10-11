@@ -81,3 +81,30 @@ These artifacts replace the earlier runtime draft artifacts. Native pipeline,
 pinned dependency tuple, installation isolation and no-registry-release limits
 remain as stated above. Absolute machine-path scan returned no matches and
 `git diff --check` passed. Passing checks still require reviewer closure.
+
+## Second runtime gate
+
+At `72e1433`, both reviewers independently closed the seven original findings,
+but reported three bounded additional P2s. The complete reports are filed
+verbatim as `UndoableImplementation-ReviewCode-2.md` and `-ReviewState-2.md`.
+The 55-test matrix/wheel evidence remains true for that object; runtime acceptance
+is blocked until cycle2 closes provisional reads/fencing and full begin setup.
+
+## Remediation cycle 2 independent checks
+
+| Python | Full source suite | Rebuilt installed-wheel examples/base/import isolation |
+| --- | --- | --- |
+| 3.12.12 | 89 passed in 6.98s | All passed. |
+| 3.13.12 | 89 passed in 7.62s | All passed. |
+| 3.14.3 | 89 passed in 7.68s | All passed. |
+
+Independent wheel-from-sdist build succeeds. Final runtime-correction SHA-256:
+
+- Wheel: `ac593d36154e3a6df39e1e92d92f9033ecdc3b4ca004bb2fc574f8f044c951e3`
+- Sdist: `cfd16922b2e7a8ca73841cbfddc9d71f51372fa7274fc2380ebd2ef0155a8494`
+
+The source tuple, isolated pinned dependency wheels and native engine remain
+unchanged. No adjacent source edits, platform fallback or version restriction.
+These artifacts supersede earlier draft artifacts; later evidence-only commits
+may update documentation without changing tested runtime bytes. Machine-path
+scan has no matches and whitespace check passes. Runtime review still pending.

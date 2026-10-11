@@ -91,3 +91,7 @@ work and observations are actually complete.
 | 2026-10-11T15:06:38.263865+00:00 | Both runtime reports filed verbatim; seven distinct P2 findings, no blind overlap, no redesign indicated. One merged TDD remediation assigned to original drafter. |
 
 | 2026-10-11T15:12:39.446791+00:00 | Runtime cycle 1: all seven actual-red regressions corrected; independent 55-test three-version matrix and wheel checks pass. Fresh replacement dual review required by provider/failure call-path changes; design unchanged. |
+
+| 2026-10-11T15:19:20.532682+00:00 | Runtime round2: all seven original counterexamples closed; two provisional-read P2s and one broader begin-setup P2 remain. No architectural root; merged bounded remediation cycle2 assigned. |
+
+| 2026-10-11T15:27:07.658707+00:00 | Runtime cycle2 corrected complete begin setup and provisional projection/fencing; 89 independent tests pass on 3.12/3.13/3.14, rebuilt wheel examples/base/isolation pass. Preparing fresh dual closure gate. |

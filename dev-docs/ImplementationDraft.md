@@ -78,16 +78,36 @@ the seven accepted P2 roots; it does not claim originating reviewer closure.
 | State P2-4 | Failed enlist always detaches the overlay; abort failure or incomplete ownership evidence faults with causal failures and available terminal evidence retained. Narrow tests cover abort failure before/after closure and successful abort permitting retry. |
 
 All successful added cases execute the same native YIDL/Astichi path and compare
-generated-source goldens. There are now 17 canonical stories and 55 passing local
+generated-source goldens. Cycle 1 produced 17 canonical stories and 55 passing local
 tests. Earlier three-interpreter evidence applies to the pre-remediation draft;
 the lane owner will independently repeat matrix/build/smoke gates for this merged
 revision. `TddEvidence.md` records the observed cycle's red/green results.
+
+## Runtime remediation cycle 2
+
+Both second runtime reviews at `72e1433e1290cc41392223c9d5981847e396f68e`
+closed all seven original counterexamples, then issued NO-GO for three bounded
+remaining roots. This merged correction retains the original regression suite.
+
+| Finding | Correction and regression |
+| --- | --- |
+| Code round 2 P2-4 | Raw provisional baselines use recursive view projection under the existing fence. Canonical 18 covers current/default input children before/after attachment, nested tuple/mapping/frozenset aliases, pending values, an untouched no-thaw child field and current provisional absence. |
+| Code round 2 P2-5 | Provisional projection and thaw run inside one operation-owned call, before touched installation. Ten narrow proxy cases exercise ordinary/working rollback, navigation, begin, rollback/replacement and retained-scope attacks, preserve the original token/root edits and permit pure retry. |
+| State round 2 P2-1 | One pre-owned guard covers backend begin, allocation, enlist and wrapper binding. One shared abort helper closes newly acquired or failed joined work only under verified token ownership and terminal evidence; all failures detach overlays. Twenty-one setup/abort cases cover clean retry publishing one frame without hidden nesting, abort failure before/after closure, partial backend return, both scope-bind stages and joined failures. Complementary tests cover unexpected nesting fault persistence and unconfirmed selection after abort failure. |
+
+The local native suite now has 18 canonical stories and 89 passing tests.
+No API, YIDL architecture or backend callback authority changed. The guard
+captures pre-begin ownership even when backend begin raises before returning its
+new token, and keeps ordinary setup exceptions distinct from detected ownership
+faults. Current provisional absence and stale backend scope behavior remain as
+designed. Root repeats independent supported-version/build/wheel checks and fresh
+dual runtime review; no originating closure or acceptance is claimed here.
 
 ## Verification and limits
 
 `TddEvidence.md` records actual red/green/refactor tranches, including behavioral
 reds after bootstrap, and final commands. Local native Python 3.12.12 suite:
-44 passing tests on Python 3.12.12, 3.13.12 and 3.14.3. The matrix exposed and
+Before runtime remediation, 44 tests passed on Python 3.12.12, 3.13.12 and 3.14.3. The matrix exposed and
 test-led correction fixed deferred class annotation recognition on 3.14 through
 `inspect.get_annotations`, retaining the native pipeline. Base regeneration,
 canonical source checks, compile checks,

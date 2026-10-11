@@ -86,6 +86,8 @@ starts from their last visible committed baseline.
 `RaiseAbsent()` rejects absent managed reads. `ReadLastVisible()` uses only surviving
 frames at or before the cursor; descendants are read-only facades pinned to that frame.
 Neither policy permits absent managed writes. Management fields remain accessible.
+New provisional parents propagate ordinary/working child views before attachment
+as well as afterward. Their current managed view remains absent until publication.
 
 `FrameSnapshot.frame_id`, `.roots` and `.node(node_id)` expose only the pinned graph.
 A `SnapshotNode` has `.node_id` and `.get(field_name)` for managed fields. Unknown or
@@ -99,9 +101,10 @@ Preview failure leaves editing repairable. Initialization failure remains retrya
 `HistoryFaultError` signals unexpected backend ownership/cleanup evidence. Confirmed
 live data and snapshots can remain readable; unconfirmed publication blocks them.
 There is no reset/recovery API. `last_completion` retains Lifecycle terminal evidence.
-Failed outer begin setup always detaches its private overlay. It remains retryable
-only after a confirmed clean abort; abort failure or incomplete ownership evidence
-faults immediately. Discard cleanup after an incomplete installed publication also
+Failed begin setup always detaches its private overlay, including when it joined
+an existing edit. That joined edit is aborted as a whole. Retry is permitted only
+after confirmed clean closure, with no hidden nesting left behind; abort failure
+or incomplete ownership evidence faults immediately. Discard cleanup after an incomplete installed publication also
 faults, even when the known installed selection remains readable.
 
 Other public errors are `TransactionRequiredError`, `ObjectAbsentError`,

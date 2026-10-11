@@ -13,7 +13,7 @@ from .history import (
 from .values import normalize, decode, project_working
 from .errors import TransactionRequiredError, UnavailableNodeError, ForeignManagerError
 from .states import Setup, Idle, Editing, Completing, Faulted
-from .callbacks import call, require_mutation
+from .callbacks import call, capture, require_mutation
 from .graph import traverse
 from .policies import RaiseAbsent, ReadLastVisible
 from .snapshots import FrameSnapshot
@@ -243,58 +243,97 @@ class UndoRedoManager:
         require_mutation(self)
         self._key(tx_key)
         self._state.require_initialized()
-        token = self._backend.begin(tx_key)
-        if self._edit is None:
-            self._edit = EditOverlay(
-                self._selection, token, list(self._selection.frame.roots)
-            )
-            try:
+        owner = capture(self)
+        token = None
+        try:
+            token = self._backend.begin(tx_key)
+            if owner.edit is None:
+                self._edit = EditOverlay(
+                    owner.selection, token, list(owner.selection.frame.roots)
+                )
                 self._backend.enlist(self._aggregate, tx_key)
-            except BaseException as enlist_failure:
-                before = self._edit.base
-                failures = [enlist_failure]
+            original_commit, original_rollback = (
+                token._scope_commit,
+                token._scope_rollback,
+            )
+            token.bind_scope(
+                commit=lambda: self._scope_complete(original_commit, token),
+                rollback=lambda: self._scope_complete(original_rollback, token),
+            )
+            if (
+                self._backend.active_transaction is not token
+                or self._backend.begin_count != owner.begin_count + 1
+                or (owner.token is not None and token is not owner.token)
+                or self._selection is not owner.selection
+                or self._state is not owner.state
+                or self._edit is None
+                or self._edit.token is not token
+                or (owner.edit is not None and self._edit is not owner.edit)
+            ):
+                raise HistoryFaultError("begin setup lost its original ownership")
+        except BaseException as setup_failure:
+            self._abort_begin_setup(owner, token, setup_failure)
+            raise
+        self._state = Editing()
+        return token
+
+    def _abort_begin_setup(self, owner, returned_token, setup_failure):
+        active = self._backend.active_transaction
+        token = returned_token if returned_token is not None else owner.token
+        if token is None:
+            token = active
+        failures = [setup_failure]
+        owned = (
+            token is not None
+            and active is token
+            and (owner.token is None or token is owner.token)
+            and (owner.token is None or token.tx_id == owner.token_id)
+            and token.tx_key is self.tx_key
+        )
+        no_acquisition = (
+            token is None
+            and owner.token is None
+            and active is None
+            and self._backend.begin_count == owner.begin_count == 0
+        )
+        try:
+            if owned:
                 try:
-                    self._backend.rollback(tx_key)
+                    self._backend.rollback(self.tx_key)
                 except BaseException as abort_failure:
                     failures.append(abort_failure)
-                finally:
-                    self._edit = None
-                    self._prepared = None
-                completion = token.completion
-                self.last_completion = completion
-                healthy_abort = (
-                    len(failures) == 1
-                    and completion is not None
-                    and completion.ownership_preserved
-                    and completion.finalized
-                    and completion.discard_complete
-                    and completion.after_actions_complete
-                    and self._backend.active_transaction is None
-                    and self._backend.begin_count == 0
-                    and self._selection is before
-                )
-                if not healthy_abort:
-                    self._confirmed_selection = self._selection is before
-                    self._fault(
-                        "failed begin setup has incomplete abort/ownership evidence"
-                    )
-                    cause = (
-                        failures[0]
-                        if len(failures) == 1
-                        else BaseExceptionGroup(
-                            "begin setup and abort failed", failures
-                        )
-                    )
-                    raise HistoryFaultError(self._fault_reason) from cause
-                self._state = Idle()
-                raise
-        self._state = Editing()
-        original_commit, original_rollback = token._scope_commit, token._scope_rollback
-        token.bind_scope(
-            commit=lambda: self._scope_complete(original_commit, token),
-            rollback=lambda: self._scope_complete(original_rollback, token),
+        finally:
+            self._edit = None
+            self._prepared = None
+        completion = None if token is None else token.completion
+        self.last_completion = completion
+        closed = no_acquisition or (
+            owned
+            and completion is not None
+            and completion.ownership_preserved
+            and completion.finalized
+            and completion.discard_complete
+            and completion.after_actions_complete
         )
-        return token
+        healthy_abort = (
+            len(failures) == 1
+            and not isinstance(setup_failure, HistoryFaultError)
+            and closed
+            and self._backend.active_transaction is None
+            and self._backend.begin_count == 0
+            and self._selection is owner.selection
+            and not isinstance(self._state, Faulted)
+        )
+        if not healthy_abort:
+            self._confirmed_selection = self._selection is owner.selection
+            self._fault("failed begin setup has incomplete abort/ownership evidence")
+            cause = (
+                failures[0]
+                if len(failures) == 1
+                else BaseExceptionGroup("begin setup and abort failed", failures)
+            )
+            raise HistoryFaultError(self._fault_reason) from cause
+        self._state = Idle()
 
     def _scope_complete(self, callback, token):
         require_mutation(self)
@@ -448,11 +487,6 @@ class UndoRedoManager:
                 )
             fact = state.schema.by_name[name]
             if allow_thaw:
-                value = (
-                    project_working(state.values[name], self, "working")
-                    if provisional
-                    else self._committed_value(facade, name)
-                )
                 if name in state.resolving:
                     from .errors import UndoableDefinitionError
 
@@ -461,16 +495,26 @@ class UndoRedoManager:
                     )
                 state.resolving.add(name)
                 try:
+
+                    def materialize():
+                        value = (
+                            project_working(state.values[name], self, "working")
+                            if provisional
+                            else self._committed_value(facade, name)
+                        )
+                        return fact["thaw"](value)
+
                     value = self._call(
-                        f"{state.schema.name}.{name}: thaw", lambda: fact["thaw"](value)
+                        f"{state.schema.name}.{name}: projection and thaw", materialize
                     )
                 finally:
                     state.resolving.remove(name)
                 edit.touched[key] = value
                 return value
             if provisional:
-                return decode(
-                    state.values[name], lambda n: self._nodes[n].facade(facade._u_view)
+                return self._call(
+                    f"{state.schema.name}.{name}: provisional value projection",
+                    lambda: project_working(state.values[name], self, facade._u_view),
                 )
         return self._committed_value(facade, name)
 
