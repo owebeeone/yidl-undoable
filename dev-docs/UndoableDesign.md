@@ -352,8 +352,10 @@ and exact mutation instrumentation are optional future optimizations.
 ### Operation-owned application callbacks
 
 Every generated operation that invokes application code captures its original
-transaction token and overlay identity (or its setup/construction context) before
-the call. This includes thaw/freeze, value comparison and truth conversion of its
+permitted operation context before the call: the transaction token and overlay
+identity for editing, private setup/construction context for construction/provider
+reads, published selection and healthy-idle state for idle lazy materialization,
+or the original authorized candidate/preparation context during preparation. This includes thaw/freeze, value comparison and truth conversion of its
 result, constructor/lazy/working factories, and validators. Run the call inside a
 same-manager callback fence. While fenced, begin, commit, rollback, navigation,
 initialization, root edits, and generated managed/transient writes raise
@@ -366,8 +368,16 @@ may register private setup/provisional nodes under that same context; it cannot
 publish or replace the transaction. Nonversioned management effects remain
 nontransactional and callables are still required to obey their purity contract.
 
-After application code returns, verify the original token, overlay identity, and
-editable/construction state before installing the target result. Callback failure
+After application code returns, verify that the original permitted operation
+context is unchanged before installing the target result. Transaction-local
+operations must verify their original token, overlay identity, and editing state;
+preparation callbacks verify the captured candidate/preparation context while
+completion remains in progress. Nonversioned lazy initialization is permitted
+while healthy idle (including default/current/working reads), requires no
+transaction, and verifies the captured idle state and published selection. It
+caches one shared result without changing history. The same-manager mutation
+fence applies in all these contexts; idle lazy callbacks cannot begin, navigate,
+or edit managed fields. A failed lazy factory leaves its target unset for retry. Callback failure
 or lost ownership installs no new result for that field. Do not reacquire a fresh
 token and continue the suspended operation under it. A failure leaves earlier
 valid overlays under the original token available for explicit rollback/repair;
@@ -709,7 +719,10 @@ Canonical generated-source fixtures cover:
     inheritance, unsupported markers, and reserved-name diagnostics.
     Include setup/provisional named providers and opt-in self factories reading
     already-resolved managed baselines; unresolved/recursive providers must fail
-    contextually without earlier publication.
+    contextually without earlier publication. Include idle lazy first reads through
+    all three views with one cached result and no transaction/history changes;
+    rejected begin/navigation from a lazy factory leaves the target unset and
+    permits a later pure retry.
 
 Narrow tests cover binary-search/truncation edge cases, schema recognition,
 diagnostic grouping, and synthetic backend ownership/cleanup faults that the

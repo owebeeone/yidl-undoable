@@ -31,11 +31,13 @@ checks and review. No further routine confirmation is needed.
 
 - Initial drafting: settled at `dbd89160ed54d6bab5887ee43bb75c4217459d21`.
 - Independent review: initial axes both NO-GO; verbatim reports filed.
-- Blocking findings: Consistency P2-1 and Safety P2-1 awaiting reviewer closure.
-- Remediation rounds used: one; bounded lifetime/read and callback-fence correction.
+- Blocking findings: original Consistency/Safety findings closed at design level;
+  Safety round 2 P2-2 (idle lazy callback context) awaits closure.
+- Remediation rounds used: two; construction/callback correction, then reconciliation
+  of permitted idle/preparation callback contexts.
 - Implementation: not started.
-- Next action: settle the single remediation patch and dispatch two replacement
-  reviewers with originating-counterexample closure duties.
+- Next action: focused closure by the existing two reviewers on the second
+  remediation revision; then separate TDD plan if both report GO.
 
 The [experiment ledger](ExperimentLedger.md) records timing, token observations,
 API-equivalent cost estimates, remediation, and quality evidence. The experiment
