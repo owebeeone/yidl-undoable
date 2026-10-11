@@ -5,7 +5,8 @@ Decorate a declaration with `@undoable`, and construct it with the required keyw
 values bypass factories. Constructor fields are keyword-only. Generated classes
 have declared slots and ordinary application methods; support records use dataclasses.
 Single generated inheritance preserves field IDs. Kind/key overrides and multiple
-generated bases fail at decoration.
+generated bases fail at decoration. A declaration without constructor fields,
+including an empty declaration, still requires only `transaction_manager=`.
 
 ## Manager operations
 
@@ -56,13 +57,18 @@ immutable backing stores. Mutable working containers can be created with `thaw`.
 skips only the same reference. Touching via thaw records a version even if equal.
 
 Named factory parameters refer to fields/initvars, `cls`, or opt-in `self`.
-Construction evaluates named dependencies in their required order. Self reads can
+Construction evaluates named dependencies in their required order, materializing
+a named lazy provider once when needed. An unset lazy provider fails contextually.
+Self reads can
 only access already-resolved private baselines through all three views; unresolved
 and recursive reads fail contextually. Access-time factories can materialize another
 provider under the same operation. Controlled nested construction is supported.
 
 `validate_commit(key)` methods run once per reachable node against a complete frozen
-candidate. All candidate views read that candidate and never thaw. Exact `False`
+candidate. Managed reads through every candidate view read that candidate and
+never thaw. Other field policies retain their usual semantics: active ordinary
+and working transient reads use token-local values, while current reads use the
+baseline. Exact `False`
 results and exceptions reject publication; failures are grouped with node context.
 Validators, converters and factories must remain pure. The same-manager callback fence
 rejects begin/completion, navigation, root changes and managed/transient writes before
@@ -85,12 +91,18 @@ Neither policy permits absent managed writes. Management fields remain accessibl
 A `SnapshotNode` has `.node_id` and `.get(field_name)` for managed fields. Unknown or
 nonmanaged fields raise AttributeError; missing nodes raise ObjectAbsentError.
 Snapshot nodes have no application methods or setters.
+Node equality and hashing use the snapshot instance and node ID; nested aliases
+within one snapshot resolve to its cached node, including inside frozensets.
 
 Preparation failure publishes nothing and aborts final commit while preserving redo.
 Preview failure leaves editing repairable. Initialization failure remains retryable.
 `HistoryFaultError` signals unexpected backend ownership/cleanup evidence. Confirmed
 live data and snapshots can remain readable; unconfirmed publication blocks them.
 There is no reset/recovery API. `last_completion` retains Lifecycle terminal evidence.
+Failed outer begin setup always detaches its private overlay. It remains retryable
+only after a confirmed clean abort; abort failure or incomplete ownership evidence
+faults immediately. Discard cleanup after an incomplete installed publication also
+faults, even when the known installed selection remains readable.
 
 Other public errors are `TransactionRequiredError`, `ObjectAbsentError`,
 `UnavailableNodeError`, `ForeignManagerError`, `GraphCycleError`, `FrozenValueError`,

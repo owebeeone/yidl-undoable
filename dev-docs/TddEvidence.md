@@ -75,3 +75,30 @@ Commands below use `python3.14` as a portable name for that supplied interpreter
 
 These are actual three-interpreter test results for the pinned dependency tuple.
 Independent runtime review acceptance remains pending.
+
+## Runtime remediation cycle 1
+
+Both runtime reviews at `a97e43e5010fd22a9bcd008f27072ca656b73f5b`
+were NO-GO. The merged plan accepts seven distinct bounded P2 roots. All
+corrections below preserve the accepted native generator, API and backend
+composition; originating reviewer closure is still required.
+
+- 2026-10-11 15:07:33 UTC — RED: `PYTHONPATH=src ../.venv/bin/python -m pytest -q tests/test_canonical.py -k '13 or 14 or 15 or 16 or 17'`: five failed, twelve deselected. Actual failures were empty declaration materialization (Code P2-1), working child leaked through ordinary set access (Code P2-2), named lazy dependency supplied unset storage (Code P2-3), candidate transient reads returned baseline instead of active values (State P2-2), and snapshot frozenset hashing reached unhashable graph records (State P2-3).
+- 2026-10-11 15:07:55 UTC — RED: `PYTHONPATH=src ../.venv/bin/python -m pytest -q tests/test_remediation_faults.py tests/test_remediation_diagnostics.py`: five failed, one passed. Apply failure after internal publication bookkeeping raised raw RuntimeError and left healthy state (State P2-1); failed enlist with abort failure before and after token closure raised raw cleanup error and/or retained overlay (State P2-4); unset and recursive named lazy dependencies did not reject construction (Code P2-3). The pre-bookkeeping corruption diagnostic already passed and is retained as a complementary check, not counted as red.
+- 2026-10-11 15:08:54 UTC — narrow diagnostics/faults GREEN: six passed. Clean discard now requires unchanged pre-completion selection. Failed begin always detaches its overlay; unconfirmed abort evidence or abort exceptions fault with the original enlist and cleanup failures preserved. Named lazy providers enter the existing generated getter/fenced materialization path and reject unset dependencies contextually before node registration.
+- Refactor: an explicit empty parameter supply contribution in `undoable_core.yidl` consumes the mandatory constructor hole while preserving the required keyword transaction_manager. Its phase uses the owning production's existing class input; a duplicate-input compiler diagnostic was corrected before normal base regeneration. No generated output was manually patched.
+- Refactor: exact built-in sets recursively project child view modes; in-place working projection preserves the set object and replaces equal-valued facade objects by identity through clear/update. Ordinary projection creates its own set when view conversion is needed. Candidate pins retain active transient semantics while historical pins/current reads retain baseline semantics. Snapshot nodes hash by their snapshot-context identity and node ID, without traversing epoch records.
+- The provisional lazy fixture initially tried reading the current committed facade after construction but before attachment/publication. That assertion was corrected to ordinary/working provisional reads, retaining the accepted current absence contract. It was a fixture error, not a runtime change.
+- 2026-10-11 15:09:32 UTC — GREEN: native canonical behavior completed and source goldens were materialized; full `PYTHONPATH=src ../.venv/bin/python -m pytest -q` passed **55 tests in 6.34s**.
+
+Canonical additions 13–17 cover the five successful combinations. Narrow
+remediation diagnostics cover unset/recursive lazy dependencies with no partial
+registration, incomplete installed publication with confirmed/unconfirmed reads,
+and failed outer setup abort before/after closure with detached overlays and
+preserved causal errors. Existing successful-abort setup coverage now also
+asserts a later begin can commit normally.
+- 2026-10-11 15:11:05 UTC — final local gates recorded: after targeted formatting,
+  full suite **55 passed in 6.53s**. Two native generated-base renders matched
+  byte for byte and the checked-in base; all 17 generated-source goldens matched.
+  Compile checks passed and wheel/sdist rebuilt successfully. The lane owner
+  repeats independent interpreter and installed-wheel gates for this revision.

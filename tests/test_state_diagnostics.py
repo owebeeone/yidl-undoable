@@ -41,3 +41,7 @@ def test_failed_begin_enlistment_leaves_no_edit(monkeypatch):
         h.begin()
     assert h._edit is None and h.active_transaction_for() is None
     assert x.value == 0
+    monkeypatch.undo()
+    with h.begin():
+        x.value = 1
+    assert x.value == 1

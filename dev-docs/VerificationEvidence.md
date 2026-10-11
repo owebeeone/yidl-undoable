@@ -52,3 +52,32 @@ wheel with `--no-deps`. Lifecycle is not yet published to the package registry;
 these checks establish the pinned source tuple, not public registry installation
 or a release. Nine YIDL resources, generated base and `py.typed` are packaged;
 the sdist also includes canonical tests. All checks above precede runtime review.
+
+## First runtime gate
+
+Passing tests and wheels did not establish acceptance. At `a97e43e`, independent
+Code/Surface found three P2s and State found four P2s. They do not overlap.
+Reports are filed verbatim in this directory. All seven are assigned to one
+bounded test-led remediation; runtime remains NO-GO until counterexamples close.
+
+## Remediation cycle 1 independent checks
+
+The merged revision adds five canonical stories and narrow fault/provider tests.
+It implements the seven original counterexamples without changing the accepted
+public API/design. Independent full-source suite:
+
+| Python | Result | Rebuilt wheel examples/regeneration/import isolation |
+| --- | --- | --- |
+| 3.12.12 | 55 passed in 7.49s | All passed. |
+| 3.13.12 | 55 passed in 8.13s | All passed. |
+| 3.14.3 | 55 passed in 8.04s | All passed. |
+
+Independent wheel-from-sdist build passed; SHA-256 for this correction artifact:
+
+- Wheel: `ed94e99762462b11f6f91e1f205599ea0cb2681f753b6af8707ef5eb8b5a34c7`
+- Sdist: `e980082a8b5ad03137c262809acae99995b5fbee0f2afc421ea7ef1b751847f8`
+
+These artifacts replace the earlier runtime draft artifacts. Native pipeline,
+pinned dependency tuple, installation isolation and no-registry-release limits
+remain as stated above. Absolute machine-path scan returned no matches and
+`git diff --check` passed. Passing checks still require reviewer closure.

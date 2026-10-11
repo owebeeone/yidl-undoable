@@ -68,7 +68,7 @@ delivery. The JSONL observations supply numbers; this ledger supplies meanings.
 | --- | --- |
 | Design | Both axes GO at `616f2f6` after two bounded remediation cycles. Initial review found constructor reads, callback fencing, and two Surface omissions; round 2 found idle-lazy wording. All five findings closed at design level. No architectural root or redesign. |
 | Planning | Separate strict TDD plan created after design acceptance; runtime gate is dual Code/Surface plus State. |
-| Implementation | Draft complete; 44 independent tests pass on Python 3.12–3.14, plus isolated wheel examples and regeneration. Runtime review pending. |
+| Implementation | Draft complete; 44 independent tests pass on Python 3.12–3.14, plus isolated wheel examples and regeneration. First runtime gate NO-GO: Code/Surface found three P2s, State found four distinct P2s; merged bounded remediation underway. |
 | Quality | Record canonical tests, narrow fault tests, regeneration, wheel smoke, reviewer findings and verdicts. |
 | LLM usability | Cold first-use walkthrough belongs to the Consistency/Surface reviewer; document unsupported behavior and complete examples. |
 
@@ -87,3 +87,7 @@ work and observations are actually complete.
 | 2026-10-11T14:23:42Z | Bootstrap canonical RED: import/generated package missing. |
 
 | 2026-10-11T14:59:56.828342+00:00 | Independent final 44-test matrix and installed wheel checks pass on all three versions; preparing runtime review. |
+
+| 2026-10-11T15:06:38.263865+00:00 | Both runtime reports filed verbatim; seven distinct P2 findings, no blind overlap, no redesign indicated. One merged TDD remediation assigned to original drafter. |
+
+| 2026-10-11T15:12:39.446791+00:00 | Runtime cycle 1: all seven actual-red regressions corrected; independent 55-test three-version matrix and wheel checks pass. Fresh replacement dual review required by provider/failure call-path changes; design unchanged. |

@@ -250,9 +250,43 @@ class UndoRedoManager:
             )
             try:
                 self._backend.enlist(self._aggregate, tx_key)
-            except BaseException:
-                self._backend.rollback(tx_key)
-                self._edit = None
+            except BaseException as enlist_failure:
+                before = self._edit.base
+                failures = [enlist_failure]
+                try:
+                    self._backend.rollback(tx_key)
+                except BaseException as abort_failure:
+                    failures.append(abort_failure)
+                finally:
+                    self._edit = None
+                    self._prepared = None
+                completion = token.completion
+                self.last_completion = completion
+                healthy_abort = (
+                    len(failures) == 1
+                    and completion is not None
+                    and completion.ownership_preserved
+                    and completion.finalized
+                    and completion.discard_complete
+                    and completion.after_actions_complete
+                    and self._backend.active_transaction is None
+                    and self._backend.begin_count == 0
+                    and self._selection is before
+                )
+                if not healthy_abort:
+                    self._confirmed_selection = self._selection is before
+                    self._fault(
+                        "failed begin setup has incomplete abort/ownership evidence"
+                    )
+                    cause = (
+                        failures[0]
+                        if len(failures) == 1
+                        else BaseExceptionGroup(
+                            "begin setup and abort failed", failures
+                        )
+                    )
+                    raise HistoryFaultError(self._fault_reason) from cause
+                self._state = Idle()
                 raise
         self._state = Editing()
         original_commit, original_rollback = token._scope_commit, token._scope_rollback
@@ -575,7 +609,10 @@ class UndoRedoManager:
             and completion.ownership_preserved
             and completion.finalized
             and completion.after_actions_complete
-            and (completion.publication_complete or completion.discard_complete)
+            and (
+                completion.publication_complete
+                or (completion.discard_complete and self._selection is before)
+            )
             and self._backend.active_transaction is None
             and self._edit is None
             and intact

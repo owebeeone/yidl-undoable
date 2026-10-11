@@ -29,10 +29,20 @@ class FrameSnapshot:
         return self._cache[node_id]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True, slots=True, eq=False)
 class SnapshotNode:
     _snapshot: FrameSnapshot
     node_id: int
+
+    def __eq__(self, other):
+        return (
+            isinstance(other, SnapshotNode)
+            and self._snapshot is other._snapshot
+            and self.node_id == other.node_id
+        )
+
+    def __hash__(self):
+        return hash((id(self._snapshot), self.node_id))
 
     def get(self, field_name):
         fields = self._snapshot._epoch.nodes[self.node_id].fields

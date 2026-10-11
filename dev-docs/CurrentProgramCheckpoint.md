@@ -2,7 +2,7 @@
 
 Status: design accepted at `616f2f65473b1240535a6317d8cc79d5cec18414` after
 `UndoableDesign-ReviewConsistency-3.md` and `UndoableDesign-ReviewSafety-3.md`
-reported GO. This accepts the design/API contract only. Runtime acceptance pending.
+reported GO. This accepts the design/API contract only. Runtime acceptance blocked by seven P2 findings at the first implementation gate.
 
 ## Directive and scope
 
@@ -36,8 +36,8 @@ checks and review. No further routine confirmation is needed.
 - Remediation cycles used: two; no architectural root or redesign.
 - Implementation plan: `UndoableImplementationPlan.md`, strict red/green/refactor.
 - Runtime acceptance tier: dual Code plus Surface and State review, settled implementation.
-- Implementation: drafted and independently verified on Python 3.12–3.14; runtime review pending, not released.
-- Next action: commit the implementation checkpoint and dispatch fresh Code/Surface and State reviewers.
+- Implementation: independently verified on Python 3.12–3.14, then dual review NO-GO at a97e43e5010fd22a9bcd008f27072ca656b73f5b; seven P2 findings, one merged bounded correction complete with 55 independent tests on all three versions; reviewer closure pending.
+- Next action: commit correction checkpoint and dispatch fresh replacement Code/Surface and State reviewers with original counterexample closure duties.
 
 The [experiment ledger](ExperimentLedger.md) records timing, token observations,
 API-equivalent cost estimates, remediation, and quality evidence. The experiment

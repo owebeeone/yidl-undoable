@@ -61,6 +61,28 @@ validator error grouping; application-backed immutable proxy read fences; instal
 diagnostics; and synthetic enlist, ownership, publication and cleanup faults.
 These do not duplicate each successful canonical story.
 
+## Bounded runtime remediation
+
+The two first runtime reviews were NO-GO at
+`a97e43e5010fd22a9bcd008f27072ca656b73f5b`. One merged correction implements
+the seven accepted P2 roots; it does not claim originating reviewer closure.
+
+| Finding | Correction and regression |
+| --- | --- |
+| Code P2-1 | Owning core YIDL supplies explicit empty constructor parameters; normal regeneration. Canonical 13 executes empty, scratch-only, classvar-only and init=False managed schemas with only required transaction_manager. |
+| Code P2-2 | Exact working sets recursively project views, preserving the working object and avoiding ordinary mutation of it. Canonical 14 covers both directions, nested sets, untouched child reads and detached escaped sets. |
+| Code P2-3 | Named lazy constructor dependencies use the generated/fenced materialization path and never supply unset storage. Canonical 15 covers const/managed consumers, reversed order, setup/provisional creation and single evaluation; narrow errors reject unset/recursive dependencies without registration. |
+| State P2-1 | Healthy discard requires unchanged selection; changed selection requires publication evidence. Fault tests distinguish installed identity bookkeeping from unconfirmed assignment, block future mutation and retain known history reads. |
+| State P2-2 | Candidate pins preserve active ordinary/working transient behavior; current/historical reads retain baseline behavior. Canonical 16 covers validator rejection, preview repair, redo preservation, factories and fenced scope/write attacks. |
+| State P2-3 | SnapshotNode equality/hash uses snapshot-context identity and node ID. Canonical 17 covers frozenset nodes, nested tuple/mapping aliases, cached membership/hash and old snapshots across a branch. |
+| State P2-4 | Failed enlist always detaches the overlay; abort failure or incomplete ownership evidence faults with causal failures and available terminal evidence retained. Narrow tests cover abort failure before/after closure and successful abort permitting retry. |
+
+All successful added cases execute the same native YIDL/Astichi path and compare
+generated-source goldens. There are now 17 canonical stories and 55 passing local
+tests. Earlier three-interpreter evidence applies to the pre-remediation draft;
+the lane owner will independently repeat matrix/build/smoke gates for this merged
+revision. `TddEvidence.md` records the observed cycle's red/green results.
+
 ## Verification and limits
 
 `TddEvidence.md` records actual red/green/refactor tranches, including behavioral

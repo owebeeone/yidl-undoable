@@ -89,7 +89,7 @@ def project_working(value, manager, view, *, in_place=False, ancestors=None):
         return value._u_state.facade(view)
     if isinstance(value, NodeRef):
         return manager._nodes[value.node_id].facade(view)
-    if type(value) not in (tuple, list, dict, frozenset, MappingProxyType):
+    if type(value) not in (tuple, list, dict, set, frozenset, MappingProxyType):
         return value
     if id(value) in ancestors:
         raise FrozenValueError("working container cycle")
@@ -118,10 +118,16 @@ def project_working(value, manager, view, *, in_place=False, ancestors=None):
         if in_place and type(value) is list:
             value[:] = items
             return value
+        if in_place and type(value) is set:
+            value.clear()
+            value.update(items)
+            return value
         if type(value) is tuple:
             return tuple(items)
         if type(value) is frozenset:
             return frozenset(items)
+        if type(value) is set:
+            return set(items)
         return items
     finally:
         ancestors.remove(id(value))

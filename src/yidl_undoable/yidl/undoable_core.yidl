@@ -67,6 +67,10 @@ concept UndoableCore {
         def astichi_params(*, field_name__astichi_arg__):
             pass
     ]$
+    resource EmptyParams = template $[
+        def astichi_params():
+            pass
+    ]$
     resource OptionalParam = template $[
         def astichi_params(*, field_name__astichi_arg__=_HAS_DEFAULT_FACTORY):
             pass
@@ -122,6 +126,9 @@ concept UndoableCore {
         target init_params { build /ClassDef }
         ident field_name = FieldName
     }
+    contribution EmptyConstructorParams = EmptyParams {
+        index -1 order -1 target init_params { build /ClassDef }
+    }
     contribution Default = OptionalParam {
         as InitParam index FieldOrder order FieldOrder
         target init_params { build /ClassDef }
@@ -148,6 +155,7 @@ concept UndoableCore {
         rule default_value when Init == True and HasDefault == True -> Default
         rule lazy_unset when Init == True and FieldKind == "static" and HasDefault == False and HasDefaultFactory == False -> Default
     }
+    matcher ConstructorBoundaries(cls: Classes) -> contribution { default -> EmptyConstructorParams }
     matcher InitAssignments(field: Fields) -> contribution { rule init when Init == True -> InitAssignment }
     matcher PlainAccessors(field: PlainFields) -> contribution { default -> PlainAccessor }
     matcher ClassAssignments(field: ClassVars) -> contribution { default -> ClassAssignment }
@@ -158,7 +166,8 @@ concept UndoableCore {
     }
     production ClassProduction(cls: Classes) -> composable {
         root ClassDef = ClassBundle { ident class_name_0 = ClassName ident current_class_0 = CurrentClassName ident class_name_1 = ClassName ident working_class_0 = WorkingClassName ident class_name_2 = ClassName  }
-        phase init_params from field: Fields { apply init_params using Constructors }
+        phase constructor_boundary { apply constructor_boundary using ConstructorBoundaries }
+        phase init_params after constructor_boundary from field: Fields { apply init_params using Constructors }
         phase init_values after init_params from field: Fields { apply init_values using InitAssignments }
         phase class_values from field: ClassVars { apply values using ClassAssignments }
         phase hidden_initvars from field: InitVars { apply hidden_initvars using HiddenInitVarAccessors }

@@ -3,6 +3,7 @@
 from dataclasses import dataclass, field
 from .undoable_markers import MISSING, _HAS_DEFAULT_FACTORY
 from .errors import UndoableDefinitionError, TransactionRequiredError
+from .candidates import CandidateRead
 
 
 @dataclass(slots=True)
@@ -100,12 +101,30 @@ class RuntimeFacade:
             elif name == "cls":
                 kwargs[name] = state.model
             elif state.constructing:
-                kwargs[name] = self._u_resolve_constructor(name)
+                kwargs[name] = self._u_constructor_provider(name)
             elif state.schema.by_name[name]["field_kind"] == "initvar":
                 kwargs[name] = state.values[name]
             else:
                 kwargs[name] = getattr(self, name)
         return fact[role + "_factory"](**kwargs)
+
+    def _u_constructor_provider(self, name):
+        value = self._u_resolve_constructor(name)
+        if (
+            self._u_state.schema.by_name[name]["field_kind"] == "static"
+            and value is MISSING
+        ):
+            try:
+                value = getattr(self, name)
+            except AttributeError as exc:
+                raise UndoableDefinitionError(
+                    f"{self._u_state.schema.name}.{name}: lazy constructor provider is unset"
+                ) from exc
+            if value is MISSING:
+                raise UndoableDefinitionError(
+                    f"{self._u_state.schema.name}.{name}: lazy constructor provider is unset"
+                )
+        return value
 
     @property
     def default(self):
@@ -229,7 +248,10 @@ class RuntimeFacade:
         if state.constructing:
             return self._u_baseline(name)
         edit = state.manager._edit
-        if edit is None or self._u_view == "current" or self._u_pin is not None:
+        historical_pin = self._u_pin is not None and not isinstance(
+            self._u_pin, CandidateRead
+        )
+        if edit is None or self._u_view == "current" or historical_pin:
             return self._u_baseline(name)
         key = (state.node_id, name)
         if key not in edit.transient:
