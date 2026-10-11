@@ -1,6 +1,6 @@
 """One aggregate participant, one Lifecycle backend, one publication assignment."""
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from .history import (
     FieldHistory,
     FrameRecord,
@@ -19,7 +19,11 @@ from .policies import RaiseAbsent, ReadLastVisible
 from .snapshots import FrameSnapshot
 from .errors import ObjectAbsentError, HistoryFaultError, ReentrantOperationError
 from .candidates import CandidateRead
-from yidl_lifecycle.transaction_yidl import DEFAULT_TRANSACTION, GroupTransactionManager
+from yidl_lifecycle.transaction_yidl import (
+    DEFAULT_TRANSACTION,
+    GroupTransactionManager,
+    TransactionCompletion,
+)
 
 
 @dataclass(slots=True)
@@ -364,7 +368,13 @@ class UndoRedoManager:
     def _scope_complete(self, callback, token):
         require_mutation(self)
         if self._backend.active_transaction is not token:
-            return dispatch(self, "backend stale scope completion", callback)
+            owner = capture(self)
+            result, failure = self._dispatch_completion(callback)
+            if not owner.intact(self):
+                self._completion_fault(owner, failure)
+            if failure is not None:
+                raise failure
+            return result
         return self._complete(callback, token)
 
     def active_transaction_for(self, tx_key=DEFAULT_TRANSACTION):
@@ -660,43 +670,104 @@ class UndoRedoManager:
             if not isinstance(self._state, Faulted):
                 self._state = before
 
-    def _complete(self, callback, token):
-        if token is None:
-            return dispatch(self, "backend completion", callback)
-        before = self._selection
-        result, failure = None, None
+    def _dispatch_completion(self, callback):
         try:
-            result = dispatch(self, "backend completion", callback)
+            return dispatch(self, "backend completion", callback), None
         except BaseException as exc:
-            failure = exc
-        completion = token.completion
-        if completion is None and self._backend.active_transaction is token:
-            if failure is not None:
-                raise failure
-            return result
-        self.last_completion = completion
-        intact = self._selection is before or (
-            self._installed_token == token.tx_id
+            return None, exc
+
+    def _completion_selection_intact(self, owner):
+        return self._selection is owner.selection or (
+            owner.token is not None
+            and type(owner.token_id) is int
+            and type(self._installed_token) is int
+            and self._installed_token == owner.token_id
             and self._installed_selection is not None
             and self._selection is self._installed_selection
         )
+
+    def _completion_fault(self, owner, failure):
+        token = owner.token
+        if token is None:
+            token = self._backend.active_transaction
+        self.last_completion = None if token is None else token.completion
+        self._confirmed_selection = self._completion_selection_intact(owner)
+        self._fault("backend ownership/publication/cleanup evidence is incomplete")
+        raise HistoryFaultError(self._fault_reason) from failure
+
+    def _complete(self, callback, token):
+        owner = capture(self)
+        if token is None:
+            authorized = (
+                owner.token is None
+                and type(owner.begin_count) is int
+                and owner.begin_count == 0
+                and owner.edit is None
+            )
+        else:
+            authorized = (
+                token is owner.token
+                and type(owner.begin_count) is int
+                and owner.begin_count > 0
+                and owner.edit is not None
+                and owner.edit.token is token
+                and type(owner.state) is Editing
+                and type(owner.token_id) is int
+                and type(token._original_tx_id) is int
+                and owner.token_id == token._original_tx_id
+                and owner.token_key is token._original_tx_key
+                and owner.token_key is self.tx_key
+                and self._backend.tx_key is owner.token_key
+                and token.completion is None
+            )
+        if not authorized:
+            self._completion_fault(owner, None)
+        result, failure = self._dispatch_completion(callback)
+        completion = None if token is None else token.completion
+        if completion is None:
+            if failure is not None and owner.intact(self):
+                raise failure
+            if (
+                failure is None
+                and token is not None
+                and owner.begin_count > 1
+                and result is None
+                and replace(owner, begin_count=owner.begin_count - 1).intact(self)
+            ):
+                return None
+            self._completion_fault(owner, failure)
         healthy = (
-            completion is not None
+            self._fault_reason is None
+            and type(completion) is TransactionCompletion
+            and type(token.tx_id) is int
+            and token.tx_id == owner.token_id
+            and token.tx_key is owner.token_key
+            and self._backend.tx_key is owner.token_key
+            and type(completion.tx_id) is int
+            and completion.tx_id == owner.token_id
+            and completion.tx_key is owner.token_key
             and completion.ownership_preserved
             and completion.finalized
             and completion.after_actions_complete
             and (
                 completion.publication_complete
-                or (completion.discard_complete and self._selection is before)
+                or (completion.discard_complete and self._selection is owner.selection)
             )
             and self._backend.active_transaction is None
+            and type(self._backend.begin_count) is int
+            and self._backend.begin_count == 0
             and self._edit is None
-            and intact
+            and self._prepared is None
+            and type(self._state) is Idle
+            and (
+                failure is not None
+                or (type(result) is int and result == owner.token_id)
+            )
+            and self._completion_selection_intact(owner)
         )
         if not healthy:
-            self._confirmed_selection = intact
-            self._fault("backend ownership/publication/cleanup evidence is incomplete")
-            raise HistoryFaultError(self._fault_reason) from failure
+            self._completion_fault(owner, failure)
+        self.last_completion = completion
         self._state = Idle()
         if failure is not None:
             raise failure

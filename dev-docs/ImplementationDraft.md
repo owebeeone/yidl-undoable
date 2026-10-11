@@ -131,6 +131,40 @@ and wheel/sdist build pass. No mandatory section 13 coverage was removed.
 `TddEvidence.md` records actual behavioral reds and the local gates. Fresh
 originating closure and independent matrix/build/wheel acceptance belong to root.
 
+## Runtime remediation cycle 4
+
+At `d0f85e6005aefb91098d4164663b07e40c7b757e`, both reviewers closed
+all twelve historical roots; Code returned GO and State reported bounded
+completion-nesting authority P2-1. This merged correction captures original
+OperationContext authority before backend dispatch. Successful inner completion
+requires genuine joined nesting, None return and exactly one decrement, with
+unchanged token, edit, state, selection and backend key. Failure without terminal
+evidence remains repairable only if that entire owner remains intact. Scalar
+identity/count checks reject protocol objects before invoking equality.
+
+Healthy terminal completion requires the original token/evidence identities,
+zero count/no active token, the existing publication/cleanup checks, detached
+editable/prepared state and proper Idle/return behavior. It cannot revive an
+already diagnosed operation fault after cleanup. Idle completion cannot acquire
+work without authority; stale scope originals must leave replacement work
+unchanged. One shared dispatch/outcome and fault path retain causes/evidence,
+known selected history and independently pinned snapshots, while unexpected
+selection prevents new live reads/snapshots.
+
+Narrow synthetic tests cover explicit/retained scopes, hidden begin, changed
+nesting then failure, finalized residual count, selection/overlay/state/return
+changes, backend-key identity, idle acquisition, stale replacement ownership,
+terminal token/evidence identity, pre-transition failure repairability, scalar
+equality traps and fault persistence through discard. Existing successful
+canonical joins/scopes/custom keys and all historical scenarios remain. No
+public API, YIDL source/generated base, token substitution, backend participant
+or neighbor source change is introduced. Final local native evidence is **193
+passing tests**, including the original 20 canonical stories and 55 new narrow
+authority cases. Source goldens, two deterministic base renders, compile/format
+checks, both examples and wheel/sdist build passed. All mandatory section 13
+coverage is retained. Root owns independent matrix/build
+and fresh same-tuple review acceptance.
+
 ## Verification and limits
 
 `TddEvidence.md` records actual red/green/refactor tranches, including behavioral

@@ -145,3 +145,35 @@ Pinned dependencies, native engine and isolated environment method are unchanged
 Whitespace and machine-path scans pass. These checks do not self-close the two
 round3 findings; a fresh replacement dual gate must verify all twelve original
 runtime counterexamples and the corrected package before acceptance.
+
+## Fourth runtime gate
+
+At `d0f85e6`, Code/Surface returned GO and State closed every historical case
+but reported one bounded completion-nesting P2. Both reports are verbatim.
+The 138-test matrix and wheel results remain true; acceptance is blocked until
+cycle4 verifies exact nonterminal authority and zero terminal nesting.
+
+## Remediation cycle 4 independent checks
+
+| Python | Full source suite | Rebuilt installed-wheel examples/base/import isolation |
+| --- | --- | --- |
+| 3.12.12 | 193 passed in 16.53s | All passed. |
+| 3.13.12 | 193 passed in 16.60s | All passed. |
+| 3.14.3 | 193 passed in 16.44s | All passed. |
+
+All twenty native canonical stories/goldens and generated-base checks remain.
+Fifty-five narrow completion-authority cases cover the missing exact transition
+checks and related authority facets, including a previously diagnosed fault
+remaining faulted after backend cleanup. Real REDs and corrected fixture errors
+are distinguished in TddEvidence.md. No API or YIDL-resource change.
+
+Independent wheel-from-sdist build succeeds; SHA-256:
+
+- Wheel: `caacc5791e1017ae6f1a0e15fe0fb24779f8bfa384393bf8762037652c59614f`
+- Sdist: `3d7b8eef1a2ec504c678e6a5967abb8e860ebf2108aa4563a4e067b54417a50d`
+
+Resource/base/py.typed and sdist-test content checks pass, as do whitespace and
+machine-path scans. Dependency tuple and installation isolation are unchanged.
+These runtime artifacts supersede earlier drafts; scope remains local and
+unpublished. Passing gates still require fresh peer-blind closure of all
+thirteen historical runtime counterexamples.

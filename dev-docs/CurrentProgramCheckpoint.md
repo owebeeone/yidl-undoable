@@ -2,7 +2,7 @@
 
 Status: design accepted at `616f2f65473b1240535a6317d8cc79d5cec18414` after
 `UndoableDesign-ReviewConsistency-3.md` and `UndoableDesign-ReviewSafety-3.md`
-reported GO. This accepts the design/API contract only. Runtime acceptance blocked by two additional bounded P2 findings at the third gate; all ten historical counterexamples closed.
+reported GO. This accepts the design/API contract only. Runtime acceptance blocked by one additional bounded State P2 at the fourth gate; all twelve historical counterexamples closed, Code/Surface GO at d0f85e6.
 
 ## Directive and scope
 
@@ -36,8 +36,8 @@ checks and review. No further routine confirmation is needed.
 - Remediation cycles used: two; no architectural root or redesign.
 - Implementation plan: `UndoableImplementationPlan.md`, strict red/green/refactor.
 - Runtime acceptance tier: dual Code plus Surface and State review, settled implementation.
-- Implementation: 89 independent tests and rebuilt wheel gates pass on Python 3.12–3.14 at 38662bc. Third dual gate closes all ten historical counterexamples but reports two additional bounded P2s. Merged cycle 3 correction complete under explicit operator override; 138 independent tests pass on all three versions, rebuilt wheel checks pass; reviewer closure pending.
-- Next action: settle cycle3 correction and fresh replacement dual review with all twelve historical finding closure duties.
+- Implementation: 138 independent tests and rebuilt wheel gates pass on Python 3.12–3.14 at d0f85e6. Fourth gate: Code/Surface GO; State NO-GO for one bounded completion-nesting authority root. Merged cycle4 correction complete under operator extra-round authorization; 193 independent tests and rebuilt wheel gates pass on all three versions; no architecture failure or redesign.
+- Next action: settle cycle4 correction and fresh dual review with all thirteen historical finding closure duties.
 
 The [experiment ledger](ExperimentLedger.md) records timing, token observations,
 API-equivalent cost estimates, remediation, and quality evidence. The experiment

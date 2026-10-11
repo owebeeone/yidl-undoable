@@ -14,6 +14,7 @@ class OperationContext:
     begin_count: int
     token_id: object
     token_key: object
+    backend_key: object
 
     def intact(self, manager):
         token = manager._backend.active_transaction
@@ -22,10 +23,18 @@ class OperationContext:
             and manager._edit is self.edit
             and manager._state is self.state
             and token is self.token
+            and manager._backend.tx_key is self.backend_key
+            and type(self.begin_count) is int
+            and type(manager._backend.begin_count) is int
             and manager._backend.begin_count == self.begin_count
             and (
                 token is None
-                or (token.tx_id == self.token_id and token.tx_key is self.token_key)
+                or (
+                    type(self.token_id) is int
+                    and type(token.tx_id) is int
+                    and token.tx_id == self.token_id
+                    and token.tx_key is self.token_key
+                )
             )
         )
 
@@ -40,6 +49,7 @@ def capture(manager):
         manager._backend.begin_count,
         None if token is None else token.tx_id,
         None if token is None else token.tx_key,
+        manager._backend.tx_key,
     )
 
 

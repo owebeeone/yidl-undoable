@@ -110,6 +110,12 @@ Preview failure leaves editing repairable. Initialization failure remains retrya
 `HistoryFaultError` signals unexpected backend ownership/cleanup evidence. Confirmed
 live data and snapshots can remain readable; unconfirmed publication blocks them.
 There is no reset/recovery API. `last_completion` retains Lifecycle terminal evidence.
+An inner completion discharges exactly one genuine join and preserves the original
+edit, token and selection. A backend failure remains repairable only before any
+authority change. Unexpected nesting or ownership changes fault immediately,
+including residual nesting after finalized publication; backend cleanup cannot
+restore a manager that has already diagnosed an ownership fault. Stale scope
+callbacks must leave replacement work unchanged.
 A rejected key callback before backend acquisition preserves the original edit
 and nesting unchanged. Once setup has acquired or joined a token, failed begin
 setup detaches its private overlay, including when it joined
