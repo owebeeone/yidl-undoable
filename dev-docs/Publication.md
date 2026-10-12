@@ -1,7 +1,7 @@
 # GitHub publication
 
 On 2026-10-12 (Australia/Sydney), the operator authorized creating the public
-[owebeeone/yidl_undoable repository](https://github.com/owebeeone/yidl_undoable),
+[owebeeone/yidl-undoable repository](https://github.com/owebeeone/yidl-undoable),
 configuring Git origin, registering it with GWZ and pushing the member history.
 This is subsequent to the completed autonomous experiment.
 
@@ -30,3 +30,9 @@ registry release. The verification scope remains the pinned dependency tuple.
 Original timing and cost baselines close at the recorded experiment checkpoint.
 Later API discussion and repository publication are outside those measurements;
 recorded estimates are Standard API-equivalent USD, not actual Codex billing.
+
+The GitHub repository was initially created as `yidl_undoable` and renamed to
+`yidl-undoable` on 2026-10-12 at the operator's request to follow the other
+repositories' naming convention. Git origin and GWZ remote metadata were updated
+to the hyphenated repository URL. Experiment measurements and review evidence
+remain unchanged.
