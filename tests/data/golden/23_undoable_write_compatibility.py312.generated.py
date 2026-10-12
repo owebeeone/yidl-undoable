@@ -11,9 +11,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_default.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_default.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.value if True else None,) == (other.value if True else None,)
@@ -58,9 +58,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_current.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_current.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.value if True else None,) == (other.value if True else None,)
@@ -99,9 +99,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_working.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_working.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.value if True else None,) == (other.value if True else None,)
@@ -753,9 +753,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_default.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_default.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.children if True else None,) == (other.children if True else None,)
@@ -784,9 +784,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_current.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_current.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.children if True else None,) == (other.children if True else None,)
@@ -809,9 +809,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_working.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_working.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.children if True else None,) == (other.children if True else None,)
@@ -844,9 +844,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_default.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_default.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.children if True else None,) == (other.children if True else None,)
@@ -875,9 +875,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_current.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_current.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.children if True else None,) == (other.children if True else None,)
@@ -900,9 +900,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_working.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_working.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.children if True else None,) == (other.children if True else None,)
@@ -935,9 +935,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_default.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_default.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return True
@@ -966,9 +966,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_current.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_current.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return True
@@ -991,9 +991,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_working.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_working.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return True
@@ -1026,9 +1026,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_default.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_default.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return True
@@ -1057,9 +1057,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_current.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_current.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return True
@@ -1082,9 +1082,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_working.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_working.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return True
@@ -1117,9 +1117,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_default.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_default.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.children if True else None,) == (other.children if True else None,)
@@ -1148,9 +1148,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_current.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_current.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.children if True else None,) == (other.children if True else None,)
@@ -1173,9 +1173,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_working.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_working.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.children if True else None,) == (other.children if True else None,)
@@ -1208,9 +1208,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_default.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_default.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.children if True else None,) == (other.children if True else None,)
@@ -1239,9 +1239,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_current.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_current.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.children if True else None,) == (other.children if True else None,)
@@ -1264,9 +1264,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_working.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_working.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.children if True else None,) == (other.children if True else None,)
@@ -1299,9 +1299,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_default.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_default.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.children if True else None,) == (other.children if True else None,)
@@ -1330,9 +1330,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_current.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_current.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.children if True else None,) == (other.children if True else None,)
@@ -1355,9 +1355,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_working.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_working.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.children if True else None,) == (other.children if True else None,)
@@ -1390,9 +1390,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_default.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_default.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.children if True else None,) == (other.children if True else None,)
@@ -1421,9 +1421,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_current.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_current.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.children if True else None,) == (other.children if True else None,)
@@ -1446,9 +1446,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_working.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_working.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.children if True else None,) == (other.children if True else None,)
@@ -1481,9 +1481,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_default.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_default.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.children if True else None,) == (other.children if True else None,)
@@ -1512,9 +1512,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_current.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_current.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.children if True else None,) == (other.children if True else None,)
@@ -1537,9 +1537,9 @@ def build_undoable_class(base_cls, *, schema):
 
         def __eq__(self, other):
             if True:
-                _u_write_scope = _u_historical_write_scope.get()
+                _u_write_scope = _u_capture_0_working.scope.get()
                 if _u_write_scope is not None and _u_write_scope.active:
-                    return _u_historical_eq(self, other)
+                    return _u_capture_0_working.equal(self, other)
             if other.__class__ is not self.__class__:
                 return NotImplemented
             return (self.children if True else None,) == (other.children if True else None,)

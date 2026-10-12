@@ -22,7 +22,7 @@ def run_story(story):
 
 
 def golden_path(story):
-    if story.stem.startswith(("21_", "22_", "23_")):
+    if story.stem.startswith(("21_", "22_", "23_", "24_")):
         minor = f"py{sys.version_info.major}{sys.version_info.minor}"
         return GOLDEN / f"{story.stem}.{minor}.generated.py"
     return GOLDEN / (story.stem + ".generated.py")

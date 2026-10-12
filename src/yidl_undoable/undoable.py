@@ -6,6 +6,7 @@ from .undoable_harvester import harvest_undoable_definition
 from .facades import RuntimeFacade
 from .errors import UndoableDefinitionError
 from .write_comparison_context import _historical_write_scope
+from .comparison_captures import ComparisonCaptures, capture_ids
 from . import _generated_undoable_base as generated
 
 RECORDS = {
@@ -24,10 +25,11 @@ RECORDS = {
 def build_composable(schema, *, generation_module=generated):
     generated = generation_module
     builder = generated.new_builder()
+    aliases = capture_ids(schema.name)
     builder.add(
         generated.ClassesCollection,
         generated.UndoableClass(
-            class_id=schema.name,
+            class_id=aliases[0],
             class_name=schema.name,
             current_class_name=schema.name + "_Current",
             working_class_name=schema.name + "_Working",
@@ -60,7 +62,7 @@ def build_composable(schema, *, generation_module=generated):
         return generated.build_UndoableModule(generated.build_container(builder))
     logical = [fact for fact in schema.fields if fact["logical_compare"]]
     for view_order, view in enumerate(("default", "current", "working")):
-        owner = schema.name + "." + view
+        owner = aliases[view_order + 1]
         builder.add(
             generated.ComparisonClassesCollection,
             generated.ComparisonClass(
@@ -114,13 +116,18 @@ def _decorate(cls, *, eq, order):
         source = ast.unparse(module) + "\n"
         namespace = {
             "__name__": cls.__module__,
-            "_u_historical_write_scope": _historical_write_scope,
-            "_u_historical_eq": RuntimeFacade.__eq__,
-            "_u_historical_hash": RuntimeFacade.__hash__,
-            "_u_object_lt": object.__lt__,
-            "_u_object_le": object.__le__,
-            "_u_object_gt": object.__gt__,
-            "_u_object_ge": object.__ge__,
+            **dict.fromkeys(
+                capture_ids(schema.name),
+                ComparisonCaptures(
+                    _historical_write_scope,
+                    RuntimeFacade.__eq__,
+                    RuntimeFacade.__hash__,
+                    object.__lt__,
+                    object.__le__,
+                    object.__gt__,
+                    object.__ge__,
+                ),
+            ),
         }
         exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
     except Exception as exc:

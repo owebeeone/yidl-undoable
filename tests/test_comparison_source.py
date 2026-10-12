@@ -35,12 +35,14 @@ def test_prelude_precedes_all_self_type_and_value_reads_on_all_facades():
             and body[0].targets[0].id == "_u_write_scope"
         )
         assert (
-            body[0].value.func.value.id == "_u_historical_write_scope"
+            body[0].value.func.value.attr == "scope"
+            and body[0].value.func.value.value.id.startswith("_u_capture_")
             and body[0].value.func.attr == "get"
         )
         assert (
             isinstance(body[1], ast.If)
-            and body[1].body[0].value.func.id == "_u_historical_eq"
+            and body[1].body[0].value.func.attr == "equal"
+            and body[1].body[0].value.func.value.id.startswith("_u_capture_")
         )
         assert not any(
             isinstance(node, ast.Attribute)
@@ -61,9 +63,9 @@ def test_prelude_precedes_all_self_type_and_value_reads_on_all_facades():
 
 def test_constant_carrier_adds_no_runtime_branch_or_dispatch():
     def reference(self, other):
-        _u_write_scope = _u_historical_write_scope.get()
+        _u_write_scope = _u_capture_reference.scope.get()
         if _u_write_scope is not None and _u_write_scope.active:
-            return _u_historical_eq(self, other)
+            return _u_capture_reference.equal(self, other)
         return None
 
     def prefix(function):
@@ -74,6 +76,10 @@ def test_constant_carrier_adds_no_runtime_branch_or_dispatch():
             if instruction.opname == "RETURN_VALUE":
                 return result
             operation = instruction.opname
+            if isinstance(instruction.argval, str) and instruction.argval.startswith(
+                "_u_capture_"
+            ):
+                instruction = instruction._replace(argval="_u_capture_reference")
             if operation in (
                 "STORE_FAST_LOAD_FAST",
                 "LOAD_FAST_LOAD_FAST",

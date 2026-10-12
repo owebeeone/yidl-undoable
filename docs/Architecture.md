@@ -68,3 +68,10 @@ Unexpected completion failures retain confirmed history and reject further editi
 
 The package has no cache, GUI, ownership protocol, persistence, notification or recovery
 dependency. Lifecycle resource bindings remain nonversioned and application-owned.
+
+Comparison captures use private generation-only aliases disjoint from all three
+public class identifiers. Internal ClassId/CmpClassId associations select direct
+authored references to an immutable carrier of the original ContextVar and
+historical equality/hash/order descriptors. No field-name dispatch, callback
+substitution or descriptor rebinding occurs. Class creation keeps public names,
+including observations by supported subclass hooks/metaclasses.
