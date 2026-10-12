@@ -10,9 +10,10 @@ from yidl_undoable import *
 from yidl_undoable.facades import RuntimeFacade
 from yidl_undoable.undoable_harvester import harvest_undoable_definition
 from yidl_undoable.undoable import build_composable
+from yidl_undoable.regenerate_undoable_base import generation_sources
 
 resources = Path(yidl_undoable.__file__).parent / "yidl"
-sources = {p.name: p.read_text() for p in resources.glob("*.yidl")}
+sources = generation_sources(resources)
 features = [
     ("core", "UndoableCore", {"plain": field(default=1)}),
     (
@@ -46,7 +47,7 @@ for layer, concept_name, additions in features:
         {"__annotations__": {name: object for name in markers}, **markers},
     )
     schema = harvest_undoable_definition(declaration)
-    compiled = compile_yidl_files(sources, f"undoable_{layer}.yidl")
+    compiled = compile_yidl_files(sources, f"undoable/undoable_{layer}.yidl")
     concept = compiled.concepts[concept_name]
     runtime_source = emit_concept_runtime_source(
         concept.plan.build_data_definition(),

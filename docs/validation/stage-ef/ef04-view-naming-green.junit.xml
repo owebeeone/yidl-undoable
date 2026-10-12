@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="2.259" timestamp="2026-10-13T01:07:10.059804+11:00" hostname="[host]"><testcase classname="tests.test_canonical" name="test_generated_story[21_undoable_comparisons]" time="2.248" /></testsuite></testsuites>

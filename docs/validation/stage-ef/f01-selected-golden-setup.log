@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "[consumer-root]/tests/regenerate_golden.py", line 29, in <module>
+    main()
+  File "[consumer-root]/tests/regenerate_golden.py", line 15, in main
+    actual = run_story(story)
+             ^^^^^^^^^^^^^^^^
+  File "[consumer-root]/tests/canonical_support.py", line 11, in run_story
+    namespace = runpy.run_path(str(story), run_name="__canonical__")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "[consumer-root]/tests/data/gold_src/23_undoable_write_compatibility.py", line 20, in <module>
+    assert root.children[0].node_id==second.node_id and first==second
+                                                        ^^^^^^^^^^^^^
+  File "<undoable.Child>", line 1, in __eq__
+  File "<undoable.Child>", line 1, in value
+  File "[consumer-root]/src/yidl_undoable/facades.py", line 207, in _u_read_managed
+    return state.manager._read_managed(self, name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "[consumer-root]/src/yidl_undoable/transaction_yidl.py", line 569, in _read_managed
+    return self._committed_value(facade, name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "[consumer-root]/src/yidl_undoable/transaction_yidl.py", line 584, in _committed_value
+    frame_id = self.absent_policy.resolve(facade.node_id, self._selection)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "[consumer-root]/src/yidl_undoable/policies.py", line 16, in resolve
+    raise ObjectAbsentError(
+yidl_undoable.errors.ObjectAbsentError: node 1 absent at frame 1

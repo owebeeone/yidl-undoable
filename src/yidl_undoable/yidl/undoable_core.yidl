@@ -19,7 +19,9 @@ concept UndoableCore {
     property HasThaw: bool = False
     property HasFreeze: bool = False
     property HasWorkingDefaultFactory: bool = False
-    record UndoableClass { ClassId ClassName CurrentClassName WorkingClassName }
+    property RestoreIdentity: bool = False
+    property RestoreOrder: bool = False
+    record UndoableClass { ClassId ClassName CurrentClassName WorkingClassName RestoreIdentity RestoreOrder }
     family UndoableField {
         common FieldId, FieldName, FieldOrder, FieldKind, BindingShape
         common IsLazy, Init, HasDefault, HasDefaultFactory, Mutable
@@ -45,6 +47,12 @@ concept UndoableCore {
         class class_name_0__astichi_arg__(astichi_pass(base_cls, outer_bind=True)):
             __slots__ = ()
             __undoable_schema__ = astichi_pass(schema, outer_bind=True)
+            with astichi_hole(comparison_reset) as astichi_fallback:
+                pass
+            with astichi_hole(order_reset) as astichi_fallback:
+                pass
+            with astichi_hole(default_comparison) as astichi_fallback:
+                pass
             with astichi_hole(class_values) as astichi_fallback:
                 pass
             def __init__(self, init_params__astichi_param_hole__, *, transaction_manager):
@@ -56,10 +64,14 @@ concept UndoableCore {
                 pass
         class current_class_0__astichi_arg__(class_name_1__astichi_arg__):
             __slots__ = ()
+            with astichi_hole(current_comparison) as astichi_fallback:
+                pass
             with astichi_hole(current_properties) as astichi_fallback:
                 pass
         class working_class_0__astichi_arg__(class_name_2__astichi_arg__):
             __slots__ = ()
+            with astichi_hole(working_comparison) as astichi_fallback:
+                pass
             with astichi_hole(working_properties) as astichi_fallback:
                 pass
     ]$
@@ -104,12 +116,12 @@ concept UndoableCore {
             self._u_write_plain(astichi_bind_external(field_name), value)
     ]$
     resource Result = template $[
-        class_registry__astichi_arg__.__undoable_views__ = {
-            'default': class_default__astichi_arg__,
-            'current': class_current__astichi_arg__,
-            'working': class_working__astichi_arg__,
+        astichi_pass(class_registry__astichi_arg__, outer_bind=True).__undoable_views__ = {
+            'default': astichi_pass(class_default__astichi_arg__, outer_bind=True),
+            'current': astichi_pass(class_current__astichi_arg__, outer_bind=True),
+            'working': astichi_pass(class_working__astichi_arg__, outer_bind=True),
         }
-        return class_result__astichi_arg__
+        return astichi_pass(class_result__astichi_arg__, outer_bind=True)
     ]$
     contribution ClassDefinition = ClassProduction {
         as ClassDef index 0 order 0

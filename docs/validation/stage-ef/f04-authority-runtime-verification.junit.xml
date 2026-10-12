@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="5" time="0.492" timestamp="2026-10-13T00:46:38.702611+11:00" hostname="[host]"><testcase classname="tests.test_comparison_source" name="test_prelude_precedes_all_self_type_and_value_reads_on_all_facades" time="0.002" /><testcase classname="tests.test_comparison_source" name="test_constant_carrier_adds_no_runtime_branch_or_dispatch" time="0.000" /><testcase classname="tests.test_comparison_source" name="test_shared_authority_and_native_write_expression_have_no_projection_helpers" time="0.055" /><testcase classname="tests.test_comparison_source" name="test_undoable_scope_does_not_change_dataclass_equality" time="0.010" /><testcase classname="tests.test_comparison_source" name="test_model_generation_never_imports_dataclass_runtime_authority" time="0.069"><failure message="subprocess.CalledProcessError: Command '['[consumer-root]/.venvs/py312/bin/python', '-c', 'import importlib.abc,sys\nclass Block(importlib.abc.MetaPathFinder):\n def find_spec(self,fullname,path=None,target=None):\n  if fullname==&quot;yidl_dataclass&quot; or fullname.startswith(&quot;yidl_dataclass.&quot;):\n   raise AssertionError(&quot;Dataclass runtime lookup&quot;)\nsys.meta_path.insert(0,Block())\nfrom yidl_undoable import undoable,managed,UndoRedoManager\n@undoable(eq=True,order=True)\nclass Model:\n value:int=managed(default=2)\nh=UndoRedoManager();a=Model(transaction_manager=h);b=Model(transaction_manager=h);h.initialize(a,b)\nassert a==b and a.current==b.current\nwith h.begin():a.value=3\nassert a&gt;b\n']' returned non-zero exit status 1.">def test_model_generation_never_imports_dataclass_runtime_authority():
+        import subprocess
+        script='''import importlib.abc,sys
+    class Block(importlib.abc.MetaPathFinder):
+     def find_spec(self,fullname,path=None,target=None):
+      if fullname=="yidl_dataclass" or fullname.startswith("yidl_dataclass."):
+       raise AssertionError("Dataclass runtime lookup")
+    sys.meta_path.insert(0,Block())
+    from yidl_undoable import undoable,managed,UndoRedoManager
+    @undoable(eq=True,order=True)
+    class Model:
+     value:int=managed(default=2)
+    h=UndoRedoManager();a=Model(transaction_manager=h);b=Model(transaction_manager=h);h.initialize(a,b)
+    assert a==b and a.current==b.current
+    with h.begin():a.value=3
+    assert a&gt;b
+    '''
+&gt;       subprocess.run([sys.executable,"-c",script],check=True,capture_output=True,text=True)
+
+tests/test_comparison_source.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = True, timeout = None, check = True
+popenargs = (['[consumer-root]/.venvs/py312/bin/python', '-c', 'import importlib.abc,sys\nc...nsaction_manager=h);h.initialize(a,b)\nassert a==b and a.current==b.current\nwith h.begin():a.value=3\nassert a&gt;b\n'],)
+kwargs = {'text': True, 'stdout': -1, 'stderr': -1}
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output &amp; stderr attributes if those streams
+        were captured.
+    
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+&gt;               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['[consumer-root]/.venvs/py312/bin/python', '-c', 'import importlib.abc,sys\nclass Block(importlib.abc.MetaPathFinder):\n def find_spec(self,fullname,path=None,target=None):\n  if fullname=="yidl_dataclass" or fullname.startswith("yidl_dataclass."):\n   raise AssertionError("Dataclass runtime lookup")\nsys.meta_path.insert(0,Block())\nfrom yidl_undoable import undoable,managed,UndoRedoManager\n@undoable(eq=True,order=True)\nclass Model:\n value:int=managed(default=2)\nh=UndoRedoManager();a=Model(transaction_manager=h);b=Model(transaction_manager=h);h.initialize(a,b)\nassert a==b and a.current==b.current\nwith h.begin():a.value=3\nassert a&gt;b\n']' returned non-zero exit status 1.
+
+[home]/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/subprocess.py:571: CalledProcessError</failure></testcase></testsuite></testsuites>

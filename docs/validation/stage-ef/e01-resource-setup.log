@@ -1,0 +1,32 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "[consumer-root]/src/yidl_undoable/regenerate_undoable_base.py", line 124, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "[consumer-root]/src/yidl_undoable/regenerate_undoable_base.py", line 111, in main
+    write_undoable_base()
+  File "[consumer-root]/src/yidl_undoable/regenerate_undoable_base.py", line 93, in write_undoable_base
+    generated_path.write_text(render_undoable_base_source(), encoding="utf-8")
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "[consumer-root]/src/yidl_undoable/regenerate_undoable_base.py", line 50, in render_undoable_base_source
+    compiled = compile_yidl_files(sources, (_LOGICAL_RESOURCE_ROOT / entry_path.name).as_posix())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "[consumer-root]/.venvs/py312/lib/python3.12/site-packages/yidl/concept_parser.py", line 224, in compile_yidl_files
+    return compiler.compile(entry_path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "[consumer-root]/.venvs/py312/lib/python3.12/site-packages/yidl/concept_parser.py", line 249, in compile
+    imports = self._compile_imports(resolved_path, tree)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "[consumer-root]/.venvs/py312/lib/python3.12/site-packages/yidl/concept_parser.py", line 285, in _compile_imports
+    aliases[alias] = self.compile(imported_path)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "[consumer-root]/.venvs/py312/lib/python3.12/site-packages/yidl/concept_parser.py", line 264, in compile
+    ).compile(concept_tree)
+      ^^^^^^^^^^^^^^^^^^^^^
+  File "[consumer-root]/.venvs/py312/lib/python3.12/site-packages/yidl/concept_parser.py", line 568, in compile
+    ) = _flatten_production_extensions(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "[consumer-root]/.venvs/py312/lib/python3.12/site-packages/yidl/concept_parser.py", line 3158, in _flatten_production_extensions
+    raise YidlSymbolError(
+yidl.concept_parser.YidlSymbolError: production 'ClassProduction' has no phase 'identity_reset'

@@ -6,6 +6,14 @@ def build_undoable_class(base_cls, *, schema):
     class ClassOnly(base_cls):
         __slots__ = ()
         __undoable_schema__ = schema
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
         label = schema.by_name['label']['default_value']
 
         def __init__(self, *, transaction_manager):
@@ -17,9 +25,21 @@ def build_undoable_class(base_cls, *, schema):
     class ClassOnly_Current(ClassOnly):
         __slots__ = ()
         pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
     class ClassOnly_Working(ClassOnly):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
         pass
     ClassOnly.__undoable_views__ = {'default': ClassOnly, 'current': ClassOnly_Current, 'working': ClassOnly_Working}
     return ClassOnly
@@ -33,6 +53,14 @@ def build_undoable_class(base_cls, *, schema):
         __slots__ = ()
         __undoable_schema__ = schema
         pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         def __init__(self, *, transaction_manager):
             state = self._u_start(transaction_manager)
@@ -43,9 +71,21 @@ def build_undoable_class(base_cls, *, schema):
     class Empty_Current(Empty):
         __slots__ = ()
         pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
     class Empty_Working(Empty):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
         pass
     Empty.__undoable_views__ = {'default': Empty, 'current': Empty_Current, 'working': Empty_Working}
     return Empty
@@ -58,6 +98,14 @@ def build_undoable_class(base_cls, *, schema):
     class NoInputs(base_cls):
         __slots__ = ()
         __undoable_schema__ = schema
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
         pass
 
         def __init__(self, *, transaction_manager):
@@ -75,6 +123,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class NoInputs_Current(NoInputs):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def value(self):
@@ -86,6 +140,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class NoInputs_Working(NoInputs):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def value(self):
@@ -106,6 +166,14 @@ def build_undoable_class(base_cls, *, schema):
         __slots__ = ()
         __undoable_schema__ = schema
         pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         def __init__(self, *, transaction_manager):
             state = self._u_start(transaction_manager)
@@ -123,9 +191,21 @@ def build_undoable_class(base_cls, *, schema):
     class ScratchOnly_Current(ScratchOnly):
         __slots__ = ()
         pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
     class ScratchOnly_Working(ScratchOnly):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
         pass
     ScratchOnly.__undoable_views__ = {'default': ScratchOnly, 'current': ScratchOnly_Current, 'working': ScratchOnly_Working}
     return ScratchOnly
@@ -138,6 +218,14 @@ def build_undoable_class(base_cls, *, schema):
     class NoInputs(base_cls):
         __slots__ = ()
         __undoable_schema__ = schema
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
         pass
 
         def __init__(self, *, transaction_manager):
@@ -155,6 +243,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class NoInputs_Current(NoInputs):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def value(self):
@@ -166,6 +260,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class NoInputs_Working(NoInputs):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def value(self):

@@ -1,0 +1,1433 @@
+..........................................................FFFF           [100%]
+=================================== FAILURES ===================================
+_____ test_direct_lifecycle_markers_stay_valid_with_original_write_policy ______
+
+self = AssemblyScope(builder=BuilderHandle(graph=BuilderGraph(_instances={'Root': InstanceRecord(name='Root', composable=Basi...tive_engine_handle=None, _native_template_cache=None, _native_state_handle=None, _native_occurrence_by_build_prefix={})
+requests = (BindingRequest(resource=ComposableResource(composable=BasicComposable(tree=<ast.Module object at 0x10b9235d0>, origin...lassDef[0]', 'CurrentComparison', 'EqMethod', 'EqLeftValue[0]'), owner_match=None, allow_equivalent_demand_sites=True))
+
+    def _apply_batch_uncounted(
+        self,
+        requests: tuple[BindingRequest, ...],
+    ) -> tuple[BindingCandidate, ...]:
+        native_candidates = self._try_apply_native_batch(requests)
+        if native_candidates is not None:
+            return native_candidates
+        applied: list[BindingCandidate] = []
+        candidate_count = 0
+        for request in requests:
+            try:
+                candidates = self._find_candidates(
+                    request.resource,
+                    DemandSelector(
+                        name=request.name,
+                        build_match=request.build_match,
+                        owner_match=request.owner_match,
+                    ),
+                )
+                candidate_count += len(candidates)
+                candidate = _select_batch_candidate(
+                    candidates,
+                    allow_equivalent_demand_sites=(
+                        request.allow_equivalent_demand_sites
+                    ),
+                )
+>               self._apply_candidate(candidate, count_compatibility_kind=False)
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:521: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:973: in _apply_candidate
+    self._apply_external_value(candidate)
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1118: in _apply_external_value
+    self._queue_external_bind(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = AssemblyScope(builder=BuilderHandle(graph=BuilderGraph(_instances={'Root': InstanceRecord(name='Root', composable=Basi...tive_engine_handle=None, _native_template_cache=None, _native_state_handle=None, _native_occurrence_by_build_prefix={})
+owner = 'EqLeftValue[0]', name = 'eq_left_path', value = 'value'
+
+    def _queue_external_bind(self, owner: str, name: str, value: object) -> None:
+        owner_binds = self._pending_external_binds_by_owner.setdefault(owner, {})
+        if name in owner_binds:
+>           raise ValueError(f"external binding `{name}` is already queued")
+E           ValueError: external binding `eq_left_path` is already queued
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2515: ValueError
+
+The above exception was the direct cause of the following exception:
+
+scope = AssemblyScope(builder=BuilderHandle(graph=BuilderGraph(_instances={'Root': InstanceRecord(name='Root', composable=Basi...tive_engine_handle=None, _native_template_cache=None, _native_state_handle=None, _native_occurrence_by_build_prefix={})
+resource = ComposableResource(composable=BasicComposable(tree=<ast.Module object at 0x10b9235d0>, origin=CompileOrigin(file_name=...', 'None', 'IOError', 'dir', 'any', 'anext', 'UnicodeEncodeError'})), build_name='EqLeftValue', build_index=0, order=0)
+contribution = ContributionSpec(name='EqLeftValue', source_name='EqLeftRead', source_kind='resource', build_name='EqLeftValue', index...), bindings=(BindingSpec(kind='external', name='eq_left_path', value=ValueRef(name='CmpReadPath')),), diagnostic=False)
+stack = DataStack(value_dicts=({'CmpClassId': 'Declaration.current', 'CmpClassOrder': 1, 'CmpEq': True, 'CmpOrder': False, 'Cm...OperandOrder': 0, 'CmpReadPath': 'value', 'CmpCompare': True, 'CmpHashIncluded': False, 'CmpLast': True}), parent=None)
+root_mapping = {'Root': ('Root',), 'ClassDef': ('Root', 'ClassDef[0]'), 'ComparisonMethods': ('Root', 'ClassDef[0]', 'CurrentComparison'), 'EqMethod': ('Root', 'ClassDef[0]', 'CurrentComparison', 'EqMethod')}
+binding_groups = (((BindingSpec(kind='external', name='eq_left_path', value=ValueRef(name='CmpReadPath')),), DataStack(value_dicts=({'C...'value', 'CmpCompare': True, 'CmpHashIncluded': False, 'CmpLast': True}), parent=None), "contribution 'EqLeftValue'"),)
+
+    def _apply_resource_to_target(
+        scope: AssemblyScope,
+        resource: object,
+        contribution: ContributionSpec,
+        stack: DataStack,
+        *,
+        root_mapping: Mapping[str, tuple[str, ...]],
+        binding_groups: tuple[
+            tuple[tuple[BindingSpec, ...], DataStack, str],
+            ...,
+        ] = (),
+    ) -> AppliedTarget:
+        if contribution.target is None:
+            raise ValueError(f"contribution {contribution.name!r} must declare a target")
+        build_selectors = _target_selectors(
+            contribution.target.paths,
+            "build",
+            stack,
+            root_mapping=root_mapping,
+            context=f"contribution {contribution.name!r} build",
+        )
+        owner_selectors = _target_selectors(
+            contribution.target.paths,
+            "owner",
+            stack,
+            root_mapping=root_mapping,
+            context=f"contribution {contribution.name!r} owner",
+        )
+    
+        requests: list[BindingRequest] = []
+        request_build_matches: list[tuple[str, ...] | None] = []
+        for build_match in build_selectors:
+            for owner_match in owner_selectors:
+                requests.append(
+                    BindingRequest(
+                        resource,
+                        name=contribution.target.name,
+                        build_match=build_match,
+                        owner_match=owner_match,
+                    )
+                )
+                request_build_matches.append(build_match)
+        if _can_chain_contribution_requests(request_build_matches, owner_selectors):
+            build_match = request_build_matches[0]
+            assert build_match is not None
+            concrete_build_path = build_match + (resource.instance_name,)
+            chained_requests = list(requests)
+            for bindings, binding_stack, _binding_context in binding_groups:
+                chained_requests.extend(
+                    _binding_requests(
+                        bindings,
+                        binding_stack,
+                        build_match=concrete_build_path,
+                    )
+                )
+            try:
+>               scope.apply_batch(tuple(chained_requests))
+
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:609: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:488: in apply_batch
+    return self._apply_batch_uncounted(request_tuple)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = AssemblyScope(builder=BuilderHandle(graph=BuilderGraph(_instances={'Root': InstanceRecord(name='Root', composable=Basi...tive_engine_handle=None, _native_template_cache=None, _native_state_handle=None, _native_occurrence_by_build_prefix={})
+requests = (BindingRequest(resource=ComposableResource(composable=BasicComposable(tree=<ast.Module object at 0x10b9235d0>, origin...lassDef[0]', 'CurrentComparison', 'EqMethod', 'EqLeftValue[0]'), owner_match=None, allow_equivalent_demand_sites=True))
+
+    def _apply_batch_uncounted(
+        self,
+        requests: tuple[BindingRequest, ...],
+    ) -> tuple[BindingCandidate, ...]:
+        native_candidates = self._try_apply_native_batch(requests)
+        if native_candidates is not None:
+            return native_candidates
+        applied: list[BindingCandidate] = []
+        candidate_count = 0
+        for request in requests:
+            try:
+                candidates = self._find_candidates(
+                    request.resource,
+                    DemandSelector(
+                        name=request.name,
+                        build_match=request.build_match,
+                        owner_match=request.owner_match,
+                    ),
+                )
+                candidate_count += len(candidates)
+                candidate = _select_batch_candidate(
+                    candidates,
+                    allow_equivalent_demand_sites=(
+                        request.allow_equivalent_demand_sites
+                    ),
+                )
+                self._apply_candidate(candidate, count_compatibility_kind=False)
+            except ValueError as exc:
+                label = (
+                    f" {request.name!r}"
+                    if request.name is not None
+                    else f" for {type(request.resource).__name__}"
+                )
+>               raise ValueError(f"failed to apply binding request{label}") from exc
+E               ValueError: failed to apply binding request 'eq_left_path'
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:528: ValueError
+
+The above exception was the direct cause of the following exception:
+
+cls = <class 'test_comparison_definitions.test_direct_lifecycle_markers_stay_valid_with_original_write_policy.<locals>.Declaration'>
+eq = True, order = False
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+>           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:71: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1293: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1290: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:276: in _run_production
+    _run_production_edges(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:319: in _run_production_edges
+    _run_edge(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:375: in _run_edge
+    _apply_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:426: in _apply_contribution
+    _apply_production_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:531: in _apply_production_contribution
+    _run_production_edges(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:319: in _run_production_edges
+    _run_edge(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:375: in _run_edge
+    _apply_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:426: in _apply_contribution
+    _apply_production_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:531: in _apply_production_contribution
+    _run_production_edges(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:319: in _run_production_edges
+    _run_edge(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:375: in _run_edge
+    _apply_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:426: in _apply_contribution
+    _apply_production_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:531: in _apply_production_contribution
+    _run_production_edges(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:319: in _run_production_edges
+    _run_edge(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:375: in _run_edge
+    _apply_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:458: in _apply_contribution
+    applied = _apply_resource_to_target(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+scope = AssemblyScope(builder=BuilderHandle(graph=BuilderGraph(_instances={'Root': InstanceRecord(name='Root', composable=Basi...tive_engine_handle=None, _native_template_cache=None, _native_state_handle=None, _native_occurrence_by_build_prefix={})
+resource = ComposableResource(composable=BasicComposable(tree=<ast.Module object at 0x10b9235d0>, origin=CompileOrigin(file_name=...', 'None', 'IOError', 'dir', 'any', 'anext', 'UnicodeEncodeError'})), build_name='EqLeftValue', build_index=0, order=0)
+contribution = ContributionSpec(name='EqLeftValue', source_name='EqLeftRead', source_kind='resource', build_name='EqLeftValue', index...), bindings=(BindingSpec(kind='external', name='eq_left_path', value=ValueRef(name='CmpReadPath')),), diagnostic=False)
+stack = DataStack(value_dicts=({'CmpClassId': 'Declaration.current', 'CmpClassOrder': 1, 'CmpEq': True, 'CmpOrder': False, 'Cm...OperandOrder': 0, 'CmpReadPath': 'value', 'CmpCompare': True, 'CmpHashIncluded': False, 'CmpLast': True}), parent=None)
+root_mapping = {'Root': ('Root',), 'ClassDef': ('Root', 'ClassDef[0]'), 'ComparisonMethods': ('Root', 'ClassDef[0]', 'CurrentComparison'), 'EqMethod': ('Root', 'ClassDef[0]', 'CurrentComparison', 'EqMethod')}
+binding_groups = (((BindingSpec(kind='external', name='eq_left_path', value=ValueRef(name='CmpReadPath')),), DataStack(value_dicts=({'C...'value', 'CmpCompare': True, 'CmpHashIncluded': False, 'CmpLast': True}), parent=None), "contribution 'EqLeftValue'"),)
+
+    def _apply_resource_to_target(
+        scope: AssemblyScope,
+        resource: object,
+        contribution: ContributionSpec,
+        stack: DataStack,
+        *,
+        root_mapping: Mapping[str, tuple[str, ...]],
+        binding_groups: tuple[
+            tuple[tuple[BindingSpec, ...], DataStack, str],
+            ...,
+        ] = (),
+    ) -> AppliedTarget:
+        if contribution.target is None:
+            raise ValueError(f"contribution {contribution.name!r} must declare a target")
+        build_selectors = _target_selectors(
+            contribution.target.paths,
+            "build",
+            stack,
+            root_mapping=root_mapping,
+            context=f"contribution {contribution.name!r} build",
+        )
+        owner_selectors = _target_selectors(
+            contribution.target.paths,
+            "owner",
+            stack,
+            root_mapping=root_mapping,
+            context=f"contribution {contribution.name!r} owner",
+        )
+    
+        requests: list[BindingRequest] = []
+        request_build_matches: list[tuple[str, ...] | None] = []
+        for build_match in build_selectors:
+            for owner_match in owner_selectors:
+                requests.append(
+                    BindingRequest(
+                        resource,
+                        name=contribution.target.name,
+                        build_match=build_match,
+                        owner_match=owner_match,
+                    )
+                )
+                request_build_matches.append(build_match)
+        if _can_chain_contribution_requests(request_build_matches, owner_selectors):
+            build_match = request_build_matches[0]
+            assert build_match is not None
+            concrete_build_path = build_match + (resource.instance_name,)
+            chained_requests = list(requests)
+            for bindings, binding_stack, _binding_context in binding_groups:
+                chained_requests.extend(
+                    _binding_requests(
+                        bindings,
+                        binding_stack,
+                        build_match=concrete_build_path,
+                    )
+                )
+            try:
+                scope.apply_batch(tuple(chained_requests))
+            except ValueError as exc:
+>               raise ValueError(
+                    f"contribution {contribution.name!r}: failed to target "
+                    f"{contribution.target.name!r}"
+                ) from exc
+E               ValueError: contribution 'EqLeftValue': failed to target 'eq_left'
+
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:611: ValueError
+
+The above exception was the direct cause of the following exception:
+
+    def test_direct_lifecycle_markers_stay_valid_with_original_write_policy():
+        class Declaration:
+            value:int=lifecycle.managed(compare="identity",default=2)
+            cache:list=lifecycle.local_store(default_factory=list)
+>       Model=undoable(Declaration,eq=True)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_comparison_definitions.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:118: in undoable
+    return decorate if cls is None else decorate(cls)
+                                        ^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:117: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'test_comparison_definitions.test_direct_lifecycle_markers_stay_valid_with_original_write_policy.<locals>.Declaration'>
+eq = True, order = False
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        except Exception as exc:
+>           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: test_direct_lifecycle_markers_stay_valid_with_original_write_policy.<locals>.Declaration: Undoable AST generation/execution failed: contribution 'EqLeftValue': failed to target 'eq_left'
+
+src/yidl_undoable/undoable.py:96: LifecycleDefinitionError
+_ test_disabled_child_restores_identity_instead_of_inheriting_structural_methods _
+
+self = AssemblyScope(builder=BuilderHandle(graph=BuilderGraph(_instances={'Root': InstanceRecord(name='Root', composable=Basi...tive_engine_handle=None, _native_template_cache=None, _native_state_handle=None, _native_occurrence_by_build_prefix={})
+requests = (BindingRequest(resource=ComposableResource(composable=BasicComposable(tree=<ast.Module object at 0x10b9235d0>, origin...lassDef[0]', 'CurrentComparison', 'EqMethod', 'EqLeftValue[0]'), owner_match=None, allow_equivalent_demand_sites=True))
+
+    def _apply_batch_uncounted(
+        self,
+        requests: tuple[BindingRequest, ...],
+    ) -> tuple[BindingCandidate, ...]:
+        native_candidates = self._try_apply_native_batch(requests)
+        if native_candidates is not None:
+            return native_candidates
+        applied: list[BindingCandidate] = []
+        candidate_count = 0
+        for request in requests:
+            try:
+                candidates = self._find_candidates(
+                    request.resource,
+                    DemandSelector(
+                        name=request.name,
+                        build_match=request.build_match,
+                        owner_match=request.owner_match,
+                    ),
+                )
+                candidate_count += len(candidates)
+                candidate = _select_batch_candidate(
+                    candidates,
+                    allow_equivalent_demand_sites=(
+                        request.allow_equivalent_demand_sites
+                    ),
+                )
+>               self._apply_candidate(candidate, count_compatibility_kind=False)
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:521: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:973: in _apply_candidate
+    self._apply_external_value(candidate)
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1118: in _apply_external_value
+    self._queue_external_bind(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = AssemblyScope(builder=BuilderHandle(graph=BuilderGraph(_instances={'Root': InstanceRecord(name='Root', composable=Basi...tive_engine_handle=None, _native_template_cache=None, _native_state_handle=None, _native_occurrence_by_build_prefix={})
+owner = 'EqLeftValue[0]', name = 'eq_left_path', value = 'value'
+
+    def _queue_external_bind(self, owner: str, name: str, value: object) -> None:
+        owner_binds = self._pending_external_binds_by_owner.setdefault(owner, {})
+        if name in owner_binds:
+>           raise ValueError(f"external binding `{name}` is already queued")
+E           ValueError: external binding `eq_left_path` is already queued
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2515: ValueError
+
+The above exception was the direct cause of the following exception:
+
+scope = AssemblyScope(builder=BuilderHandle(graph=BuilderGraph(_instances={'Root': InstanceRecord(name='Root', composable=Basi...tive_engine_handle=None, _native_template_cache=None, _native_state_handle=None, _native_occurrence_by_build_prefix={})
+resource = ComposableResource(composable=BasicComposable(tree=<ast.Module object at 0x10b9235d0>, origin=CompileOrigin(file_name=...', 'None', 'IOError', 'dir', 'any', 'anext', 'UnicodeEncodeError'})), build_name='EqLeftValue', build_index=0, order=0)
+contribution = ContributionSpec(name='EqLeftValue', source_name='EqLeftRead', source_kind='resource', build_name='EqLeftValue', index...), bindings=(BindingSpec(kind='external', name='eq_left_path', value=ValueRef(name='CmpReadPath')),), diagnostic=False)
+stack = DataStack(value_dicts=({'CmpClassId': 'Base.current', 'CmpClassOrder': 1, 'CmpEq': True, 'CmpOrder': True, 'CmpHash': ...OperandOrder': 0, 'CmpReadPath': 'value', 'CmpCompare': True, 'CmpHashIncluded': False, 'CmpLast': True}), parent=None)
+root_mapping = {'Root': ('Root',), 'ClassDef': ('Root', 'ClassDef[0]'), 'ComparisonMethods': ('Root', 'ClassDef[0]', 'CurrentComparison'), 'EqMethod': ('Root', 'ClassDef[0]', 'CurrentComparison', 'EqMethod')}
+binding_groups = (((BindingSpec(kind='external', name='eq_left_path', value=ValueRef(name='CmpReadPath')),), DataStack(value_dicts=({'C...'value', 'CmpCompare': True, 'CmpHashIncluded': False, 'CmpLast': True}), parent=None), "contribution 'EqLeftValue'"),)
+
+    def _apply_resource_to_target(
+        scope: AssemblyScope,
+        resource: object,
+        contribution: ContributionSpec,
+        stack: DataStack,
+        *,
+        root_mapping: Mapping[str, tuple[str, ...]],
+        binding_groups: tuple[
+            tuple[tuple[BindingSpec, ...], DataStack, str],
+            ...,
+        ] = (),
+    ) -> AppliedTarget:
+        if contribution.target is None:
+            raise ValueError(f"contribution {contribution.name!r} must declare a target")
+        build_selectors = _target_selectors(
+            contribution.target.paths,
+            "build",
+            stack,
+            root_mapping=root_mapping,
+            context=f"contribution {contribution.name!r} build",
+        )
+        owner_selectors = _target_selectors(
+            contribution.target.paths,
+            "owner",
+            stack,
+            root_mapping=root_mapping,
+            context=f"contribution {contribution.name!r} owner",
+        )
+    
+        requests: list[BindingRequest] = []
+        request_build_matches: list[tuple[str, ...] | None] = []
+        for build_match in build_selectors:
+            for owner_match in owner_selectors:
+                requests.append(
+                    BindingRequest(
+                        resource,
+                        name=contribution.target.name,
+                        build_match=build_match,
+                        owner_match=owner_match,
+                    )
+                )
+                request_build_matches.append(build_match)
+        if _can_chain_contribution_requests(request_build_matches, owner_selectors):
+            build_match = request_build_matches[0]
+            assert build_match is not None
+            concrete_build_path = build_match + (resource.instance_name,)
+            chained_requests = list(requests)
+            for bindings, binding_stack, _binding_context in binding_groups:
+                chained_requests.extend(
+                    _binding_requests(
+                        bindings,
+                        binding_stack,
+                        build_match=concrete_build_path,
+                    )
+                )
+            try:
+>               scope.apply_batch(tuple(chained_requests))
+
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:609: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:488: in apply_batch
+    return self._apply_batch_uncounted(request_tuple)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = AssemblyScope(builder=BuilderHandle(graph=BuilderGraph(_instances={'Root': InstanceRecord(name='Root', composable=Basi...tive_engine_handle=None, _native_template_cache=None, _native_state_handle=None, _native_occurrence_by_build_prefix={})
+requests = (BindingRequest(resource=ComposableResource(composable=BasicComposable(tree=<ast.Module object at 0x10b9235d0>, origin...lassDef[0]', 'CurrentComparison', 'EqMethod', 'EqLeftValue[0]'), owner_match=None, allow_equivalent_demand_sites=True))
+
+    def _apply_batch_uncounted(
+        self,
+        requests: tuple[BindingRequest, ...],
+    ) -> tuple[BindingCandidate, ...]:
+        native_candidates = self._try_apply_native_batch(requests)
+        if native_candidates is not None:
+            return native_candidates
+        applied: list[BindingCandidate] = []
+        candidate_count = 0
+        for request in requests:
+            try:
+                candidates = self._find_candidates(
+                    request.resource,
+                    DemandSelector(
+                        name=request.name,
+                        build_match=request.build_match,
+                        owner_match=request.owner_match,
+                    ),
+                )
+                candidate_count += len(candidates)
+                candidate = _select_batch_candidate(
+                    candidates,
+                    allow_equivalent_demand_sites=(
+                        request.allow_equivalent_demand_sites
+                    ),
+                )
+                self._apply_candidate(candidate, count_compatibility_kind=False)
+            except ValueError as exc:
+                label = (
+                    f" {request.name!r}"
+                    if request.name is not None
+                    else f" for {type(request.resource).__name__}"
+                )
+>               raise ValueError(f"failed to apply binding request{label}") from exc
+E               ValueError: failed to apply binding request 'eq_left_path'
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:528: ValueError
+
+The above exception was the direct cause of the following exception:
+
+cls = <class 'test_comparison_definitions.test_disabled_child_restores_identity_instead_of_inheriting_structural_methods.<locals>.Base'>
+eq = True, order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+>           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:71: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1293: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1290: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:276: in _run_production
+    _run_production_edges(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:319: in _run_production_edges
+    _run_edge(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:375: in _run_edge
+    _apply_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:426: in _apply_contribution
+    _apply_production_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:531: in _apply_production_contribution
+    _run_production_edges(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:319: in _run_production_edges
+    _run_edge(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:375: in _run_edge
+    _apply_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:426: in _apply_contribution
+    _apply_production_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:531: in _apply_production_contribution
+    _run_production_edges(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:319: in _run_production_edges
+    _run_edge(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:375: in _run_edge
+    _apply_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:426: in _apply_contribution
+    _apply_production_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:531: in _apply_production_contribution
+    _run_production_edges(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:319: in _run_production_edges
+    _run_edge(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:375: in _run_edge
+    _apply_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:458: in _apply_contribution
+    applied = _apply_resource_to_target(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+scope = AssemblyScope(builder=BuilderHandle(graph=BuilderGraph(_instances={'Root': InstanceRecord(name='Root', composable=Basi...tive_engine_handle=None, _native_template_cache=None, _native_state_handle=None, _native_occurrence_by_build_prefix={})
+resource = ComposableResource(composable=BasicComposable(tree=<ast.Module object at 0x10b9235d0>, origin=CompileOrigin(file_name=...', 'None', 'IOError', 'dir', 'any', 'anext', 'UnicodeEncodeError'})), build_name='EqLeftValue', build_index=0, order=0)
+contribution = ContributionSpec(name='EqLeftValue', source_name='EqLeftRead', source_kind='resource', build_name='EqLeftValue', index...), bindings=(BindingSpec(kind='external', name='eq_left_path', value=ValueRef(name='CmpReadPath')),), diagnostic=False)
+stack = DataStack(value_dicts=({'CmpClassId': 'Base.current', 'CmpClassOrder': 1, 'CmpEq': True, 'CmpOrder': True, 'CmpHash': ...OperandOrder': 0, 'CmpReadPath': 'value', 'CmpCompare': True, 'CmpHashIncluded': False, 'CmpLast': True}), parent=None)
+root_mapping = {'Root': ('Root',), 'ClassDef': ('Root', 'ClassDef[0]'), 'ComparisonMethods': ('Root', 'ClassDef[0]', 'CurrentComparison'), 'EqMethod': ('Root', 'ClassDef[0]', 'CurrentComparison', 'EqMethod')}
+binding_groups = (((BindingSpec(kind='external', name='eq_left_path', value=ValueRef(name='CmpReadPath')),), DataStack(value_dicts=({'C...'value', 'CmpCompare': True, 'CmpHashIncluded': False, 'CmpLast': True}), parent=None), "contribution 'EqLeftValue'"),)
+
+    def _apply_resource_to_target(
+        scope: AssemblyScope,
+        resource: object,
+        contribution: ContributionSpec,
+        stack: DataStack,
+        *,
+        root_mapping: Mapping[str, tuple[str, ...]],
+        binding_groups: tuple[
+            tuple[tuple[BindingSpec, ...], DataStack, str],
+            ...,
+        ] = (),
+    ) -> AppliedTarget:
+        if contribution.target is None:
+            raise ValueError(f"contribution {contribution.name!r} must declare a target")
+        build_selectors = _target_selectors(
+            contribution.target.paths,
+            "build",
+            stack,
+            root_mapping=root_mapping,
+            context=f"contribution {contribution.name!r} build",
+        )
+        owner_selectors = _target_selectors(
+            contribution.target.paths,
+            "owner",
+            stack,
+            root_mapping=root_mapping,
+            context=f"contribution {contribution.name!r} owner",
+        )
+    
+        requests: list[BindingRequest] = []
+        request_build_matches: list[tuple[str, ...] | None] = []
+        for build_match in build_selectors:
+            for owner_match in owner_selectors:
+                requests.append(
+                    BindingRequest(
+                        resource,
+                        name=contribution.target.name,
+                        build_match=build_match,
+                        owner_match=owner_match,
+                    )
+                )
+                request_build_matches.append(build_match)
+        if _can_chain_contribution_requests(request_build_matches, owner_selectors):
+            build_match = request_build_matches[0]
+            assert build_match is not None
+            concrete_build_path = build_match + (resource.instance_name,)
+            chained_requests = list(requests)
+            for bindings, binding_stack, _binding_context in binding_groups:
+                chained_requests.extend(
+                    _binding_requests(
+                        bindings,
+                        binding_stack,
+                        build_match=concrete_build_path,
+                    )
+                )
+            try:
+                scope.apply_batch(tuple(chained_requests))
+            except ValueError as exc:
+>               raise ValueError(
+                    f"contribution {contribution.name!r}: failed to target "
+                    f"{contribution.target.name!r}"
+                ) from exc
+E               ValueError: contribution 'EqLeftValue': failed to target 'eq_left'
+
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:611: ValueError
+
+The above exception was the direct cause of the following exception:
+
+    def test_disabled_child_restores_identity_instead_of_inheriting_structural_methods():
+        from yidl_undoable import UndoRedoManager
+>       @undoable(eq=True,order=True)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_comparison_definitions.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:117: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'test_comparison_definitions.test_disabled_child_restores_identity_instead_of_inheriting_structural_methods.<locals>.Base'>
+eq = True, order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        except Exception as exc:
+>           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: test_disabled_child_restores_identity_instead_of_inheriting_structural_methods.<locals>.Base: Undoable AST generation/execution failed: contribution 'EqLeftValue': failed to target 'eq_left'
+
+src/yidl_undoable/undoable.py:96: LifecycleDefinitionError
+________ test_order_disabled_child_does_not_inherit_generated_ordering _________
+
+self = AssemblyScope(builder=BuilderHandle(graph=BuilderGraph(_instances={'Root': InstanceRecord(name='Root', composable=Basi...tive_engine_handle=None, _native_template_cache=None, _native_state_handle=None, _native_occurrence_by_build_prefix={})
+requests = (BindingRequest(resource=ComposableResource(composable=BasicComposable(tree=<ast.Module object at 0x10b9235d0>, origin...lassDef[0]', 'CurrentComparison', 'EqMethod', 'EqLeftValue[0]'), owner_match=None, allow_equivalent_demand_sites=True))
+
+    def _apply_batch_uncounted(
+        self,
+        requests: tuple[BindingRequest, ...],
+    ) -> tuple[BindingCandidate, ...]:
+        native_candidates = self._try_apply_native_batch(requests)
+        if native_candidates is not None:
+            return native_candidates
+        applied: list[BindingCandidate] = []
+        candidate_count = 0
+        for request in requests:
+            try:
+                candidates = self._find_candidates(
+                    request.resource,
+                    DemandSelector(
+                        name=request.name,
+                        build_match=request.build_match,
+                        owner_match=request.owner_match,
+                    ),
+                )
+                candidate_count += len(candidates)
+                candidate = _select_batch_candidate(
+                    candidates,
+                    allow_equivalent_demand_sites=(
+                        request.allow_equivalent_demand_sites
+                    ),
+                )
+>               self._apply_candidate(candidate, count_compatibility_kind=False)
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:521: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:973: in _apply_candidate
+    self._apply_external_value(candidate)
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1118: in _apply_external_value
+    self._queue_external_bind(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = AssemblyScope(builder=BuilderHandle(graph=BuilderGraph(_instances={'Root': InstanceRecord(name='Root', composable=Basi...tive_engine_handle=None, _native_template_cache=None, _native_state_handle=None, _native_occurrence_by_build_prefix={})
+owner = 'EqLeftValue[0]', name = 'eq_left_path', value = 'value'
+
+    def _queue_external_bind(self, owner: str, name: str, value: object) -> None:
+        owner_binds = self._pending_external_binds_by_owner.setdefault(owner, {})
+        if name in owner_binds:
+>           raise ValueError(f"external binding `{name}` is already queued")
+E           ValueError: external binding `eq_left_path` is already queued
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2515: ValueError
+
+The above exception was the direct cause of the following exception:
+
+scope = AssemblyScope(builder=BuilderHandle(graph=BuilderGraph(_instances={'Root': InstanceRecord(name='Root', composable=Basi...tive_engine_handle=None, _native_template_cache=None, _native_state_handle=None, _native_occurrence_by_build_prefix={})
+resource = ComposableResource(composable=BasicComposable(tree=<ast.Module object at 0x10b9235d0>, origin=CompileOrigin(file_name=...', 'None', 'IOError', 'dir', 'any', 'anext', 'UnicodeEncodeError'})), build_name='EqLeftValue', build_index=0, order=0)
+contribution = ContributionSpec(name='EqLeftValue', source_name='EqLeftRead', source_kind='resource', build_name='EqLeftValue', index...), bindings=(BindingSpec(kind='external', name='eq_left_path', value=ValueRef(name='CmpReadPath')),), diagnostic=False)
+stack = DataStack(value_dicts=({'CmpClassId': 'Base.current', 'CmpClassOrder': 1, 'CmpEq': True, 'CmpOrder': True, 'CmpHash': ...OperandOrder': 0, 'CmpReadPath': 'value', 'CmpCompare': True, 'CmpHashIncluded': False, 'CmpLast': True}), parent=None)
+root_mapping = {'Root': ('Root',), 'ClassDef': ('Root', 'ClassDef[0]'), 'ComparisonMethods': ('Root', 'ClassDef[0]', 'CurrentComparison'), 'EqMethod': ('Root', 'ClassDef[0]', 'CurrentComparison', 'EqMethod')}
+binding_groups = (((BindingSpec(kind='external', name='eq_left_path', value=ValueRef(name='CmpReadPath')),), DataStack(value_dicts=({'C...'value', 'CmpCompare': True, 'CmpHashIncluded': False, 'CmpLast': True}), parent=None), "contribution 'EqLeftValue'"),)
+
+    def _apply_resource_to_target(
+        scope: AssemblyScope,
+        resource: object,
+        contribution: ContributionSpec,
+        stack: DataStack,
+        *,
+        root_mapping: Mapping[str, tuple[str, ...]],
+        binding_groups: tuple[
+            tuple[tuple[BindingSpec, ...], DataStack, str],
+            ...,
+        ] = (),
+    ) -> AppliedTarget:
+        if contribution.target is None:
+            raise ValueError(f"contribution {contribution.name!r} must declare a target")
+        build_selectors = _target_selectors(
+            contribution.target.paths,
+            "build",
+            stack,
+            root_mapping=root_mapping,
+            context=f"contribution {contribution.name!r} build",
+        )
+        owner_selectors = _target_selectors(
+            contribution.target.paths,
+            "owner",
+            stack,
+            root_mapping=root_mapping,
+            context=f"contribution {contribution.name!r} owner",
+        )
+    
+        requests: list[BindingRequest] = []
+        request_build_matches: list[tuple[str, ...] | None] = []
+        for build_match in build_selectors:
+            for owner_match in owner_selectors:
+                requests.append(
+                    BindingRequest(
+                        resource,
+                        name=contribution.target.name,
+                        build_match=build_match,
+                        owner_match=owner_match,
+                    )
+                )
+                request_build_matches.append(build_match)
+        if _can_chain_contribution_requests(request_build_matches, owner_selectors):
+            build_match = request_build_matches[0]
+            assert build_match is not None
+            concrete_build_path = build_match + (resource.instance_name,)
+            chained_requests = list(requests)
+            for bindings, binding_stack, _binding_context in binding_groups:
+                chained_requests.extend(
+                    _binding_requests(
+                        bindings,
+                        binding_stack,
+                        build_match=concrete_build_path,
+                    )
+                )
+            try:
+>               scope.apply_batch(tuple(chained_requests))
+
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:609: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:488: in apply_batch
+    return self._apply_batch_uncounted(request_tuple)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = AssemblyScope(builder=BuilderHandle(graph=BuilderGraph(_instances={'Root': InstanceRecord(name='Root', composable=Basi...tive_engine_handle=None, _native_template_cache=None, _native_state_handle=None, _native_occurrence_by_build_prefix={})
+requests = (BindingRequest(resource=ComposableResource(composable=BasicComposable(tree=<ast.Module object at 0x10b9235d0>, origin...lassDef[0]', 'CurrentComparison', 'EqMethod', 'EqLeftValue[0]'), owner_match=None, allow_equivalent_demand_sites=True))
+
+    def _apply_batch_uncounted(
+        self,
+        requests: tuple[BindingRequest, ...],
+    ) -> tuple[BindingCandidate, ...]:
+        native_candidates = self._try_apply_native_batch(requests)
+        if native_candidates is not None:
+            return native_candidates
+        applied: list[BindingCandidate] = []
+        candidate_count = 0
+        for request in requests:
+            try:
+                candidates = self._find_candidates(
+                    request.resource,
+                    DemandSelector(
+                        name=request.name,
+                        build_match=request.build_match,
+                        owner_match=request.owner_match,
+                    ),
+                )
+                candidate_count += len(candidates)
+                candidate = _select_batch_candidate(
+                    candidates,
+                    allow_equivalent_demand_sites=(
+                        request.allow_equivalent_demand_sites
+                    ),
+                )
+                self._apply_candidate(candidate, count_compatibility_kind=False)
+            except ValueError as exc:
+                label = (
+                    f" {request.name!r}"
+                    if request.name is not None
+                    else f" for {type(request.resource).__name__}"
+                )
+>               raise ValueError(f"failed to apply binding request{label}") from exc
+E               ValueError: failed to apply binding request 'eq_left_path'
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:528: ValueError
+
+The above exception was the direct cause of the following exception:
+
+cls = <class 'test_comparison_definitions.test_order_disabled_child_does_not_inherit_generated_ordering.<locals>.Base'>
+eq = True, order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+>           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:71: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1293: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1290: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:276: in _run_production
+    _run_production_edges(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:319: in _run_production_edges
+    _run_edge(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:375: in _run_edge
+    _apply_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:426: in _apply_contribution
+    _apply_production_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:531: in _apply_production_contribution
+    _run_production_edges(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:319: in _run_production_edges
+    _run_edge(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:375: in _run_edge
+    _apply_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:426: in _apply_contribution
+    _apply_production_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:531: in _apply_production_contribution
+    _run_production_edges(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:319: in _run_production_edges
+    _run_edge(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:375: in _run_edge
+    _apply_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:426: in _apply_contribution
+    _apply_production_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:531: in _apply_production_contribution
+    _run_production_edges(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:319: in _run_production_edges
+    _run_edge(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:375: in _run_edge
+    _apply_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:458: in _apply_contribution
+    applied = _apply_resource_to_target(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+scope = AssemblyScope(builder=BuilderHandle(graph=BuilderGraph(_instances={'Root': InstanceRecord(name='Root', composable=Basi...tive_engine_handle=None, _native_template_cache=None, _native_state_handle=None, _native_occurrence_by_build_prefix={})
+resource = ComposableResource(composable=BasicComposable(tree=<ast.Module object at 0x10b9235d0>, origin=CompileOrigin(file_name=...', 'None', 'IOError', 'dir', 'any', 'anext', 'UnicodeEncodeError'})), build_name='EqLeftValue', build_index=0, order=0)
+contribution = ContributionSpec(name='EqLeftValue', source_name='EqLeftRead', source_kind='resource', build_name='EqLeftValue', index...), bindings=(BindingSpec(kind='external', name='eq_left_path', value=ValueRef(name='CmpReadPath')),), diagnostic=False)
+stack = DataStack(value_dicts=({'CmpClassId': 'Base.current', 'CmpClassOrder': 1, 'CmpEq': True, 'CmpOrder': True, 'CmpHash': ...OperandOrder': 0, 'CmpReadPath': 'value', 'CmpCompare': True, 'CmpHashIncluded': False, 'CmpLast': True}), parent=None)
+root_mapping = {'Root': ('Root',), 'ClassDef': ('Root', 'ClassDef[0]'), 'ComparisonMethods': ('Root', 'ClassDef[0]', 'CurrentComparison'), 'EqMethod': ('Root', 'ClassDef[0]', 'CurrentComparison', 'EqMethod')}
+binding_groups = (((BindingSpec(kind='external', name='eq_left_path', value=ValueRef(name='CmpReadPath')),), DataStack(value_dicts=({'C...'value', 'CmpCompare': True, 'CmpHashIncluded': False, 'CmpLast': True}), parent=None), "contribution 'EqLeftValue'"),)
+
+    def _apply_resource_to_target(
+        scope: AssemblyScope,
+        resource: object,
+        contribution: ContributionSpec,
+        stack: DataStack,
+        *,
+        root_mapping: Mapping[str, tuple[str, ...]],
+        binding_groups: tuple[
+            tuple[tuple[BindingSpec, ...], DataStack, str],
+            ...,
+        ] = (),
+    ) -> AppliedTarget:
+        if contribution.target is None:
+            raise ValueError(f"contribution {contribution.name!r} must declare a target")
+        build_selectors = _target_selectors(
+            contribution.target.paths,
+            "build",
+            stack,
+            root_mapping=root_mapping,
+            context=f"contribution {contribution.name!r} build",
+        )
+        owner_selectors = _target_selectors(
+            contribution.target.paths,
+            "owner",
+            stack,
+            root_mapping=root_mapping,
+            context=f"contribution {contribution.name!r} owner",
+        )
+    
+        requests: list[BindingRequest] = []
+        request_build_matches: list[tuple[str, ...] | None] = []
+        for build_match in build_selectors:
+            for owner_match in owner_selectors:
+                requests.append(
+                    BindingRequest(
+                        resource,
+                        name=contribution.target.name,
+                        build_match=build_match,
+                        owner_match=owner_match,
+                    )
+                )
+                request_build_matches.append(build_match)
+        if _can_chain_contribution_requests(request_build_matches, owner_selectors):
+            build_match = request_build_matches[0]
+            assert build_match is not None
+            concrete_build_path = build_match + (resource.instance_name,)
+            chained_requests = list(requests)
+            for bindings, binding_stack, _binding_context in binding_groups:
+                chained_requests.extend(
+                    _binding_requests(
+                        bindings,
+                        binding_stack,
+                        build_match=concrete_build_path,
+                    )
+                )
+            try:
+                scope.apply_batch(tuple(chained_requests))
+            except ValueError as exc:
+>               raise ValueError(
+                    f"contribution {contribution.name!r}: failed to target "
+                    f"{contribution.target.name!r}"
+                ) from exc
+E               ValueError: contribution 'EqLeftValue': failed to target 'eq_left'
+
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:611: ValueError
+
+The above exception was the direct cause of the following exception:
+
+    def test_order_disabled_child_does_not_inherit_generated_ordering():
+        from yidl_undoable import UndoRedoManager
+>       @undoable(eq=True,order=True)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_comparison_definitions.py:85: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:117: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'test_comparison_definitions.test_order_disabled_child_does_not_inherit_generated_ordering.<locals>.Base'>
+eq = True, order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        except Exception as exc:
+>           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: test_order_disabled_child_does_not_inherit_generated_ordering.<locals>.Base: Undoable AST generation/execution failed: contribution 'EqLeftValue': failed to target 'eq_left'
+
+src/yidl_undoable/undoable.py:96: LifecycleDefinitionError
+________________ test_generated_story[21_undoable_comparisons] _________________
+
+self = AssemblyScope(builder=BuilderHandle(graph=BuilderGraph(_instances={'Root': InstanceRecord(name='Root', composable=Basi...tive_engine_handle=None, _native_template_cache=None, _native_state_handle=None, _native_occurrence_by_build_prefix={})
+requests = (BindingRequest(resource=ComposableResource(composable=BasicComposable(tree=<ast.Module object at 0x10b9235d0>, origin...lassDef[0]', 'CurrentComparison', 'EqMethod', 'EqLeftValue[0]'), owner_match=None, allow_equivalent_demand_sites=True))
+
+    def _apply_batch_uncounted(
+        self,
+        requests: tuple[BindingRequest, ...],
+    ) -> tuple[BindingCandidate, ...]:
+        native_candidates = self._try_apply_native_batch(requests)
+        if native_candidates is not None:
+            return native_candidates
+        applied: list[BindingCandidate] = []
+        candidate_count = 0
+        for request in requests:
+            try:
+                candidates = self._find_candidates(
+                    request.resource,
+                    DemandSelector(
+                        name=request.name,
+                        build_match=request.build_match,
+                        owner_match=request.owner_match,
+                    ),
+                )
+                candidate_count += len(candidates)
+                candidate = _select_batch_candidate(
+                    candidates,
+                    allow_equivalent_demand_sites=(
+                        request.allow_equivalent_demand_sites
+                    ),
+                )
+>               self._apply_candidate(candidate, count_compatibility_kind=False)
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:521: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:973: in _apply_candidate
+    self._apply_external_value(candidate)
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1118: in _apply_external_value
+    self._queue_external_bind(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = AssemblyScope(builder=BuilderHandle(graph=BuilderGraph(_instances={'Root': InstanceRecord(name='Root', composable=Basi...tive_engine_handle=None, _native_template_cache=None, _native_state_handle=None, _native_occurrence_by_build_prefix={})
+owner = 'EqLeftValue[0]', name = 'eq_left_path', value = 'sku'
+
+    def _queue_external_bind(self, owner: str, name: str, value: object) -> None:
+        owner_binds = self._pending_external_binds_by_owner.setdefault(owner, {})
+        if name in owner_binds:
+>           raise ValueError(f"external binding `{name}` is already queued")
+E           ValueError: external binding `eq_left_path` is already queued
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2515: ValueError
+
+The above exception was the direct cause of the following exception:
+
+scope = AssemblyScope(builder=BuilderHandle(graph=BuilderGraph(_instances={'Root': InstanceRecord(name='Root', composable=Basi...tive_engine_handle=None, _native_template_cache=None, _native_state_handle=None, _native_occurrence_by_build_prefix={})
+resource = ComposableResource(composable=BasicComposable(tree=<ast.Module object at 0x10b9235d0>, origin=CompileOrigin(file_name=...', 'None', 'IOError', 'dir', 'any', 'anext', 'UnicodeEncodeError'})), build_name='EqLeftValue', build_index=0, order=0)
+contribution = ContributionSpec(name='EqLeftValue', source_name='EqLeftRead', source_kind='resource', build_name='EqLeftValue', index...), bindings=(BindingSpec(kind='external', name='eq_left_path', value=ValueRef(name='CmpReadPath')),), diagnostic=False)
+stack = DataStack(value_dicts=({'CmpClassId': 'Quote.current', 'CmpClassOrder': 1, 'CmpEq': True, 'CmpOrder': True, 'CmpHash':...pOperandOrder': 0, 'CmpReadPath': 'sku', 'CmpCompare': True, 'CmpHashIncluded': False, 'CmpLast': False}), parent=None)
+root_mapping = {'Root': ('Root',), 'ClassDef': ('Root', 'ClassDef[0]'), 'ComparisonMethods': ('Root', 'ClassDef[0]', 'CurrentComparison'), 'EqMethod': ('Root', 'ClassDef[0]', 'CurrentComparison', 'EqMethod')}
+binding_groups = (((BindingSpec(kind='external', name='eq_left_path', value=ValueRef(name='CmpReadPath')),), DataStack(value_dicts=({'C... 'sku', 'CmpCompare': True, 'CmpHashIncluded': False, 'CmpLast': False}), parent=None), "contribution 'EqLeftValue'"),)
+
+    def _apply_resource_to_target(
+        scope: AssemblyScope,
+        resource: object,
+        contribution: ContributionSpec,
+        stack: DataStack,
+        *,
+        root_mapping: Mapping[str, tuple[str, ...]],
+        binding_groups: tuple[
+            tuple[tuple[BindingSpec, ...], DataStack, str],
+            ...,
+        ] = (),
+    ) -> AppliedTarget:
+        if contribution.target is None:
+            raise ValueError(f"contribution {contribution.name!r} must declare a target")
+        build_selectors = _target_selectors(
+            contribution.target.paths,
+            "build",
+            stack,
+            root_mapping=root_mapping,
+            context=f"contribution {contribution.name!r} build",
+        )
+        owner_selectors = _target_selectors(
+            contribution.target.paths,
+            "owner",
+            stack,
+            root_mapping=root_mapping,
+            context=f"contribution {contribution.name!r} owner",
+        )
+    
+        requests: list[BindingRequest] = []
+        request_build_matches: list[tuple[str, ...] | None] = []
+        for build_match in build_selectors:
+            for owner_match in owner_selectors:
+                requests.append(
+                    BindingRequest(
+                        resource,
+                        name=contribution.target.name,
+                        build_match=build_match,
+                        owner_match=owner_match,
+                    )
+                )
+                request_build_matches.append(build_match)
+        if _can_chain_contribution_requests(request_build_matches, owner_selectors):
+            build_match = request_build_matches[0]
+            assert build_match is not None
+            concrete_build_path = build_match + (resource.instance_name,)
+            chained_requests = list(requests)
+            for bindings, binding_stack, _binding_context in binding_groups:
+                chained_requests.extend(
+                    _binding_requests(
+                        bindings,
+                        binding_stack,
+                        build_match=concrete_build_path,
+                    )
+                )
+            try:
+>               scope.apply_batch(tuple(chained_requests))
+
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:609: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:488: in apply_batch
+    return self._apply_batch_uncounted(request_tuple)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = AssemblyScope(builder=BuilderHandle(graph=BuilderGraph(_instances={'Root': InstanceRecord(name='Root', composable=Basi...tive_engine_handle=None, _native_template_cache=None, _native_state_handle=None, _native_occurrence_by_build_prefix={})
+requests = (BindingRequest(resource=ComposableResource(composable=BasicComposable(tree=<ast.Module object at 0x10b9235d0>, origin...lassDef[0]', 'CurrentComparison', 'EqMethod', 'EqLeftValue[0]'), owner_match=None, allow_equivalent_demand_sites=True))
+
+    def _apply_batch_uncounted(
+        self,
+        requests: tuple[BindingRequest, ...],
+    ) -> tuple[BindingCandidate, ...]:
+        native_candidates = self._try_apply_native_batch(requests)
+        if native_candidates is not None:
+            return native_candidates
+        applied: list[BindingCandidate] = []
+        candidate_count = 0
+        for request in requests:
+            try:
+                candidates = self._find_candidates(
+                    request.resource,
+                    DemandSelector(
+                        name=request.name,
+                        build_match=request.build_match,
+                        owner_match=request.owner_match,
+                    ),
+                )
+                candidate_count += len(candidates)
+                candidate = _select_batch_candidate(
+                    candidates,
+                    allow_equivalent_demand_sites=(
+                        request.allow_equivalent_demand_sites
+                    ),
+                )
+                self._apply_candidate(candidate, count_compatibility_kind=False)
+            except ValueError as exc:
+                label = (
+                    f" {request.name!r}"
+                    if request.name is not None
+                    else f" for {type(request.resource).__name__}"
+                )
+>               raise ValueError(f"failed to apply binding request{label}") from exc
+E               ValueError: failed to apply binding request 'eq_left_path'
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:528: ValueError
+
+The above exception was the direct cause of the following exception:
+
+cls = <class '__canonical__.Quote'>, eq = True, order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+>           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:71: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1293: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1290: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:276: in _run_production
+    _run_production_edges(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:319: in _run_production_edges
+    _run_edge(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:375: in _run_edge
+    _apply_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:426: in _apply_contribution
+    _apply_production_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:531: in _apply_production_contribution
+    _run_production_edges(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:319: in _run_production_edges
+    _run_edge(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:375: in _run_edge
+    _apply_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:426: in _apply_contribution
+    _apply_production_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:531: in _apply_production_contribution
+    _run_production_edges(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:319: in _run_production_edges
+    _run_edge(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:375: in _run_edge
+    _apply_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:426: in _apply_contribution
+    _apply_production_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:531: in _apply_production_contribution
+    _run_production_edges(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:319: in _run_production_edges
+    _run_edge(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:375: in _run_edge
+    _apply_contribution(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:458: in _apply_contribution
+    applied = _apply_resource_to_target(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+scope = AssemblyScope(builder=BuilderHandle(graph=BuilderGraph(_instances={'Root': InstanceRecord(name='Root', composable=Basi...tive_engine_handle=None, _native_template_cache=None, _native_state_handle=None, _native_occurrence_by_build_prefix={})
+resource = ComposableResource(composable=BasicComposable(tree=<ast.Module object at 0x10b9235d0>, origin=CompileOrigin(file_name=...', 'None', 'IOError', 'dir', 'any', 'anext', 'UnicodeEncodeError'})), build_name='EqLeftValue', build_index=0, order=0)
+contribution = ContributionSpec(name='EqLeftValue', source_name='EqLeftRead', source_kind='resource', build_name='EqLeftValue', index...), bindings=(BindingSpec(kind='external', name='eq_left_path', value=ValueRef(name='CmpReadPath')),), diagnostic=False)
+stack = DataStack(value_dicts=({'CmpClassId': 'Quote.current', 'CmpClassOrder': 1, 'CmpEq': True, 'CmpOrder': True, 'CmpHash':...pOperandOrder': 0, 'CmpReadPath': 'sku', 'CmpCompare': True, 'CmpHashIncluded': False, 'CmpLast': False}), parent=None)
+root_mapping = {'Root': ('Root',), 'ClassDef': ('Root', 'ClassDef[0]'), 'ComparisonMethods': ('Root', 'ClassDef[0]', 'CurrentComparison'), 'EqMethod': ('Root', 'ClassDef[0]', 'CurrentComparison', 'EqMethod')}
+binding_groups = (((BindingSpec(kind='external', name='eq_left_path', value=ValueRef(name='CmpReadPath')),), DataStack(value_dicts=({'C... 'sku', 'CmpCompare': True, 'CmpHashIncluded': False, 'CmpLast': False}), parent=None), "contribution 'EqLeftValue'"),)
+
+    def _apply_resource_to_target(
+        scope: AssemblyScope,
+        resource: object,
+        contribution: ContributionSpec,
+        stack: DataStack,
+        *,
+        root_mapping: Mapping[str, tuple[str, ...]],
+        binding_groups: tuple[
+            tuple[tuple[BindingSpec, ...], DataStack, str],
+            ...,
+        ] = (),
+    ) -> AppliedTarget:
+        if contribution.target is None:
+            raise ValueError(f"contribution {contribution.name!r} must declare a target")
+        build_selectors = _target_selectors(
+            contribution.target.paths,
+            "build",
+            stack,
+            root_mapping=root_mapping,
+            context=f"contribution {contribution.name!r} build",
+        )
+        owner_selectors = _target_selectors(
+            contribution.target.paths,
+            "owner",
+            stack,
+            root_mapping=root_mapping,
+            context=f"contribution {contribution.name!r} owner",
+        )
+    
+        requests: list[BindingRequest] = []
+        request_build_matches: list[tuple[str, ...] | None] = []
+        for build_match in build_selectors:
+            for owner_match in owner_selectors:
+                requests.append(
+                    BindingRequest(
+                        resource,
+                        name=contribution.target.name,
+                        build_match=build_match,
+                        owner_match=owner_match,
+                    )
+                )
+                request_build_matches.append(build_match)
+        if _can_chain_contribution_requests(request_build_matches, owner_selectors):
+            build_match = request_build_matches[0]
+            assert build_match is not None
+            concrete_build_path = build_match + (resource.instance_name,)
+            chained_requests = list(requests)
+            for bindings, binding_stack, _binding_context in binding_groups:
+                chained_requests.extend(
+                    _binding_requests(
+                        bindings,
+                        binding_stack,
+                        build_match=concrete_build_path,
+                    )
+                )
+            try:
+                scope.apply_batch(tuple(chained_requests))
+            except ValueError as exc:
+>               raise ValueError(
+                    f"contribution {contribution.name!r}: failed to target "
+                    f"{contribution.target.name!r}"
+                ) from exc
+E               ValueError: contribution 'EqLeftValue': failed to target 'eq_left'
+
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:611: ValueError
+
+The above exception was the direct cause of the following exception:
+
+story = PosixPath('[consumer-root]/tests/data/gold_src/21_undoable_comparisons.py')
+
+    @pytest.mark.parametrize("story", sorted(STORIES.glob("*.py")), ids=lambda p: p.stem)
+    def test_generated_story(story):
+>       actual = run_story(story)
+                 ^^^^^^^^^^^^^^^^
+
+tests/test_canonical.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/canonical_support.py:11: in run_story
+    namespace = runpy.run_path(str(story), run_name="__canonical__")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen runpy>:287: in run_path
+    ???
+<frozen runpy>:98: in _run_module_code
+    ???
+<frozen runpy>:88: in _run_code
+    ???
+tests/data/gold_src/21_undoable_comparisons.py:10: in <module>
+    @undoable(eq=True,order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:117: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class '__canonical__.Quote'>, eq = True, order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        except Exception as exc:
+>           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: Quote: Undoable AST generation/execution failed: contribution 'EqLeftValue': failed to target 'eq_left'
+
+src/yidl_undoable/undoable.py:96: LifecycleDefinitionError
+=========================== short test summary info ============================
+FAILED tests/test_comparison_definitions.py::test_direct_lifecycle_markers_stay_valid_with_original_write_policy
+FAILED tests/test_comparison_definitions.py::test_disabled_child_restores_identity_instead_of_inheriting_structural_methods
+FAILED tests/test_comparison_definitions.py::test_order_disabled_child_does_not_inherit_generated_ordering
+FAILED tests/test_canonical.py::test_generated_story[21_undoable_comparisons]
+4 failed, 58 passed, 21 deselected in 2.78s

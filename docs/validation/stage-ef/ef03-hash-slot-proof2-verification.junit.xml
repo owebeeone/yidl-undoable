@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.727" timestamp="2026-10-13T01:06:24.933307+11:00" hostname="[host]"><testcase classname="" name="tests.test_comparison_source" time="0.000"><error message="collection failure">tests/test_comparison_source.py:10: in &lt;module&gt;
+    @undoable(eq=True, order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:150: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:136: in _decorate
+    result = namespace["build_undoable_class"](base, schema=schema)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;undoable.Shape&gt;:47: in build_undoable_class
+    ???
+E   NameError: name 'base_cls__astichi_scoped_2' is not defined</error></testcase></testsuite></testsuites>

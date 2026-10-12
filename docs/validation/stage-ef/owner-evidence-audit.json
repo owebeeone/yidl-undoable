@@ -1,0 +1,348 @@
+{
+  "stage": "E/F",
+  "manifest_sha256": "cda9e277c1e57806b2d7be3d64792bf79efde201a0d749c30cf1f798bb60c6a2",
+  "owned_files": 256,
+  "increment_records": 79,
+  "artifact_references": 135,
+  "distinct_raw_hashes": 120,
+  "junit_files": 56,
+  "junit": {
+    "docs/validation/stage-ef/e01-red.junit.xml": {
+      "tests": 60,
+      "failures": 60,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/e01-inherited-red-red.junit.xml": {
+      "tests": 61,
+      "failures": 61,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/e01-first-green.junit.xml": {
+      "tests": 62,
+      "failures": 4,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/e01-second-green.junit.xml": {
+      "tests": 62,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/e01-final-green.junit.xml": {
+      "tests": 62,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/e02-removal-verification.junit.xml": {
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/e01-canonical-native-rust-green.junit.xml": {
+      "tests": 62,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/e01-canonical-python-green.junit.xml": {
+      "tests": 62,
+      "failures": 4,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/e01-global-operand-identity-green.junit.xml": {
+      "tests": 62,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/f01-red.junit.xml": {
+      "tests": 2,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/f01-thaw-red-red.junit.xml": {
+      "tests": 2,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/f02-native-before-verification.junit.xml": {
+      "tests": 27,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/f03-context-before-red.junit.xml": {
+      "tests": 19,
+      "failures": 19,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/f01-first-green-green.junit.xml": {
+      "tests": 2,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/f03-first-green-green.junit.xml": {
+      "tests": 46,
+      "failures": 18,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/f03-python-attempt-green.junit.xml": {
+      "tests": 46,
+      "failures": 18,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/f03-kept-native-rust-green.junit.xml": {
+      "tests": 46,
+      "failures": 18,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/f03-kept-python-green.junit.xml": {
+      "tests": 46,
+      "failures": 18,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/f03-carrier-native-rust-green.junit.xml": {
+      "tests": 46,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/f03-carrier-python-green.junit.xml": {
+      "tests": 46,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/f04-source-native-verification.junit.xml": {
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/f01-completed-green.junit.xml": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/f04-source-python-verification.junit.xml": {
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/f04-authority-runtime-verification.junit.xml": {
+      "tests": 5,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/f04-authority-corrected-verification.junit.xml": {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/f05-expanded-verification.junit.xml": {
+      "tests": 58,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef01-full-native-rust-312-verification.junit.xml": {
+      "tests": 337,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef01-full-native-rust-313-verification.junit.xml": {
+      "tests": 337,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef01-full-native-rust-314-verification.junit.xml": {
+      "tests": 337,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef01-full-python-312-verification.junit.xml": {
+      "tests": 337,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef01-full-python-313-verification.junit.xml": {
+      "tests": 337,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef01-full-python-314-verification.junit.xml": {
+      "tests": 337,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef02-view-index-red-red.junit.xml": {
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef02-view-index-first-green.junit.xml": {
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef02-native-bytecode-verification.junit.xml": {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef02-view-index-all-green.junit.xml": {
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef02-result-pass-green.junit.xml": {
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef03-hash-slot-red.junit.xml": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef03-hash-slot-proof-verification.junit.xml": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 1,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef03-hash-slot-proof2-verification.junit.xml": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 1,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef04-view-naming-green.junit.xml": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef06-final-native-rust-312-verification.junit.xml": {
+      "tests": 338,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef06-final-native-rust-313-verification.junit.xml": {
+      "tests": 338,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef06-final-native-rust-314-verification.junit.xml": {
+      "tests": 338,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef06-final-python-312-verification.junit.xml": {
+      "tests": 338,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef06-final-python-313-verification.junit.xml": {
+      "tests": 338,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef06-final-python-314-verification.junit.xml": {
+      "tests": 338,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef07-public-hash-source-red.junit.xml": {
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef07-public-hash-source-green.junit.xml": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef08-authority-negative-verification.junit.xml": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef09-final-native-rust-312-verification.junit.xml": {
+      "tests": 340,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef09-final-native-rust-313-verification.junit.xml": {
+      "tests": 340,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef09-final-native-rust-314-verification.junit.xml": {
+      "tests": 340,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef09-final-python-312-verification.junit.xml": {
+      "tests": 340,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef09-final-python-313-verification.junit.xml": {
+      "tests": 340,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "docs/validation/stage-ef/ef09-final-python-314-verification.junit.xml": {
+      "tests": 340,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "scope": "integrity/source-path audit; behavioral verdicts remain separately assessed"
+}

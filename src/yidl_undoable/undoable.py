@@ -1,9 +1,11 @@
 """Typed YIDL facts -> generated container -> Astichi AST -> executable builder."""
 
 import ast
+import sys
 from .undoable_harvester import harvest_undoable_definition
 from .facades import RuntimeFacade
 from .errors import UndoableDefinitionError
+from .write_comparison_context import _historical_write_scope
 from . import _generated_undoable_base as generated
 
 RECORDS = {
@@ -29,6 +31,8 @@ def build_composable(schema, *, generation_module=generated):
             class_name=schema.name,
             current_class_name=schema.name + "_Current",
             working_class_name=schema.name + "_Working",
+            restore_identity=schema.restore_identity,
+            restore_order=schema.restore_order,
         ),
     )
     for fact in schema.fields:
@@ -48,18 +52,76 @@ def build_composable(schema, *, generation_module=generated):
                     view=view,
                 ),
             )
+    if not hasattr(generated, "ComparisonClassesCollection"):
+        if schema.eq or schema.order:
+            raise UndoableDefinitionError(
+                "selected consumer layer has no comparison surface"
+            )
+        return generated.build_UndoableModule(generated.build_container(builder))
+    logical = [fact for fact in schema.fields if fact["logical_compare"]]
+    for view_order, view in enumerate(("default", "current", "working")):
+        owner = schema.name + "." + view
+        builder.add(
+            generated.ComparisonClassesCollection,
+            generated.ComparisonClass(
+                cmp_class_id=owner,
+                cmp_class_order=view_order,
+                cmp_eq=schema.eq,
+                cmp_order=schema.order,
+                cmp_hash_none=schema.eq,
+                use_tuple_equality=sys.version_info[:2] == (3, 12),
+                has_compare_operands=bool(logical),
+            ),
+        )
+        for index, fact in enumerate(logical):
+            builder.add(
+                generated.ComparisonOperandsCollection,
+                generated.ComparisonOperand(
+                    cmp_operand_id=owner + "." + fact["field_name"],
+                    cmp_owner=owner,
+                    cmp_operand_order=view_order * len(logical) + index,
+                    cmp_read_path=fact["field_name"],
+                    cmp_hash_included=False,
+                    cmp_last=index == len(logical) - 1,
+                ),
+            )
     return generated.build_UndoableModule(generated.build_container(builder))
 
 
-def undoable(cls):
+def _decorate(cls, *, eq, order):
     if not isinstance(cls, type):
         raise TypeError("@undoable can only decorate classes")
-    schema = harvest_undoable_definition(cls)
+    if eq:
+        for base in cls.__mro__:
+            if (
+                base in (object, RuntimeFacade)
+                or "__undoable_schema__" in base.__dict__
+            ):
+                continue
+            for name in (
+                "__eq__",
+                "__hash__",
+                *(("__lt__", "__le__", "__gt__", "__ge__") if order else ()),
+            ):
+                if name in base.__dict__:
+                    raise UndoableDefinitionError(
+                        f"{cls.__qualname__}: conflicting {name}"
+                    )
+    schema = harvest_undoable_definition(cls, eq=eq, order=order)
     try:
         composable = build_composable(schema)
         module = composable.to_executable_ast()
         source = ast.unparse(module) + "\n"
-        namespace = {"__name__": cls.__module__}
+        namespace = {
+            "__name__": cls.__module__,
+            "_u_historical_write_scope": _historical_write_scope,
+            "_u_historical_eq": RuntimeFacade.__eq__,
+            "_u_historical_hash": RuntimeFacade.__hash__,
+            "_u_object_lt": object.__lt__,
+            "_u_object_le": object.__le__,
+            "_u_object_gt": object.__gt__,
+            "_u_object_ge": object.__ge__,
+        }
         exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
     except Exception as exc:
         raise UndoableDefinitionError(
@@ -74,3 +136,16 @@ def undoable(cls):
     result.__module__, result.__qualname__ = cls.__module__, cls.__qualname__
     result.__undoable_source__ = source
     return result
+
+
+def undoable(cls=None, /, *, eq=False, order=False):
+    for name, value in (("eq", eq), ("order", order)):
+        if type(value) is not bool:
+            raise UndoableDefinitionError(f"{name} must be an exact bool")
+    if order and not eq:
+        raise UndoableDefinitionError("order requires eq=True")
+
+    def decorate(declaration):
+        return _decorate(declaration, eq=eq, order=order)
+
+    return decorate if cls is None else decorate(cls)

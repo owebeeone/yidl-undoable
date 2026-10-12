@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="19" skipped="0" tests="19" time="1.185" timestamp="2026-10-13T00:32:23.652895+11:00" hostname="[host]"><testcase classname="tests.test_write_comparison_context" name="test_opaque_callback_uses_historical_identity_inside_existing_fence" time="0.075"><failure message="assert [(True, False...plemented, 1)] == [(False, True, False, 1)]&#10;  &#10;  At index 0 diff: (True, False, NotImplemented, 1) != (False, True, False, 1)&#10;  Use -v to get more diff">def test_opaque_callback_uses_historical_identity_inside_existing_fence():
+        observations=[]
+        def callback(manager,a,b,other):
+            observations.append((a==b,a==a.current,a.__eq__(object()),manager._callback_depth))
+            return False
+        manager,a,b,parent,old=stage_callback(callback)
+        parent.value=object()
+&gt;       assert observations==[(False,True,False,1)]
+E       assert [(True, False...plemented, 1)] == [(False, True, False, 1)]
+E         
+E         At index 0 diff: (True, False, NotImplemented, 1) != (False, True, False, 1)
+E         Use -v to get more diff
+
+tests/test_write_comparison_context.py:46: AssertionError</failure></testcase><testcase classname="tests.test_write_comparison_context" name="test_equality_exception_closes_marker_and_preserves_identity_notes[failure0]" time="0.023"><failure message="ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)">failure = ValueError('equality')
+
+    @pytest.mark.parametrize("failure",(ValueError("equality"),KeyboardInterrupt("cancel")))
+    def test_equality_exception_closes_marker_and_preserves_identity_notes(failure):
+        captured=[]
+        def callback(manager,a,b,other):
+            captured.append(copy_context())
+            raise failure
+        manager,a,b,parent,old=stage_callback(callback)
+        with pytest.raises(type(failure)) as caught:parent.value=object()
+        assert caught.value is failure and any("comparison" in note for note in failure.__notes__)
+&gt;       module=scope_module();marker=captured[0].get(module._historical_write_scope)
+               ^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def scope_module():
+&gt;       from yidl_undoable import write_comparison_context
+E       ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)
+
+tests/test_write_comparison_context.py:24: ImportError</failure></testcase><testcase classname="tests.test_write_comparison_context" name="test_equality_exception_closes_marker_and_preserves_identity_notes[failure1]" time="0.025"><failure message="ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)">failure = KeyboardInterrupt('cancel')
+
+    @pytest.mark.parametrize("failure",(ValueError("equality"),KeyboardInterrupt("cancel")))
+    def test_equality_exception_closes_marker_and_preserves_identity_notes(failure):
+        captured=[]
+        def callback(manager,a,b,other):
+            captured.append(copy_context())
+            raise failure
+        manager,a,b,parent,old=stage_callback(callback)
+        with pytest.raises(type(failure)) as caught:parent.value=object()
+        assert caught.value is failure and any("comparison" in note for note in failure.__notes__)
+&gt;       module=scope_module();marker=captured[0].get(module._historical_write_scope)
+               ^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def scope_module():
+&gt;       from yidl_undoable import write_comparison_context
+E       ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)
+
+tests/test_write_comparison_context.py:24: ImportError</failure></testcase><testcase classname="tests.test_write_comparison_context" name="test_truth_conversion_exception_and_result_use_native_bool" time="0.020"><failure message="ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)">def test_truth_conversion_exception_and_result_use_native_bool():
+        captured=[];events=[];original=TypeError("truth")
+        class Result:
+            def __bool__(self):events.append("bool");raise original
+        def callback(manager,a,b,other):captured.append(copy_context());return Result()
+        manager,a,b,parent,old=stage_callback(callback)
+        with pytest.raises(TypeError) as caught:parent.value=object()
+        assert caught.value is original and events==["bool"]
+&gt;       module=scope_module();assert captured[0].get(module._historical_write_scope).active is False and a==b
+               ^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:74: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def scope_module():
+&gt;       from yidl_undoable import write_comparison_context
+E       ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)
+
+tests/test_write_comparison_context.py:24: ImportError</failure></testcase><testcase classname="tests.test_write_comparison_context" name="test_context_never_bypasses_manager_mutation_fence[begin]" time="0.030"><failure message="ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)">action = 'begin'
+
+    @pytest.mark.parametrize("action",("begin","rollback","undo","write"))
+    def test_context_never_bypasses_manager_mutation_fence(action):
+        captured=[]
+        def callback(manager,a,b,other):
+            captured.append(copy_context())
+            if action=="write":a.value=9
+            else:getattr(manager,action)()
+        manager,a,b,parent,old=stage_callback(callback);token=manager.active_transaction_for()
+        with pytest.raises(ReentrantOperationError):parent.value=object()
+        assert manager.active_transaction_for() is token and a==b and manager._callback_depth==0
+&gt;       module=scope_module();assert captured[0].get(module._historical_write_scope).active is False
+               ^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:88: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def scope_module():
+&gt;       from yidl_undoable import write_comparison_context
+E       ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)
+
+tests/test_write_comparison_context.py:24: ImportError</failure></testcase><testcase classname="tests.test_write_comparison_context" name="test_context_never_bypasses_manager_mutation_fence[rollback]" time="0.033"><failure message="ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)">action = 'rollback'
+
+    @pytest.mark.parametrize("action",("begin","rollback","undo","write"))
+    def test_context_never_bypasses_manager_mutation_fence(action):
+        captured=[]
+        def callback(manager,a,b,other):
+            captured.append(copy_context())
+            if action=="write":a.value=9
+            else:getattr(manager,action)()
+        manager,a,b,parent,old=stage_callback(callback);token=manager.active_transaction_for()
+        with pytest.raises(ReentrantOperationError):parent.value=object()
+        assert manager.active_transaction_for() is token and a==b and manager._callback_depth==0
+&gt;       module=scope_module();assert captured[0].get(module._historical_write_scope).active is False
+               ^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:88: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def scope_module():
+&gt;       from yidl_undoable import write_comparison_context
+E       ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)
+
+tests/test_write_comparison_context.py:24: ImportError</failure></testcase><testcase classname="tests.test_write_comparison_context" name="test_context_never_bypasses_manager_mutation_fence[undo]" time="0.026"><failure message="ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)">action = 'undo'
+
+    @pytest.mark.parametrize("action",("begin","rollback","undo","write"))
+    def test_context_never_bypasses_manager_mutation_fence(action):
+        captured=[]
+        def callback(manager,a,b,other):
+            captured.append(copy_context())
+            if action=="write":a.value=9
+            else:getattr(manager,action)()
+        manager,a,b,parent,old=stage_callback(callback);token=manager.active_transaction_for()
+        with pytest.raises(ReentrantOperationError):parent.value=object()
+        assert manager.active_transaction_for() is token and a==b and manager._callback_depth==0
+&gt;       module=scope_module();assert captured[0].get(module._historical_write_scope).active is False
+               ^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:88: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def scope_module():
+&gt;       from yidl_undoable import write_comparison_context
+E       ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)
+
+tests/test_write_comparison_context.py:24: ImportError</failure></testcase><testcase classname="tests.test_write_comparison_context" name="test_context_never_bypasses_manager_mutation_fence[write]" time="0.018"><failure message="ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)">action = 'write'
+
+    @pytest.mark.parametrize("action",("begin","rollback","undo","write"))
+    def test_context_never_bypasses_manager_mutation_fence(action):
+        captured=[]
+        def callback(manager,a,b,other):
+            captured.append(copy_context())
+            if action=="write":a.value=9
+            else:getattr(manager,action)()
+        manager,a,b,parent,old=stage_callback(callback);token=manager.active_transaction_for()
+        with pytest.raises(ReentrantOperationError):parent.value=object()
+        assert manager.active_transaction_for() is token and a==b and manager._callback_depth==0
+&gt;       module=scope_module();assert captured[0].get(module._historical_write_scope).active is False
+               ^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:88: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def scope_module():
+&gt;       from yidl_undoable import write_comparison_context
+E       ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)
+
+tests/test_write_comparison_context.py:24: ImportError</failure></testcase><testcase classname="tests.test_write_comparison_context" name="test_ownership_fault_closes_scope_before_fence_faults_manager" time="0.028"><failure message="ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)">def test_ownership_fault_closes_scope_before_fence_faults_manager():
+        captured=[]
+        def callback(manager,a,b,other):captured.append(copy_context());manager._edit=None;return False
+        manager,a,b,parent,old=stage_callback(callback)
+        with pytest.raises(HistoryFaultError):parent.value=object()
+&gt;       module=scope_module();assert captured[0].get(module._historical_write_scope).active is False
+               ^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:97: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def scope_module():
+&gt;       from yidl_undoable import write_comparison_context
+E       ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)
+
+tests/test_write_comparison_context.py:24: ImportError</failure></testcase><testcase classname="tests.test_write_comparison_context" name="test_nested_scopes_restore_outer_and_closed_inner_context_cannot_reactivate" time="0.038"><failure message="ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)">def test_nested_scopes_restore_outer_and_closed_inner_context_cannot_reactivate():
+&gt;       manager,a,b,parent=models();module=scope_module();captured=[];events=[]
+                                           ^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def scope_module():
+&gt;       from yidl_undoable import write_comparison_context
+E       ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)
+
+tests/test_write_comparison_context.py:24: ImportError</failure></testcase><testcase classname="tests.test_write_comparison_context" name="test_copied_and_empty_explicit_thread_contexts_expire_after_scope" time="0.033"><failure message="ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)">def test_copied_and_empty_explicit_thread_contexts_expire_after_scope():
+&gt;       manager,a,b,parent=models();module=scope_module();observations=[];captured=[]
+                                           ^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:124: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def scope_module():
+&gt;       from yidl_undoable import write_comparison_context
+E       ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)
+
+tests/test_write_comparison_context.py:24: ImportError</failure></testcase><testcase classname="tests.test_write_comparison_context" name="test_async_context_copies_before_and_after_closed_marker" time="0.028"><failure message="ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)">def test_async_context_copies_before_and_after_closed_marker():
+        async def scenario():
+            manager,a,b,parent=models();module=scope_module();observations=[];tasks=[]
+            async def later():observations.append(a==b)
+            class Value:
+                def __eq__(self,other):
+                    tasks.append(asyncio.create_task(later()))
+                    observations.append(copy_context().run(lambda:a==b))
+                    return True
+            assert module._historical_write_equal(Value(),object())
+            await tasks[0]
+            assert observations==[False,True] and a==b
+&gt;       asyncio.run(scenario())
+
+tests/test_write_comparison_context.py:148: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+[home]/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+[home]/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[home]/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests/test_write_comparison_context.py:138: in scenario
+    manager,a,b,parent=models();module=scope_module();observations=[];tasks=[]
+                                       ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def scope_module():
+&gt;       from yidl_undoable import write_comparison_context
+E       ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)
+
+tests/test_write_comparison_context.py:24: ImportError</failure></testcase><testcase classname="tests.test_write_comparison_context" name="test_scoped_order_remains_structural_and_hash_stays_disabled" time="0.021"><failure message="ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)">def test_scoped_order_remains_structural_and_hash_stays_disabled():
+&gt;       manager,a,b,parent=models();module=scope_module()
+                                           ^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:152: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def scope_module():
+&gt;       from yidl_undoable import write_comparison_context
+E       ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)
+
+tests/test_write_comparison_context.py:24: ImportError</failure></testcase><testcase classname="tests.test_write_comparison_context" name="test_cross_manager_nested_callback_restores_outer_scope_and_ownership" time="0.048"><failure message="ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)&#10;Parent.value: comparison">def test_cross_manager_nested_callback_restores_outer_scope_and_ownership():
+        second=[];captured=[];events=[]
+        def inner_callback(manager,a,b,other):
+            captured.append(copy_context());events.append(a==b);return False
+        inner_manager,inner_a,inner_b,inner_parent,inner_old=stage_callback(inner_callback)
+        def outer_callback(manager,a,b,other):
+            module=scope_module();outer=module._historical_write_scope.get()
+            captured.append(copy_context());inner_parent.value=object()
+            assert module._historical_write_scope.get() is outer and outer.active
+            events.append(a==b)
+            assert captured[-1].run(lambda:inner_a==inner_b) is True
+            return False
+        manager,a,b,parent,old=stage_callback(outer_callback)
+&gt;       parent.value=object()
+        ^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:176: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+&lt;undoable.models.&lt;locals&gt;.Parent&gt;:1: in value
+    ???
+src/yidl_undoable/facades.py:217: in _u_write_managed
+    self._u_state.manager._write_managed(self, name, value)
+src/yidl_undoable/transaction_yidl.py:609: in _write_managed
+    equal = self._call(
+src/yidl_undoable/transaction_yidl.py:661: in _call
+    return call(self, context, function)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/callbacks.py:60: in call
+    result = function()
+             ^^^^^^^^^^
+src/yidl_undoable/transaction_yidl.py:612: in &lt;lambda&gt;
+    old is value if fact["compare"] == "identity" else bool(old == value)
+                                                            ^^^^^^^^^^^^
+tests/test_write_comparison_context.py:33: in __eq__
+    def __eq__(self,other):return callback(manager,a,b,other)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_write_comparison_context.py:169: in outer_callback
+    module=scope_module();outer=module._historical_write_scope.get()
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def scope_module():
+&gt;       from yidl_undoable import write_comparison_context
+E       ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)
+E       Parent.value: comparison
+
+tests/test_write_comparison_context.py:24: ImportError</failure></testcase><testcase classname="tests.test_write_comparison_context" name="test_identity_write_has_no_new_scope_or_equality_callback" time="0.000"><failure message="ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)">def test_identity_write_has_no_new_scope_or_equality_callback():
+&gt;       module=scope_module();contexts=[]
+               ^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:183: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def scope_module():
+&gt;       from yidl_undoable import write_comparison_context
+E       ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)
+
+tests/test_write_comparison_context.py:24: ImportError</failure></testcase><testcase classname="tests.test_write_comparison_context" name="test_native_cycle_outcomes_are_not_replaced_by_custom_detection" time="0.001"><failure message="ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)">def test_native_cycle_outcomes_are_not_replaced_by_custom_detection():
+&gt;       module=scope_module()
+               ^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:201: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def scope_module():
+&gt;       from yidl_undoable import write_comparison_context
+E       ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)
+
+tests/test_write_comparison_context.py:24: ImportError</failure></testcase><testcase classname="tests.test_write_comparison_context" name="test_reflected_subclass_priority_and_notimplemented_stay_native" time="0.049"><failure message="assert &lt;test_write_comparison_context.models.&lt;locals&gt;.Child object at 0x10a54f930&gt; == &lt;test_write_comparison_context.test_reflected_subclass_priority_and_notimplemented_stay_native.&lt;locals&gt;.Derived object at 0x10a54f8e0&gt;&#10;Parent.value: comparison">def test_reflected_subclass_priority_and_notimplemented_stay_native():
+        manager,a,b,parent=models();trace=[]
+        class Derived(type(a)):
+            def __eq__(self,other):trace.append("derived");return NotImplemented
+        derived=object.__new__(Derived)
+        derived._u_state=a._u_state;derived._u_view="default";derived._u_pin=None
+        def callback(own_manager, _left, _right, other):
+            assert a==derived
+            assert trace==["derived"]
+            assert a.__eq__(object()) is False
+            return False
+        outer,x,y,parent,old=stage_callback(callback)
+&gt;       parent.value=object()
+        ^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:222: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+&lt;undoable.models.&lt;locals&gt;.Parent&gt;:1: in value
+    ???
+src/yidl_undoable/facades.py:217: in _u_write_managed
+    self._u_state.manager._write_managed(self, name, value)
+src/yidl_undoable/transaction_yidl.py:609: in _write_managed
+    equal = self._call(
+src/yidl_undoable/transaction_yidl.py:661: in _call
+    return call(self, context, function)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/callbacks.py:60: in call
+    result = function()
+             ^^^^^^^^^^
+src/yidl_undoable/transaction_yidl.py:612: in &lt;lambda&gt;
+    old is value if fact["compare"] == "identity" else bool(old == value)
+                                                            ^^^^^^^^^^^^
+tests/test_write_comparison_context.py:33: in __eq__
+    def __eq__(self,other):return callback(manager,a,b,other)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+own_manager = &lt;yidl_undoable.transaction_yidl.UndoRedoManager object at 0x10a2af020&gt;
+_left = &lt;test_write_comparison_context.models.&lt;locals&gt;.Child object at 0x10a38f160&gt;
+_right = &lt;test_write_comparison_context.models.&lt;locals&gt;.Child object at 0x10a38f660&gt;
+other = &lt;object object at 0x102cf6450&gt;
+
+    def callback(own_manager, _left, _right, other):
+&gt;       assert a==derived
+E       assert &lt;test_write_comparison_context.models.&lt;locals&gt;.Child object at 0x10a54f930&gt; == &lt;test_write_comparison_context.test_reflected_subclass_priority_and_notimplemented_stay_native.&lt;locals&gt;.Derived object at 0x10a54f8e0&gt;
+E       Parent.value: comparison
+
+tests/test_write_comparison_context.py:217: AssertionError</failure></testcase><testcase classname="tests.test_write_comparison_context" name="test_inflight_active_sample_can_finish_after_marker_closure" time="0.029"><failure message="ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)">def test_inflight_active_sample_can_finish_after_marker_closure():
+&gt;       manager,a,b,parent=models();module=scope_module()
+                                           ^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:228: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def scope_module():
+&gt;       from yidl_undoable import write_comparison_context
+E       ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)
+
+tests/test_write_comparison_context.py:24: ImportError</failure></testcase><testcase classname="tests.test_write_comparison_context" name="test_scope_native_nonboolean_return_is_truth_converted_once_and_retains_no_operands" time="0.001"><failure message="ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)">def test_scope_native_nonboolean_return_is_truth_converted_once_and_retains_no_operands():
+        import gc
+        import weakref
+&gt;       module=scope_module();captured=[];trace=[]
+               ^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:257: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def scope_module():
+&gt;       from yidl_undoable import write_comparison_context
+E       ImportError: cannot import name 'write_comparison_context' from 'yidl_undoable' ([consumer-root]/src/yidl_undoable/__init__.py)
+
+tests/test_write_comparison_context.py:24: ImportError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,28 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_________ test_multifield_view_hash_slot_keeps_its_public_dunder_name __________
+
+    def test_multifield_view_hash_slot_keeps_its_public_dunder_name():
+        @undoable(eq=True, order=True)
+        class RichHash:
+            first: int = managed(default=1)
+            second: int = managed(default=2)
+            third: int = managed(default=3)
+            fourth: int = managed(default=4)
+    
+>       assert "__hash____astichi_scoped" not in RichHash.__undoable_source__
+E       AssertionError: assert '__hash____astichi_scoped' not in 'from yidl_u...n RichHash\n'
+E         
+E         '__hash____astichi_scoped' is contained here:
+E           
+E                   __hash____astichi_scoped_1 = None
+E           
+E                   @property
+E                   def first(self):...
+E         
+E         ...Full output truncated (116 lines hidden), use '-vv' to show
+
+tests/test_comparison_source.py:200: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_comparison_source.py::test_multifield_view_hash_slot_keeps_its_public_dunder_name
+1 failed, 5 deselected in 1.60s

@@ -1,0 +1,2275 @@
+FFFFFFFFFFFFFF..FF.FF.........................                           [100%]
+=================================== FAILURES ===================================
+_____ test_opaque_callback_uses_historical_identity_inside_existing_fence ______
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+>           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:72: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1296: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1293: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:285: in _run_production
+    return scope.build(unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1006: in build
+    materialized = self._lower_materialize_if_supported()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1697: in _lower_materialize_if_supported
+    return self._try_lower_materialize_expression_overlay_subset(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1522: in _try_lower_materialize_expression_overlay_subset
+    tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1579: in _materialize_lower_occurrence_tree
+    if not self._apply_lower_operations_to_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1685: in _apply_lower_operations_to_tree
+    if call_argument_operations and not self._apply_lower_call_argument_operations(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2314: in _apply_lower_call_argument_operations
+    target_node = _ast_node_at_path(tree, placement.call_path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2932: in _ast_node_at_path
+    node = _ast_child(node, part)
+           ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <ast.If object at 0x109775290>, part = 'value'
+
+    def _ast_child(node: ast.AST, part: str) -> ast.AST:
+        field_name, index = _ast_path_part(part)
+>       value = getattr(node, field_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'If' object has no attribute 'value'
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2990: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+    def test_opaque_callback_uses_historical_identity_inside_existing_fence():
+        observations=[]
+        def callback(manager,a,b,other):
+            observations.append((a==b,a==a.current,a.__eq__(object()),manager._callback_depth))
+            return False
+>       manager,a,b,parent,old=stage_callback(callback)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_write_comparison_context.py:29: in stage_callback
+    manager,a,b,parent=models()
+                       ^^^^^^^^
+tests/test_write_comparison_context.py:12: in models
+    @undoable(eq=True,order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:119: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_write_scope": _historical_write_scope,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        except Exception as exc:
+>           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: models.<locals>.Child: Undoable AST generation/execution failed: 'If' object has no attribute 'value'
+
+src/yidl_undoable/undoable.py:98: LifecycleDefinitionError
+_ test_equality_exception_closes_marker_and_preserves_identity_notes[failure0] _
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+>           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:72: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1296: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1293: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:285: in _run_production
+    return scope.build(unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1006: in build
+    materialized = self._lower_materialize_if_supported()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1697: in _lower_materialize_if_supported
+    return self._try_lower_materialize_expression_overlay_subset(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1522: in _try_lower_materialize_expression_overlay_subset
+    tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1579: in _materialize_lower_occurrence_tree
+    if not self._apply_lower_operations_to_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1685: in _apply_lower_operations_to_tree
+    if call_argument_operations and not self._apply_lower_call_argument_operations(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2314: in _apply_lower_call_argument_operations
+    target_node = _ast_node_at_path(tree, placement.call_path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2932: in _ast_node_at_path
+    node = _ast_child(node, part)
+           ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <ast.If object at 0x10996fd50>, part = 'value'
+
+    def _ast_child(node: ast.AST, part: str) -> ast.AST:
+        field_name, index = _ast_path_part(part)
+>       value = getattr(node, field_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'If' object has no attribute 'value'
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2990: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+failure = ValueError('equality')
+
+    @pytest.mark.parametrize("failure",(ValueError("equality"),KeyboardInterrupt("cancel")))
+    def test_equality_exception_closes_marker_and_preserves_identity_notes(failure):
+        captured=[]
+        def callback(manager,a,b,other):
+            captured.append(copy_context())
+            raise failure
+>       manager,a,b,parent,old=stage_callback(callback)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_write_comparison_context.py:29: in stage_callback
+    manager,a,b,parent=models()
+                       ^^^^^^^^
+tests/test_write_comparison_context.py:12: in models
+    @undoable(eq=True,order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:119: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_write_scope": _historical_write_scope,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        except Exception as exc:
+>           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: models.<locals>.Child: Undoable AST generation/execution failed: 'If' object has no attribute 'value'
+
+src/yidl_undoable/undoable.py:98: LifecycleDefinitionError
+_ test_equality_exception_closes_marker_and_preserves_identity_notes[failure1] _
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+>           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:72: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1296: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1293: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:285: in _run_production
+    return scope.build(unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1006: in build
+    materialized = self._lower_materialize_if_supported()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1697: in _lower_materialize_if_supported
+    return self._try_lower_materialize_expression_overlay_subset(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1522: in _try_lower_materialize_expression_overlay_subset
+    tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1579: in _materialize_lower_occurrence_tree
+    if not self._apply_lower_operations_to_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1685: in _apply_lower_operations_to_tree
+    if call_argument_operations and not self._apply_lower_call_argument_operations(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2314: in _apply_lower_call_argument_operations
+    target_node = _ast_node_at_path(tree, placement.call_path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2932: in _ast_node_at_path
+    node = _ast_child(node, part)
+           ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <ast.If object at 0x109b624d0>, part = 'value'
+
+    def _ast_child(node: ast.AST, part: str) -> ast.AST:
+        field_name, index = _ast_path_part(part)
+>       value = getattr(node, field_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'If' object has no attribute 'value'
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2990: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+failure = KeyboardInterrupt('cancel')
+
+    @pytest.mark.parametrize("failure",(ValueError("equality"),KeyboardInterrupt("cancel")))
+    def test_equality_exception_closes_marker_and_preserves_identity_notes(failure):
+        captured=[]
+        def callback(manager,a,b,other):
+            captured.append(copy_context())
+            raise failure
+>       manager,a,b,parent,old=stage_callback(callback)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_write_comparison_context.py:29: in stage_callback
+    manager,a,b,parent=models()
+                       ^^^^^^^^
+tests/test_write_comparison_context.py:12: in models
+    @undoable(eq=True,order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:119: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_write_scope": _historical_write_scope,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        except Exception as exc:
+>           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: models.<locals>.Child: Undoable AST generation/execution failed: 'If' object has no attribute 'value'
+
+src/yidl_undoable/undoable.py:98: LifecycleDefinitionError
+__________ test_truth_conversion_exception_and_result_use_native_bool __________
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+>           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:72: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1296: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1293: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:285: in _run_production
+    return scope.build(unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1006: in build
+    materialized = self._lower_materialize_if_supported()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1697: in _lower_materialize_if_supported
+    return self._try_lower_materialize_expression_overlay_subset(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1522: in _try_lower_materialize_expression_overlay_subset
+    tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1579: in _materialize_lower_occurrence_tree
+    if not self._apply_lower_operations_to_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1685: in _apply_lower_operations_to_tree
+    if call_argument_operations and not self._apply_lower_call_argument_operations(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2314: in _apply_lower_call_argument_operations
+    target_node = _ast_node_at_path(tree, placement.call_path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2932: in _ast_node_at_path
+    node = _ast_child(node, part)
+           ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <ast.If object at 0x10996c1d0>, part = 'value'
+
+    def _ast_child(node: ast.AST, part: str) -> ast.AST:
+        field_name, index = _ast_path_part(part)
+>       value = getattr(node, field_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'If' object has no attribute 'value'
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2990: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+    def test_truth_conversion_exception_and_result_use_native_bool():
+        captured=[];events=[];original=TypeError("truth")
+        class Result:
+            def __bool__(self):events.append("bool");raise original
+        def callback(manager,a,b,other):captured.append(copy_context());return Result()
+>       manager,a,b,parent,old=stage_callback(callback)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_write_comparison_context.py:29: in stage_callback
+    manager,a,b,parent=models()
+                       ^^^^^^^^
+tests/test_write_comparison_context.py:12: in models
+    @undoable(eq=True,order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:119: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_write_scope": _historical_write_scope,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        except Exception as exc:
+>           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: models.<locals>.Child: Undoable AST generation/execution failed: 'If' object has no attribute 'value'
+
+src/yidl_undoable/undoable.py:98: LifecycleDefinitionError
+__________ test_context_never_bypasses_manager_mutation_fence[begin] ___________
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+>           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:72: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1296: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1293: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:285: in _run_production
+    return scope.build(unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1006: in build
+    materialized = self._lower_materialize_if_supported()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1697: in _lower_materialize_if_supported
+    return self._try_lower_materialize_expression_overlay_subset(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1522: in _try_lower_materialize_expression_overlay_subset
+    tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1579: in _materialize_lower_occurrence_tree
+    if not self._apply_lower_operations_to_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1685: in _apply_lower_operations_to_tree
+    if call_argument_operations and not self._apply_lower_call_argument_operations(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2314: in _apply_lower_call_argument_operations
+    target_node = _ast_node_at_path(tree, placement.call_path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2932: in _ast_node_at_path
+    node = _ast_child(node, part)
+           ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <ast.If object at 0x109c4fb90>, part = 'value'
+
+    def _ast_child(node: ast.AST, part: str) -> ast.AST:
+        field_name, index = _ast_path_part(part)
+>       value = getattr(node, field_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'If' object has no attribute 'value'
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2990: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+action = 'begin'
+
+    @pytest.mark.parametrize("action",("begin","rollback","undo","write"))
+    def test_context_never_bypasses_manager_mutation_fence(action):
+        captured=[]
+        def callback(manager,a,b,other):
+            captured.append(copy_context())
+            if action=="write":a.value=9
+            else:getattr(manager,action)()
+>       manager,a,b,parent,old=stage_callback(callback);token=manager.active_transaction_for()
+                               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:85: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_write_comparison_context.py:29: in stage_callback
+    manager,a,b,parent=models()
+                       ^^^^^^^^
+tests/test_write_comparison_context.py:12: in models
+    @undoable(eq=True,order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:119: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_write_scope": _historical_write_scope,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        except Exception as exc:
+>           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: models.<locals>.Child: Undoable AST generation/execution failed: 'If' object has no attribute 'value'
+
+src/yidl_undoable/undoable.py:98: LifecycleDefinitionError
+_________ test_context_never_bypasses_manager_mutation_fence[rollback] _________
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+>           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:72: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1296: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1293: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:285: in _run_production
+    return scope.build(unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1006: in build
+    materialized = self._lower_materialize_if_supported()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1697: in _lower_materialize_if_supported
+    return self._try_lower_materialize_expression_overlay_subset(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1522: in _try_lower_materialize_expression_overlay_subset
+    tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1579: in _materialize_lower_occurrence_tree
+    if not self._apply_lower_operations_to_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1685: in _apply_lower_operations_to_tree
+    if call_argument_operations and not self._apply_lower_call_argument_operations(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2314: in _apply_lower_call_argument_operations
+    target_node = _ast_node_at_path(tree, placement.call_path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2932: in _ast_node_at_path
+    node = _ast_child(node, part)
+           ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <ast.If object at 0x109730bd0>, part = 'value'
+
+    def _ast_child(node: ast.AST, part: str) -> ast.AST:
+        field_name, index = _ast_path_part(part)
+>       value = getattr(node, field_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'If' object has no attribute 'value'
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2990: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+action = 'rollback'
+
+    @pytest.mark.parametrize("action",("begin","rollback","undo","write"))
+    def test_context_never_bypasses_manager_mutation_fence(action):
+        captured=[]
+        def callback(manager,a,b,other):
+            captured.append(copy_context())
+            if action=="write":a.value=9
+            else:getattr(manager,action)()
+>       manager,a,b,parent,old=stage_callback(callback);token=manager.active_transaction_for()
+                               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:85: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_write_comparison_context.py:29: in stage_callback
+    manager,a,b,parent=models()
+                       ^^^^^^^^
+tests/test_write_comparison_context.py:12: in models
+    @undoable(eq=True,order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:119: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_write_scope": _historical_write_scope,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        except Exception as exc:
+>           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: models.<locals>.Child: Undoable AST generation/execution failed: 'If' object has no attribute 'value'
+
+src/yidl_undoable/undoable.py:98: LifecycleDefinitionError
+___________ test_context_never_bypasses_manager_mutation_fence[undo] ___________
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+>           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:72: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1296: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1293: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:285: in _run_production
+    return scope.build(unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1006: in build
+    materialized = self._lower_materialize_if_supported()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1697: in _lower_materialize_if_supported
+    return self._try_lower_materialize_expression_overlay_subset(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1522: in _try_lower_materialize_expression_overlay_subset
+    tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1579: in _materialize_lower_occurrence_tree
+    if not self._apply_lower_operations_to_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1685: in _apply_lower_operations_to_tree
+    if call_argument_operations and not self._apply_lower_call_argument_operations(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2314: in _apply_lower_call_argument_operations
+    target_node = _ast_node_at_path(tree, placement.call_path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2932: in _ast_node_at_path
+    node = _ast_child(node, part)
+           ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <ast.If object at 0x109ac7a50>, part = 'value'
+
+    def _ast_child(node: ast.AST, part: str) -> ast.AST:
+        field_name, index = _ast_path_part(part)
+>       value = getattr(node, field_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'If' object has no attribute 'value'
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2990: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+action = 'undo'
+
+    @pytest.mark.parametrize("action",("begin","rollback","undo","write"))
+    def test_context_never_bypasses_manager_mutation_fence(action):
+        captured=[]
+        def callback(manager,a,b,other):
+            captured.append(copy_context())
+            if action=="write":a.value=9
+            else:getattr(manager,action)()
+>       manager,a,b,parent,old=stage_callback(callback);token=manager.active_transaction_for()
+                               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:85: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_write_comparison_context.py:29: in stage_callback
+    manager,a,b,parent=models()
+                       ^^^^^^^^
+tests/test_write_comparison_context.py:12: in models
+    @undoable(eq=True,order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:119: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_write_scope": _historical_write_scope,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        except Exception as exc:
+>           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: models.<locals>.Child: Undoable AST generation/execution failed: 'If' object has no attribute 'value'
+
+src/yidl_undoable/undoable.py:98: LifecycleDefinitionError
+__________ test_context_never_bypasses_manager_mutation_fence[write] ___________
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+>           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:72: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1296: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1293: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:285: in _run_production
+    return scope.build(unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1006: in build
+    materialized = self._lower_materialize_if_supported()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1697: in _lower_materialize_if_supported
+    return self._try_lower_materialize_expression_overlay_subset(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1522: in _try_lower_materialize_expression_overlay_subset
+    tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1579: in _materialize_lower_occurrence_tree
+    if not self._apply_lower_operations_to_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1685: in _apply_lower_operations_to_tree
+    if call_argument_operations and not self._apply_lower_call_argument_operations(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2314: in _apply_lower_call_argument_operations
+    target_node = _ast_node_at_path(tree, placement.call_path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2932: in _ast_node_at_path
+    node = _ast_child(node, part)
+           ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <ast.If object at 0x10997d510>, part = 'value'
+
+    def _ast_child(node: ast.AST, part: str) -> ast.AST:
+        field_name, index = _ast_path_part(part)
+>       value = getattr(node, field_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'If' object has no attribute 'value'
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2990: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+action = 'write'
+
+    @pytest.mark.parametrize("action",("begin","rollback","undo","write"))
+    def test_context_never_bypasses_manager_mutation_fence(action):
+        captured=[]
+        def callback(manager,a,b,other):
+            captured.append(copy_context())
+            if action=="write":a.value=9
+            else:getattr(manager,action)()
+>       manager,a,b,parent,old=stage_callback(callback);token=manager.active_transaction_for()
+                               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:85: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_write_comparison_context.py:29: in stage_callback
+    manager,a,b,parent=models()
+                       ^^^^^^^^
+tests/test_write_comparison_context.py:12: in models
+    @undoable(eq=True,order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:119: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_write_scope": _historical_write_scope,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        except Exception as exc:
+>           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: models.<locals>.Child: Undoable AST generation/execution failed: 'If' object has no attribute 'value'
+
+src/yidl_undoable/undoable.py:98: LifecycleDefinitionError
+________ test_ownership_fault_closes_scope_before_fence_faults_manager _________
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+>           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:72: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1296: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1293: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:285: in _run_production
+    return scope.build(unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1006: in build
+    materialized = self._lower_materialize_if_supported()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1697: in _lower_materialize_if_supported
+    return self._try_lower_materialize_expression_overlay_subset(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1522: in _try_lower_materialize_expression_overlay_subset
+    tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1579: in _materialize_lower_occurrence_tree
+    if not self._apply_lower_operations_to_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1685: in _apply_lower_operations_to_tree
+    if call_argument_operations and not self._apply_lower_call_argument_operations(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2314: in _apply_lower_call_argument_operations
+    target_node = _ast_node_at_path(tree, placement.call_path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2932: in _ast_node_at_path
+    node = _ast_child(node, part)
+           ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <ast.If object at 0x10aad70d0>, part = 'value'
+
+    def _ast_child(node: ast.AST, part: str) -> ast.AST:
+        field_name, index = _ast_path_part(part)
+>       value = getattr(node, field_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'If' object has no attribute 'value'
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2990: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+    def test_ownership_fault_closes_scope_before_fence_faults_manager():
+        captured=[]
+        def callback(manager,a,b,other):captured.append(copy_context());manager._edit=None;return False
+>       manager,a,b,parent,old=stage_callback(callback)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:95: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_write_comparison_context.py:29: in stage_callback
+    manager,a,b,parent=models()
+                       ^^^^^^^^
+tests/test_write_comparison_context.py:12: in models
+    @undoable(eq=True,order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:119: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_write_scope": _historical_write_scope,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        except Exception as exc:
+>           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: models.<locals>.Child: Undoable AST generation/execution failed: 'If' object has no attribute 'value'
+
+src/yidl_undoable/undoable.py:98: LifecycleDefinitionError
+_ test_nested_scopes_restore_outer_and_closed_inner_context_cannot_reactivate __
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+>           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:72: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1296: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1293: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:285: in _run_production
+    return scope.build(unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1006: in build
+    materialized = self._lower_materialize_if_supported()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1697: in _lower_materialize_if_supported
+    return self._try_lower_materialize_expression_overlay_subset(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1522: in _try_lower_materialize_expression_overlay_subset
+    tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1579: in _materialize_lower_occurrence_tree
+    if not self._apply_lower_operations_to_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1685: in _apply_lower_operations_to_tree
+    if call_argument_operations and not self._apply_lower_call_argument_operations(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2314: in _apply_lower_call_argument_operations
+    target_node = _ast_node_at_path(tree, placement.call_path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2932: in _ast_node_at_path
+    node = _ast_child(node, part)
+           ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <ast.If object at 0x109b62a50>, part = 'value'
+
+    def _ast_child(node: ast.AST, part: str) -> ast.AST:
+        field_name, index = _ast_path_part(part)
+>       value = getattr(node, field_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'If' object has no attribute 'value'
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2990: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+    def test_nested_scopes_restore_outer_and_closed_inner_context_cannot_reactivate():
+>       manager,a,b,parent=models();module=scope_module();captured=[];events=[]
+                           ^^^^^^^^
+
+tests/test_write_comparison_context.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_write_comparison_context.py:12: in models
+    @undoable(eq=True,order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:119: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_write_scope": _historical_write_scope,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        except Exception as exc:
+>           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: models.<locals>.Child: Undoable AST generation/execution failed: 'If' object has no attribute 'value'
+
+src/yidl_undoable/undoable.py:98: LifecycleDefinitionError
+______ test_copied_and_empty_explicit_thread_contexts_expire_after_scope _______
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+>           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:72: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1296: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1293: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:285: in _run_production
+    return scope.build(unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1006: in build
+    materialized = self._lower_materialize_if_supported()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1697: in _lower_materialize_if_supported
+    return self._try_lower_materialize_expression_overlay_subset(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1522: in _try_lower_materialize_expression_overlay_subset
+    tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1579: in _materialize_lower_occurrence_tree
+    if not self._apply_lower_operations_to_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1685: in _apply_lower_operations_to_tree
+    if call_argument_operations and not self._apply_lower_call_argument_operations(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2314: in _apply_lower_call_argument_operations
+    target_node = _ast_node_at_path(tree, placement.call_path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2932: in _ast_node_at_path
+    node = _ast_child(node, part)
+           ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <ast.If object at 0x109749a90>, part = 'value'
+
+    def _ast_child(node: ast.AST, part: str) -> ast.AST:
+        field_name, index = _ast_path_part(part)
+>       value = getattr(node, field_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'If' object has no attribute 'value'
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2990: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+    def test_copied_and_empty_explicit_thread_contexts_expire_after_scope():
+>       manager,a,b,parent=models();module=scope_module();observations=[];captured=[]
+                           ^^^^^^^^
+
+tests/test_write_comparison_context.py:124: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_write_comparison_context.py:12: in models
+    @undoable(eq=True,order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:119: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_write_scope": _historical_write_scope,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        except Exception as exc:
+>           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: models.<locals>.Child: Undoable AST generation/execution failed: 'If' object has no attribute 'value'
+
+src/yidl_undoable/undoable.py:98: LifecycleDefinitionError
+___________ test_async_context_copies_before_and_after_closed_marker ___________
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+>           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:72: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1296: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1293: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:285: in _run_production
+    return scope.build(unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1006: in build
+    materialized = self._lower_materialize_if_supported()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1697: in _lower_materialize_if_supported
+    return self._try_lower_materialize_expression_overlay_subset(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1522: in _try_lower_materialize_expression_overlay_subset
+    tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1579: in _materialize_lower_occurrence_tree
+    if not self._apply_lower_operations_to_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1685: in _apply_lower_operations_to_tree
+    if call_argument_operations and not self._apply_lower_call_argument_operations(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2314: in _apply_lower_call_argument_operations
+    target_node = _ast_node_at_path(tree, placement.call_path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2932: in _ast_node_at_path
+    node = _ast_child(node, part)
+           ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <ast.If object at 0x10ab4e5d0>, part = 'value'
+
+    def _ast_child(node: ast.AST, part: str) -> ast.AST:
+        field_name, index = _ast_path_part(part)
+>       value = getattr(node, field_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'If' object has no attribute 'value'
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2990: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+    def test_async_context_copies_before_and_after_closed_marker():
+        async def scenario():
+            manager,a,b,parent=models();module=scope_module();observations=[];tasks=[]
+            async def later():observations.append(a==b)
+            class Value:
+                def __eq__(self,other):
+                    tasks.append(asyncio.create_task(later()))
+                    observations.append(copy_context().run(lambda:a==b))
+                    return True
+            assert module._historical_write_equal(Value(),object())
+            await tasks[0]
+            assert observations==[False,True] and a==b
+>       asyncio.run(scenario())
+
+tests/test_write_comparison_context.py:148: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+[home]/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+[home]/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[home]/.local/share/uv/python/cpython-3.12.12-macos-aarch64-none/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests/test_write_comparison_context.py:138: in scenario
+    manager,a,b,parent=models();module=scope_module();observations=[];tasks=[]
+                       ^^^^^^^^
+tests/test_write_comparison_context.py:12: in models
+    @undoable(eq=True,order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:119: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_write_scope": _historical_write_scope,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        except Exception as exc:
+>           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: models.<locals>.Child: Undoable AST generation/execution failed: 'If' object has no attribute 'value'
+
+src/yidl_undoable/undoable.py:98: LifecycleDefinitionError
+_________ test_scoped_order_remains_structural_and_hash_stays_disabled _________
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+>           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:72: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1296: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1293: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:285: in _run_production
+    return scope.build(unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1006: in build
+    materialized = self._lower_materialize_if_supported()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1697: in _lower_materialize_if_supported
+    return self._try_lower_materialize_expression_overlay_subset(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1522: in _try_lower_materialize_expression_overlay_subset
+    tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1579: in _materialize_lower_occurrence_tree
+    if not self._apply_lower_operations_to_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1685: in _apply_lower_operations_to_tree
+    if call_argument_operations and not self._apply_lower_call_argument_operations(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2314: in _apply_lower_call_argument_operations
+    target_node = _ast_node_at_path(tree, placement.call_path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2932: in _ast_node_at_path
+    node = _ast_child(node, part)
+           ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <ast.If object at 0x10ab27690>, part = 'value'
+
+    def _ast_child(node: ast.AST, part: str) -> ast.AST:
+        field_name, index = _ast_path_part(part)
+>       value = getattr(node, field_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'If' object has no attribute 'value'
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2990: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+    def test_scoped_order_remains_structural_and_hash_stays_disabled():
+>       manager,a,b,parent=models();module=scope_module()
+                           ^^^^^^^^
+
+tests/test_write_comparison_context.py:152: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_write_comparison_context.py:12: in models
+    @undoable(eq=True,order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:119: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_write_scope": _historical_write_scope,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        except Exception as exc:
+>           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: models.<locals>.Child: Undoable AST generation/execution failed: 'If' object has no attribute 'value'
+
+src/yidl_undoable/undoable.py:98: LifecycleDefinitionError
+____ test_cross_manager_nested_callback_restores_outer_scope_and_ownership _____
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+>           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:72: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1296: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1293: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:285: in _run_production
+    return scope.build(unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1006: in build
+    materialized = self._lower_materialize_if_supported()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1697: in _lower_materialize_if_supported
+    return self._try_lower_materialize_expression_overlay_subset(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1522: in _try_lower_materialize_expression_overlay_subset
+    tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1579: in _materialize_lower_occurrence_tree
+    if not self._apply_lower_operations_to_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1685: in _apply_lower_operations_to_tree
+    if call_argument_operations and not self._apply_lower_call_argument_operations(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2314: in _apply_lower_call_argument_operations
+    target_node = _ast_node_at_path(tree, placement.call_path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2932: in _ast_node_at_path
+    node = _ast_child(node, part)
+           ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <ast.If object at 0x10ab4f110>, part = 'value'
+
+    def _ast_child(node: ast.AST, part: str) -> ast.AST:
+        field_name, index = _ast_path_part(part)
+>       value = getattr(node, field_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'If' object has no attribute 'value'
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2990: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+    def test_cross_manager_nested_callback_restores_outer_scope_and_ownership():
+        second=[];captured=[];events=[]
+        def inner_callback(manager,a,b,other):
+            captured.append(copy_context());events.append(a==b);return False
+>       inner_manager,inner_a,inner_b,inner_parent,inner_old=stage_callback(inner_callback)
+                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_write_comparison_context.py:167: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_write_comparison_context.py:29: in stage_callback
+    manager,a,b,parent=models()
+                       ^^^^^^^^
+tests/test_write_comparison_context.py:12: in models
+    @undoable(eq=True,order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:119: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_write_scope": _historical_write_scope,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        except Exception as exc:
+>           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: models.<locals>.Child: Undoable AST generation/execution failed: 'If' object has no attribute 'value'
+
+src/yidl_undoable/undoable.py:98: LifecycleDefinitionError
+_______ test_reflected_subclass_priority_and_notimplemented_stay_native ________
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+>           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:72: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1296: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1293: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:285: in _run_production
+    return scope.build(unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1006: in build
+    materialized = self._lower_materialize_if_supported()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1697: in _lower_materialize_if_supported
+    return self._try_lower_materialize_expression_overlay_subset(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1522: in _try_lower_materialize_expression_overlay_subset
+    tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1579: in _materialize_lower_occurrence_tree
+    if not self._apply_lower_operations_to_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1685: in _apply_lower_operations_to_tree
+    if call_argument_operations and not self._apply_lower_call_argument_operations(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2314: in _apply_lower_call_argument_operations
+    target_node = _ast_node_at_path(tree, placement.call_path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2932: in _ast_node_at_path
+    node = _ast_child(node, part)
+           ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <ast.If object at 0x10a9e6210>, part = 'value'
+
+    def _ast_child(node: ast.AST, part: str) -> ast.AST:
+        field_name, index = _ast_path_part(part)
+>       value = getattr(node, field_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'If' object has no attribute 'value'
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2990: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+    def test_reflected_subclass_priority_and_notimplemented_stay_native():
+>       manager,a,b,parent=models();trace=[]
+                           ^^^^^^^^
+
+tests/test_write_comparison_context.py:211: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_write_comparison_context.py:12: in models
+    @undoable(eq=True,order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:119: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_write_scope": _historical_write_scope,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        except Exception as exc:
+>           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: models.<locals>.Child: Undoable AST generation/execution failed: 'If' object has no attribute 'value'
+
+src/yidl_undoable/undoable.py:98: LifecycleDefinitionError
+_________ test_inflight_active_sample_can_finish_after_marker_closure __________
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+>           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:72: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1296: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1293: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:285: in _run_production
+    return scope.build(unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1006: in build
+    materialized = self._lower_materialize_if_supported()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1697: in _lower_materialize_if_supported
+    return self._try_lower_materialize_expression_overlay_subset(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1522: in _try_lower_materialize_expression_overlay_subset
+    tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1579: in _materialize_lower_occurrence_tree
+    if not self._apply_lower_operations_to_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1685: in _apply_lower_operations_to_tree
+    if call_argument_operations and not self._apply_lower_call_argument_operations(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2314: in _apply_lower_call_argument_operations
+    target_node = _ast_node_at_path(tree, placement.call_path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2932: in _ast_node_at_path
+    node = _ast_child(node, part)
+           ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <ast.If object at 0x10aa96190>, part = 'value'
+
+    def _ast_child(node: ast.AST, part: str) -> ast.AST:
+        field_name, index = _ast_path_part(part)
+>       value = getattr(node, field_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'If' object has no attribute 'value'
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2990: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+    def test_inflight_active_sample_can_finish_after_marker_closure():
+>       manager,a,b,parent=models();module=scope_module()
+                           ^^^^^^^^
+
+tests/test_write_comparison_context.py:228: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_write_comparison_context.py:12: in models
+    @undoable(eq=True,order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:119: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'test_write_comparison_context.models.<locals>.Child'>, eq = True
+order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_write_scope": _historical_write_scope,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        except Exception as exc:
+>           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: models.<locals>.Child: Undoable AST generation/execution failed: 'If' object has no attribute 'value'
+
+src/yidl_undoable/undoable.py:98: LifecycleDefinitionError
+___ test_acceptoriginal_gets_identical_inner_list_in_both_directions[False] ____
+
+cls = <class 'test_write_native_dispatch.test_acceptoriginal_gets_identical_inner_list_in_both_directions.<locals>.Child'>
+eq = True, order = False
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+>           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:72: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1296: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1293: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:285: in _run_production
+    return scope.build(unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1006: in build
+    materialized = self._lower_materialize_if_supported()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1697: in _lower_materialize_if_supported
+    return self._try_lower_materialize_expression_overlay_subset(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1522: in _try_lower_materialize_expression_overlay_subset
+    tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1579: in _materialize_lower_occurrence_tree
+    if not self._apply_lower_operations_to_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1685: in _apply_lower_operations_to_tree
+    if call_argument_operations and not self._apply_lower_call_argument_operations(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2314: in _apply_lower_call_argument_operations
+    target_node = _ast_node_at_path(tree, placement.call_path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2932: in _ast_node_at_path
+    node = _ast_child(node, part)
+           ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <ast.If object at 0x10a175e10>, part = 'value'
+
+    def _ast_child(node: ast.AST, part: str) -> ast.AST:
+        field_name, index = _ast_path_part(part)
+>       value = getattr(node, field_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'If' object has no attribute 'value'
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2990: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+direction = False
+
+    @pytest.mark.parametrize("direction",(False,True))
+    def test_acceptoriginal_gets_identical_inner_list_in_both_directions(direction):
+>       @undoable(eq=True)
+         ^^^^^^^^^^^^^^^^^
+
+tests/test_write_native_dispatch.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:119: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'test_write_native_dispatch.test_acceptoriginal_gets_identical_inner_list_in_both_directions.<locals>.Child'>
+eq = True, order = False
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_write_scope": _historical_write_scope,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        except Exception as exc:
+>           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: test_acceptoriginal_gets_identical_inner_list_in_both_directions.<locals>.Child: Undoable AST generation/execution failed: 'If' object has no attribute 'value'
+
+src/yidl_undoable/undoable.py:98: LifecycleDefinitionError
+____ test_acceptoriginal_gets_identical_inner_list_in_both_directions[True] ____
+
+cls = <class 'test_write_native_dispatch.test_acceptoriginal_gets_identical_inner_list_in_both_directions.<locals>.Child'>
+eq = True, order = False
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+>           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:72: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1296: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1293: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py312/lib/python3.12/site-packages/yidl/generation/assembly_runtime.py:285: in _run_production
+    return scope.build(unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1006: in build
+    materialized = self._lower_materialize_if_supported()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1697: in _lower_materialize_if_supported
+    return self._try_lower_materialize_expression_overlay_subset(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1522: in _try_lower_materialize_expression_overlay_subset
+    tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1569: in _materialize_lower_occurrence_tree
+    source_tree = self._materialize_lower_occurrence_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1579: in _materialize_lower_occurrence_tree
+    if not self._apply_lower_operations_to_tree(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:1685: in _apply_lower_operations_to_tree
+    if call_argument_operations and not self._apply_lower_call_argument_operations(
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2314: in _apply_lower_call_argument_operations
+    target_node = _ast_node_at_path(tree, placement.call_path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2932: in _ast_node_at_path
+    node = _ast_child(node, part)
+           ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = <ast.If object at 0x1099c6850>, part = 'value'
+
+    def _ast_child(node: ast.AST, part: str) -> ast.AST:
+        field_name, index = _ast_path_part(part)
+>       value = getattr(node, field_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'If' object has no attribute 'value'
+
+.venvs/py312/lib/python3.12/site-packages/astichi/assembler/scope.py:2990: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+direction = True
+
+    @pytest.mark.parametrize("direction",(False,True))
+    def test_acceptoriginal_gets_identical_inner_list_in_both_directions(direction):
+>       @undoable(eq=True)
+         ^^^^^^^^^^^^^^^^^
+
+tests/test_write_native_dispatch.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:119: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'test_write_native_dispatch.test_acceptoriginal_gets_identical_inner_list_in_both_directions.<locals>.Child'>
+eq = True, order = False
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_write_scope": _historical_write_scope,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        except Exception as exc:
+>           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: test_acceptoriginal_gets_identical_inner_list_in_both_directions.<locals>.Child: Undoable AST generation/execution failed: 'If' object has no attribute 'value'
+
+src/yidl_undoable/undoable.py:98: LifecycleDefinitionError
+=========================== short test summary info ============================
+FAILED tests/test_write_comparison_context.py::test_opaque_callback_uses_historical_identity_inside_existing_fence
+FAILED tests/test_write_comparison_context.py::test_equality_exception_closes_marker_and_preserves_identity_notes[failure0]
+FAILED tests/test_write_comparison_context.py::test_equality_exception_closes_marker_and_preserves_identity_notes[failure1]
+FAILED tests/test_write_comparison_context.py::test_truth_conversion_exception_and_result_use_native_bool
+FAILED tests/test_write_comparison_context.py::test_context_never_bypasses_manager_mutation_fence[begin]
+FAILED tests/test_write_comparison_context.py::test_context_never_bypasses_manager_mutation_fence[rollback]
+FAILED tests/test_write_comparison_context.py::test_context_never_bypasses_manager_mutation_fence[undo]
+FAILED tests/test_write_comparison_context.py::test_context_never_bypasses_manager_mutation_fence[write]
+FAILED tests/test_write_comparison_context.py::test_ownership_fault_closes_scope_before_fence_faults_manager
+FAILED tests/test_write_comparison_context.py::test_nested_scopes_restore_outer_and_closed_inner_context_cannot_reactivate
+FAILED tests/test_write_comparison_context.py::test_copied_and_empty_explicit_thread_contexts_expire_after_scope
+FAILED tests/test_write_comparison_context.py::test_async_context_copies_before_and_after_closed_marker
+FAILED tests/test_write_comparison_context.py::test_scoped_order_remains_structural_and_hash_stays_disabled
+FAILED tests/test_write_comparison_context.py::test_cross_manager_nested_callback_restores_outer_scope_and_ownership
+FAILED tests/test_write_comparison_context.py::test_reflected_subclass_priority_and_notimplemented_stay_native
+FAILED tests/test_write_comparison_context.py::test_inflight_active_sample_can_finish_after_marker_closure
+FAILED tests/test_write_native_dispatch.py::test_acceptoriginal_gets_identical_inner_list_in_both_directions[False]
+FAILED tests/test_write_native_dispatch.py::test_acceptoriginal_gets_identical_inner_list_in_both_directions[True]
+18 failed, 28 passed in 7.91s

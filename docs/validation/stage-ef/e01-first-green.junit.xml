@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="62" time="0.634" timestamp="2026-10-13T00:22:54.893305+11:00" hostname="[host]"><testcase classname="tests.test_comparison_definitions" name="test_options_are_exact_booleans[0-eq]" time="0.001" /><testcase classname="tests.test_comparison_definitions" name="test_options_are_exact_booleans[0-order]" time="0.000" /><testcase classname="tests.test_comparison_definitions" name="test_options_are_exact_booleans[1-eq]" time="0.000" /><testcase classname="tests.test_comparison_definitions" name="test_options_are_exact_booleans[1-order]" time="0.000" /><testcase classname="tests.test_comparison_definitions" name="test_options_are_exact_booleans[None-eq]" time="0.000" /><testcase classname="tests.test_comparison_definitions" name="test_options_are_exact_booleans[None-order]" time="0.000" /><testcase classname="tests.test_comparison_definitions" name="test_options_are_exact_booleans[true-eq]" time="0.000" /><testcase classname="tests.test_comparison_definitions" name="test_options_are_exact_booleans[true-order]" time="0.000" /><testcase classname="tests.test_comparison_definitions" name="test_options_are_exact_booleans[value4-eq]" time="0.000" /><testcase classname="tests.test_comparison_definitions" name="test_options_are_exact_booleans[value4-order]" time="0.005" /><testcase classname="tests.test_comparison_definitions" name="test_order_requires_explicit_enabled_equality[options0]" time="0.005" /><testcase classname="tests.test_comparison_definitions" name="test_order_requires_explicit_enabled_equality[options1]" time="0.001" /><testcase classname="tests.test_comparison_definitions" name="test_eligible_logical_compare_is_exact_bool[0-field]" time="0.003" /><testcase classname="tests.test_comparison_definitions" name="test_eligible_logical_compare_is_exact_bool[0-const]" time="0.000" /><testcase classname="tests.test_comparison_definitions" name="test_eligible_logical_compare_is_exact_bool[0-lazy]" time="0.001" /><testcase classname="tests.test_comparison_definitions" name="test_eligible_logical_compare_is_exact_bool[0-binding]" time="0.003" /><testcase classname="tests.test_comparison_definitions" name="test_eligible_logical_compare_is_exact_bool[0-managed]" time="0.009" /><testcase classname="tests.test_comparison_definitions" name="test_eligible_logical_compare_is_exact_bool[1-field]" time="0.003" /><testcase classname="tests.test_comparison_definitions" name="test_eligible_logical_compare_is_exact_bool[1-const]" time="0.001" /><testcase classname="tests.test_comparison_definitions" name="test_eligible_logical_compare_is_exact_bool[1-lazy]" time="0.006" /><testcase classname="tests.test_comparison_definitions" name="test_eligible_logical_compare_is_exact_bool[1-binding]" time="0.009" /><testcase classname="tests.test_comparison_definitions" name="test_eligible_logical_compare_is_exact_bool[1-managed]" time="0.004" /><testcase classname="tests.test_comparison_definitions" name="test_eligible_logical_compare_is_exact_bool[None-field]" time="0.008" /><testcase classname="tests.test_comparison_definitions" name="test_eligible_logical_compare_is_exact_bool[None-const]" time="0.003" /><testcase classname="tests.test_comparison_definitions" name="test_eligible_logical_compare_is_exact_bool[None-lazy]" time="0.000" /><testcase classname="tests.test_comparison_definitions" name="test_eligible_logical_compare_is_exact_bool[None-binding]" time="0.005" /><testcase classname="tests.test_comparison_definitions" name="test_eligible_logical_compare_is_exact_bool[None-managed]" time="0.006" /><testcase classname="tests.test_comparison_definitions" name="test_eligible_logical_compare_is_exact_bool[other-field]" time="0.017" /><testcase classname="tests.test_comparison_definitions" name="test_eligible_logical_compare_is_exact_bool[other-const]" time="0.003" /><testcase classname="tests.test_comparison_definitions" name="test_eligible_logical_compare_is_exact_bool[other-lazy]" time="0.006" /><testcase classname="tests.test_comparison_definitions" name="test_eligible_logical_compare_is_exact_bool[other-binding]" time="0.005" /><testcase classname="tests.test_comparison_definitions" name="test_eligible_logical_compare_is_exact_bool[other-managed]" time="0.003" /><testcase classname="tests.test_comparison_definitions" name="test_excluded_family_rejects_explicit_logical_true[initvar]" time="0.006" /><testcase classname="tests.test_comparison_definitions" name="test_excluded_family_rejects_explicit_logical_true[classvar]" time="0.000" /><testcase classname="tests.test_comparison_definitions" name="test_excluded_family_rejects_explicit_logical_true[transient]" time="0.000" /><testcase classname="tests.test_comparison_definitions" name="test_excluded_family_rejects_explicit_logical_true[local_store]" time="0.000" /><testcase classname="tests.test_comparison_definitions" name="test_write_policy_only_belongs_to_managed[field]" time="0.000" /><testcase classname="tests.test_comparison_definitions" name="test_write_policy_only_belongs_to_managed[const]" time="0.007" /><testcase classname="tests.test_comparison_definitions" name="test_write_policy_only_belongs_to_managed[lazy]" time="0.005" /><testcase classname="tests.test_comparison_definitions" name="test_write_policy_only_belongs_to_managed[binding]" time="0.007" /><testcase classname="tests.test_comparison_definitions" name="test_write_policy_only_belongs_to_managed[initvar]" time="0.000" /><testcase classname="tests.test_comparison_definitions" name="test_write_policy_only_belongs_to_managed[classvar]" time="0.006" /><testcase classname="tests.test_comparison_definitions" name="test_write_policy_only_belongs_to_managed[transient]" time="0.001" /><testcase classname="tests.test_comparison_definitions" name="test_write_policy_only_belongs_to_managed[local_store]" time="0.001" /><testcase classname="tests.test_comparison_definitions" name="test_invalid_managed_write_policy[None]" time="0.001" /><testcase classname="tests.test_comparison_definitions" name="test_invalid_managed_write_policy[True]" time="0.005" /><testcase classname="tests.test_comparison_definitions" name="test_invalid_managed_write_policy[0]" time="0.002" /><testcase classname="tests.test_comparison_definitions" name="test_invalid_managed_write_policy[other]" time="0.005" /><testcase classname="tests.test_comparison_definitions" name="test_legacy_plus_explicit_write_policy_conflicts[value-value]" time="0.007" /><testcase classname="tests.test_comparison_definitions" name="test_legacy_plus_explicit_write_policy_conflicts[value-identity]" time="0.005" /><testcase classname="tests.test_comparison_definitions" name="test_legacy_plus_explicit_write_policy_conflicts[identity-value]" time="0.004" /><testcase classname="tests.test_comparison_definitions" name="test_legacy_plus_explicit_write_policy_conflicts[identity-identity]" time="0.000" /><testcase classname="tests.test_comparison_definitions" name="test_enabled_comparisons_reject_conflicting_custom_methods[__eq__]" time="0.000" /><testcase classname="tests.test_comparison_definitions" name="test_enabled_comparisons_reject_conflicting_custom_methods[__lt__]" time="0.000" /><testcase classname="tests.test_comparison_definitions" name="test_enabled_comparisons_reject_conflicting_custom_methods[__le__]" time="0.000" /><testcase classname="tests.test_comparison_definitions" name="test_enabled_comparisons_reject_conflicting_custom_methods[__gt__]" time="0.000" /><testcase classname="tests.test_comparison_definitions" name="test_enabled_comparisons_reject_conflicting_custom_methods[__ge__]" time="0.000" /><testcase classname="tests.test_comparison_definitions" name="test_enabled_comparisons_reject_conflicting_custom_methods[__hash__]" time="0.000" /><testcase classname="tests.test_comparison_definitions" name="test_direct_lifecycle_markers_stay_valid_with_original_write_policy" time="0.003"><failure message="yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: test_direct_lifecycle_markers_stay_valid_with_original_write_policy.&lt;locals&gt;.Declaration: Undoable AST generation/execution failed: UndoableClass.__init__() got an unexpected keyword argument 'restore_identity'">cls = &lt;class 'test_comparison_definitions.test_direct_lifecycle_markers_stay_valid_with_original_write_policy.&lt;locals&gt;.Declaration'&gt;
+eq = True, order = False
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+&gt;           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:82: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+schema = Schema(name='Declaration', fields=(mappingproxy({'field_id': 'test_direct_lifecycle_markers_stay_valid_with_original_w...gical=mappingproxy({'value': True, 'cache': False}), eq=True, order=False, restore_identity=False, restore_order=False)
+generation_module = &lt;module 'yidl_undoable._generated_undoable_base' from '[consumer-root]/src/yidl_undoable/_generated_undoable_base.py'&gt;
+
+    def build_composable(schema, *, generation_module=generated):
+        generated = generation_module
+        builder = generated.new_builder()
+        builder.add(
+            generated.ClassesCollection,
+&gt;           generated.UndoableClass(
+                class_id=schema.name,
+                class_name=schema.name,
+                current_class_name=schema.name + "_Current",
+                working_class_name=schema.name + "_Working",
+                restore_identity=schema.restore_identity,
+                restore_order=schema.restore_order,
+            ),
+        )
+E       TypeError: UndoableClass.__init__() got an unexpected keyword argument 'restore_identity'
+
+src/yidl_undoable/undoable.py:28: TypeError
+
+The above exception was the direct cause of the following exception:
+
+    def test_direct_lifecycle_markers_stay_valid_with_original_write_policy():
+        class Declaration:
+            value:int=lifecycle.managed(compare="identity",default=2)
+            cache:list=lifecycle.local_store(default_factory=list)
+&gt;       Model=undoable(Declaration,eq=True)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_comparison_definitions.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:114: in undoable
+    return decorate if cls is None else decorate(cls)
+                                        ^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:113: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class 'test_comparison_definitions.test_direct_lifecycle_markers_stay_valid_with_original_write_policy.&lt;locals&gt;.Declaration'&gt;
+eq = True, order = False
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"&lt;undoable.{cls.__qualname__}&gt;", "exec"), namespace)
+        except Exception as exc:
+&gt;           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: test_direct_lifecycle_markers_stay_valid_with_original_write_policy.&lt;locals&gt;.Declaration: Undoable AST generation/execution failed: UndoableClass.__init__() got an unexpected keyword argument 'restore_identity'
+
+src/yidl_undoable/undoable.py:92: LifecycleDefinitionError</failure></testcase><testcase classname="tests.test_comparison_definitions" name="test_disabled_child_restores_identity_instead_of_inheriting_structural_methods" time="0.005"><failure message="yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: test_disabled_child_restores_identity_instead_of_inheriting_structural_methods.&lt;locals&gt;.Base: Undoable AST generation/execution failed: UndoableClass.__init__() got an unexpected keyword argument 'restore_identity'">cls = &lt;class 'test_comparison_definitions.test_disabled_child_restores_identity_instead_of_inheriting_structural_methods.&lt;locals&gt;.Base'&gt;
+eq = True, order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+&gt;           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:82: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+schema = Schema(name='Base', fields=(mappingproxy({'field_id': 'test_disabled_child_restores_identity_instead_of_inheriting_str...lass 'int'&gt;}), logical=mappingproxy({'value': True}), eq=True, order=True, restore_identity=False, restore_order=False)
+generation_module = &lt;module 'yidl_undoable._generated_undoable_base' from '[consumer-root]/src/yidl_undoable/_generated_undoable_base.py'&gt;
+
+    def build_composable(schema, *, generation_module=generated):
+        generated = generation_module
+        builder = generated.new_builder()
+        builder.add(
+            generated.ClassesCollection,
+&gt;           generated.UndoableClass(
+                class_id=schema.name,
+                class_name=schema.name,
+                current_class_name=schema.name + "_Current",
+                working_class_name=schema.name + "_Working",
+                restore_identity=schema.restore_identity,
+                restore_order=schema.restore_order,
+            ),
+        )
+E       TypeError: UndoableClass.__init__() got an unexpected keyword argument 'restore_identity'
+
+src/yidl_undoable/undoable.py:28: TypeError
+
+The above exception was the direct cause of the following exception:
+
+    def test_disabled_child_restores_identity_instead_of_inheriting_structural_methods():
+        from yidl_undoable import UndoRedoManager
+&gt;       @undoable(eq=True,order=True)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_comparison_definitions.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:113: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class 'test_comparison_definitions.test_disabled_child_restores_identity_instead_of_inheriting_structural_methods.&lt;locals&gt;.Base'&gt;
+eq = True, order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"&lt;undoable.{cls.__qualname__}&gt;", "exec"), namespace)
+        except Exception as exc:
+&gt;           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: test_disabled_child_restores_identity_instead_of_inheriting_structural_methods.&lt;locals&gt;.Base: Undoable AST generation/execution failed: UndoableClass.__init__() got an unexpected keyword argument 'restore_identity'
+
+src/yidl_undoable/undoable.py:92: LifecycleDefinitionError</failure></testcase><testcase classname="tests.test_comparison_definitions" name="test_order_disabled_child_does_not_inherit_generated_ordering" time="0.015"><failure message="yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: test_order_disabled_child_does_not_inherit_generated_ordering.&lt;locals&gt;.Base: Undoable AST generation/execution failed: UndoableClass.__init__() got an unexpected keyword argument 'restore_identity'">cls = &lt;class 'test_comparison_definitions.test_order_disabled_child_does_not_inherit_generated_ordering.&lt;locals&gt;.Base'&gt;
+eq = True, order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+&gt;           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:82: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+schema = Schema(name='Base', fields=(mappingproxy({'field_id': 'test_order_disabled_child_does_not_inherit_generated_ordering.&lt;...lass 'int'&gt;}), logical=mappingproxy({'value': True}), eq=True, order=True, restore_identity=False, restore_order=False)
+generation_module = &lt;module 'yidl_undoable._generated_undoable_base' from '[consumer-root]/src/yidl_undoable/_generated_undoable_base.py'&gt;
+
+    def build_composable(schema, *, generation_module=generated):
+        generated = generation_module
+        builder = generated.new_builder()
+        builder.add(
+            generated.ClassesCollection,
+&gt;           generated.UndoableClass(
+                class_id=schema.name,
+                class_name=schema.name,
+                current_class_name=schema.name + "_Current",
+                working_class_name=schema.name + "_Working",
+                restore_identity=schema.restore_identity,
+                restore_order=schema.restore_order,
+            ),
+        )
+E       TypeError: UndoableClass.__init__() got an unexpected keyword argument 'restore_identity'
+
+src/yidl_undoable/undoable.py:28: TypeError
+
+The above exception was the direct cause of the following exception:
+
+    def test_order_disabled_child_does_not_inherit_generated_ordering():
+        from yidl_undoable import UndoRedoManager
+&gt;       @undoable(eq=True,order=True)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_comparison_definitions.py:85: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:113: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class 'test_comparison_definitions.test_order_disabled_child_does_not_inherit_generated_ordering.&lt;locals&gt;.Base'&gt;
+eq = True, order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"&lt;undoable.{cls.__qualname__}&gt;", "exec"), namespace)
+        except Exception as exc:
+&gt;           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: test_order_disabled_child_does_not_inherit_generated_ordering.&lt;locals&gt;.Base: Undoable AST generation/execution failed: UndoableClass.__init__() got an unexpected keyword argument 'restore_identity'
+
+src/yidl_undoable/undoable.py:92: LifecycleDefinitionError</failure></testcase><testcase classname="tests.test_canonical" name="test_generated_story[21_undoable_comparisons]" time="0.017"><failure message="yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: Quote: Undoable AST generation/execution failed: UndoableClass.__init__() got an unexpected keyword argument 'restore_identity'">cls = &lt;class '__canonical__.Quote'&gt;, eq = True, order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+&gt;           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:82: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+schema = Schema(name='Quote', fields=(mappingproxy({'field_id': 'Quote.seed', 'field_owner': 'Quote', 'field_name': 'seed', 'fi...'resource': True, 'scratch': False, 'cache': False}), eq=True, order=True, restore_identity=False, restore_order=False)
+generation_module = &lt;module 'yidl_undoable._generated_undoable_base' from '[consumer-root]/src/yidl_undoable/_generated_undoable_base.py'&gt;
+
+    def build_composable(schema, *, generation_module=generated):
+        generated = generation_module
+        builder = generated.new_builder()
+        builder.add(
+            generated.ClassesCollection,
+&gt;           generated.UndoableClass(
+                class_id=schema.name,
+                class_name=schema.name,
+                current_class_name=schema.name + "_Current",
+                working_class_name=schema.name + "_Working",
+                restore_identity=schema.restore_identity,
+                restore_order=schema.restore_order,
+            ),
+        )
+E       TypeError: UndoableClass.__init__() got an unexpected keyword argument 'restore_identity'
+
+src/yidl_undoable/undoable.py:28: TypeError
+
+The above exception was the direct cause of the following exception:
+
+story = PosixPath('[consumer-root]/tests/data/gold_src/21_undoable_comparisons.py')
+
+    @pytest.mark.parametrize("story", sorted(STORIES.glob("*.py")), ids=lambda p: p.stem)
+    def test_generated_story(story):
+&gt;       actual = run_story(story)
+                 ^^^^^^^^^^^^^^^^
+
+tests/test_canonical.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/canonical_support.py:11: in run_story
+    namespace = runpy.run_path(str(story), run_name="__canonical__")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen runpy&gt;:287: in run_path
+    ???
+&lt;frozen runpy&gt;:98: in _run_module_code
+    ???
+&lt;frozen runpy&gt;:88: in _run_code
+    ???
+tests/data/gold_src/21_undoable_comparisons.py:10: in &lt;module&gt;
+    @undoable(eq=True,order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:113: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class '__canonical__.Quote'&gt;, eq = True, order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if base in (object, RuntimeFacade) or "__undoable_schema__" in base.__dict__:
+                    continue
+                for name in ("__eq__", "__hash__", *(("__lt__", "__le__", "__gt__", "__ge__") if order else ())):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(f"{cls.__qualname__}: conflicting {name}")
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {"__name__": cls.__module__,
+                         "_u_historical_eq": RuntimeFacade.__eq__,
+                         "_u_historical_hash": RuntimeFacade.__hash__,
+                         "_u_object_lt": object.__lt__, "_u_object_le": object.__le__,
+                         "_u_object_gt": object.__gt__, "_u_object_ge": object.__ge__}
+            exec(compile(module, f"&lt;undoable.{cls.__qualname__}&gt;", "exec"), namespace)
+        except Exception as exc:
+&gt;           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: Quote: Undoable AST generation/execution failed: UndoableClass.__init__() got an unexpected keyword argument 'restore_identity'
+
+src/yidl_undoable/undoable.py:92: LifecycleDefinitionError</failure></testcase></testsuite></testsuites>

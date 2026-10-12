@@ -62,8 +62,11 @@ including nested containers, before installation. Repeated reads preserve the
 owned mutable container; ordinary reads project children to ordinary views.
 Result traversal shares the converter's fence, and a failed traversal installs
 no touched value, permitting a pure retry.
-`compare="value"` compares and truth-converts under the callback fence; `"identity"`
-skips only the same reference. Touching via thaw records a version even if equal.
+`managed(write_compare="value")` compares and truth-converts under the callback
+fence; `"identity"` skips only the same reference. Legacy managed
+`compare="value"|"identity"` preserves that write policy and logical inclusion=True.
+Any legacy-plus-explicit-write_compare combination fails, including equal spellings.
+Touching via thaw records a version even if equal.
 
 Named factory parameters refer to fields/initvars, `cls`, or opt-in `self`.
 Construction evaluates named dependencies in their required order, materializing
@@ -83,6 +86,50 @@ Validators, converters and factories must remain pure. The same-manager callback
 rejects begin/completion, navigation, root changes and managed/transient writes before
 changing state. Arbitrary external side effects or escaped mutable-object changes are
 outside the serialized purity contract.
+
+## Optional logical comparisons
+
+`undoable(cls=None, /, *, eq=False, order=False)` accepts exact booleans; order
+requires eq. Bare/empty/explicit-disabled decoration keeps historical state
+identity equality/hash. Enabled generation rejects conflicting user comparison/hash
+methods. One generated base carries both field controls through compatible overrides;
+disabling inherited generation restores identity/hash or unavailable ordering.
+
+Ordinary/const/lazy/static/managed/binding declarations accept exact boolean
+`compare=True` by default. InitVar/ClassVar/transient/local declarations remain
+excluded, accept compare=False, and reject explicit True. write_compare belongs
+only to managed fields. Direct existing Lifecycle markers remain accepted with
+logical inclusion=True for eligible families and original write policies. The
+Lifecycle marker API itself is unchanged. Deleting a declaration deletes its policy.
+
+Equality/order read each facade's public exposed values. Compatibility is exact
+facade class: default, current and working are distinct classes, as are different
+models and user subclasses. Pinned handles of one current class compare their
+exposed revisions. Reads retain existing lazy/thaw/absence effects; comparison
+neither commits nor navigates, and is not an atomic multi-field snapshot. On tested
+CPython 3.12 equality uses ordered tuples; 3.13/3.14 use ordered field comparisons
+and the self shortcut. Every enabled facade has __hash__=None, so using it as a
+hash-container element/key raises TypeError; this restriction never changes by
+context. Data-only SnapshotNode equality/hash are unchanged.
+
+Value-write detection has an explicit contextual rule: within its synchronous
+manager fence, enabled facade equality delegates to historical RuntimeFacade state
+identity before structural self/type/value guards. Opaque equality callbacks
+comparing handles see that same historical rule, including across views and
+against nonfacades. The outer operation is native bool(old == value) on original
+operands; Python owns reflection, NotImplemented, container shortcuts, cached
+hashes and truth conversion. Identity writes do not enter a new scope or call
+user equality. Ordering stays structural in every context.
+
+Each value comparison owns a fresh private marker containing only active: bool.
+It closes before ContextVar reset even on equality/truth errors or BaseException.
+Nested scopes restore their outer marker; closed copied inner contexts cannot
+revive it. A context deliberately run during its captured active scope sees
+historical equality; escaped contexts/tasks see structural equality after closure.
+Explicit empty/copied thread contexts follow these lifetime rules. An in-flight
+call that already sampled active may finish its historical branch after closure;
+there is no atomic cutover or added concurrent-manager guarantee. Existing ownership
+faults, notes and same-manager mutation rejection remain in force.
 
 ## Absence, snapshots and failures
 
@@ -134,4 +181,4 @@ Other public errors are `TransactionRequiredError`, `ObjectAbsentError`,
 `UnavailableNodeError`, `ForeignManagerError`, `GraphCycleError`, `FrozenValueError`,
 and `ReentrantOperationError`. `UndoableDefinitionError` is the public alias of
 Lifecycle's ValueError declaration class, preserving immediate errors from the exact
-re-exported marker factories. Decoration and provider diagnostics add field/class context.
+underlying Lifecycle marker factories. Decoration and provider diagnostics add field/class context.

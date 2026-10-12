@@ -7,6 +7,14 @@ def build_undoable_class(base_cls, *, schema):
         __slots__ = ()
         __undoable_schema__ = schema
         pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         def __init__(self, *, transaction_manager, value=_HAS_DEFAULT_FACTORY, items=_HAS_DEFAULT_FACTORY, valid=_HAS_DEFAULT_FACTORY, attack=_HAS_DEFAULT_FACTORY):
             state = self._u_start(transaction_manager)
@@ -58,6 +66,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class Checked_Current(Checked):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def value(self):
@@ -77,6 +91,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class Checked_Working(Checked):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def value(self):
@@ -105,6 +125,14 @@ def build_undoable_class(base_cls, *, schema):
         __slots__ = ()
         __undoable_schema__ = schema
         pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         def __init__(self, *, transaction_manager, data=_HAS_DEFAULT_FACTORY):
             state = self._u_start(transaction_manager)
@@ -121,6 +149,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class Frozen_Current(Frozen):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def data(self):
@@ -132,6 +166,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class Frozen_Working(Frozen):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def data(self):
@@ -152,6 +192,14 @@ def build_undoable_class(base_cls, *, schema):
         __slots__ = ()
         __undoable_schema__ = schema
         pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         def __init__(self, *, transaction_manager, mapping=_HAS_DEFAULT_FACTORY):
             state = self._u_start(transaction_manager)
@@ -168,6 +216,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class MappingNode_Current(MappingNode):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def mapping(self):
@@ -179,6 +233,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class MappingNode_Working(MappingNode):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def mapping(self):

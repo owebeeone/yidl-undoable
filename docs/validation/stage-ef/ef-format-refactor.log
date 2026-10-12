@@ -1,0 +1,15 @@
+reformatted src/yidl_undoable/regenerate_undoable_base.py
+reformatted src/yidl_undoable/undoable.py
+reformatted src/yidl_undoable/undoable_harvester.py
+reformatted src/yidl_undoable/undoable_markers.py
+reformatted tests/canonical_support.py
+reformatted tests/data/gold_src/21_undoable_comparisons.py
+reformatted tests/data/gold_src/22_undoable_field_removal.py
+reformatted tests/data/gold_src/23_undoable_write_compatibility.py
+reformatted tests/test_comparison_definitions.py
+reformatted tests/test_comparison_source.py
+reformatted tests/test_write_comparison_context.py
+reformatted tests/test_write_native_dispatch.py
+
+All done! ✨ 🍰 ✨
+12 files reformatted, 4 files left unchanged.

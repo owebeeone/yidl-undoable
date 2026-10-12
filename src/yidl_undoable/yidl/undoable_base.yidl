@@ -1,5 +1,5 @@
 module undoable.base
-import "undoable_views.yidl" as previous
+import "undoable_comparison.yidl" as previous
 export concept UndoableBase
-concept UndoableBase extends previous.UndoableViews {
+concept UndoableBase extends previous.UndoableComparison {
 }

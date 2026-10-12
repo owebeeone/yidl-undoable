@@ -1,0 +1,66 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+____________ test_generated_story[23_undoable_write_compatibility] _____________
+
+story = PosixPath('[consumer-root]/tests/data/gold_src/23_undoable_write_compatibility.py')
+
+    @pytest.mark.parametrize("story", sorted(STORIES.glob("*.py")), ids=lambda p: p.stem)
+    def test_generated_story(story):
+>       actual = run_story(story)
+                 ^^^^^^^^^^^^^^^^
+
+tests/test_canonical.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/canonical_support.py:11: in run_story
+    namespace = runpy.run_path(str(story), run_name="__canonical__")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen runpy>:287: in run_path
+    ???
+<frozen runpy>:98: in _run_module_code
+    ???
+<frozen runpy>:88: in _run_code
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Historical write identity despite enabled structural child comparisons."""
+    import pytest
+    from yidl_undoable import *
+    
+    @undoable(eq=True,order=True)
+    class Child:
+        value:int=managed(default=2)
+    
+    @undoable
+    class Parent:
+        children:tuple=managed(default=())
+    
+    h=UndoRedoManager();first=Child(transaction_manager=h);second=Child(transaction_manager=h)
+    root=Parent(children=(first,),transaction_manager=h);h.initialize(root,second)
+    assert first==second
+    with h.begin():
+        root.children=(second,)
+>       assert (root.node_id,"children") in h._edit.touched
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError
+
+tests/data/gold_src/23_undoable_write_compatibility.py:18: AssertionError
+_____ test_opaque_callback_uses_historical_identity_inside_existing_fence ______
+
+    def test_opaque_callback_uses_historical_identity_inside_existing_fence():
+        observations=[]
+        def callback(manager,a,b,other):
+            observations.append((a==b,a==a.current,a.__eq__(object()),manager._callback_depth))
+            return False
+        manager,a,b,parent,old=stage_callback(callback)
+        parent.value=object()
+>       assert observations==[(False,True,False,1)]
+E       assert [(True, False...plemented, 1)] == [(False, True, False, 1)]
+E         
+E         At index 0 diff: (True, False, NotImplemented, 1) != (False, True, False, 1)
+E         Use -v to get more diff
+
+tests/test_write_comparison_context.py:46: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_canonical.py::test_generated_story[23_undoable_write_compatibility]
+FAILED tests/test_write_comparison_context.py::test_opaque_callback_uses_historical_identity_inside_existing_fence
+2 failed, 37 deselected in 0.39s

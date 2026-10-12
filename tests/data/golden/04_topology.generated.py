@@ -7,6 +7,14 @@ def build_undoable_class(base_cls, *, schema):
         __slots__ = ()
         __undoable_schema__ = schema
         pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         def __init__(self, *, transaction_manager, label=_HAS_DEFAULT_FACTORY, children=_HAS_DEFAULT_FACTORY):
             state = self._u_start(transaction_manager)
@@ -32,6 +40,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class Node_Current(Node):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def label(self):
@@ -51,6 +65,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class Node_Working(Node):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def label(self):

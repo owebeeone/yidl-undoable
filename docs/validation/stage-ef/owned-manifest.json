@@ -1,0 +1,1550 @@
+{
+  "baseline_owner_commit": "f79e4ce6d985ed0a6463552e163baabf1a28942d",
+  "corrections": "docs/validation/stage-ef/corrections.jsonl",
+  "dependencies": {
+    "astichi": "1.1.3",
+    "yidl": "0.1.0"
+  },
+  "evidence_index": "docs/validation/stage-ef/increments.jsonl",
+  "files": [
+    {
+      "bytes": 62,
+      "inventory_relation": "owned_inventory",
+      "path": ".gitignore",
+      "sha256": "050d50be39b72d47389e3c1e64333ac38da0a757eb10890ea0c6c0c8f0fdff77"
+    },
+    {
+      "bytes": 6652,
+      "inventory_relation": "owned_inventory",
+      "path": "README.md",
+      "sha256": "24d785db0efa13f1372b463fc7de45f1e3a449ad06367205dfeee466d200a2e0"
+    },
+    {
+      "bytes": 12727,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/API.md",
+      "sha256": "d3ff77ae91d189ab35f2d4a39d8ec1a39527ae6b356d8d4ec9940ec7a8097769"
+    },
+    {
+      "bytes": 4979,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/Architecture.md",
+      "sha256": "77bcfdbdb2588298f8d997615c557cc9f101a6fe95b94d44089e02805c31a97a"
+    },
+    {
+      "bytes": 6916,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/README.md",
+      "sha256": "080552603ae80ae831bd3a59027d83991d4c0175befb872f6917aa8f84bf595f"
+    },
+    {
+      "bytes": 5299,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/check_evidence.py",
+      "sha256": "c9c12b628c3ef0ccbcc99de5ccbac126e39a9285bb0720e9e1165a7e178911ad"
+    },
+    {
+      "bytes": 5433,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/corrections.jsonl",
+      "sha256": "855f0f4582b0d28672dd00c4ec3b7acc7b82ce05994bce426142a852f3fde83d"
+    },
+    {
+      "bytes": 52,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/e01-anchored-resource-setup.log",
+      "sha256": "3f6fd93c104c89aa1df6aa6851eaf8699014b4c8d6c51a1f7a8dd92dec060076"
+    },
+    {
+      "bytes": 8434,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/e01-canonical-native-rust-green.junit.xml",
+      "sha256": "3fadd92a56eb95b3344190443387c1a2a6ffc7f23fbc4bee017cb5f865e41f72"
+    },
+    {
+      "bytes": 114,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/e01-canonical-native-rust-green.log",
+      "sha256": "13a4ef679fcf76d259df4fd740c7905525e1825086e51640c62181283ea3274b"
+    },
+    {
+      "bytes": 90035,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/e01-canonical-python-green.junit.xml",
+      "sha256": "a117f6953b8fb07c49ea896b3baf1fc7cd9bef4a15a8281d6ff434ffe46d2991"
+    },
+    {
+      "bytes": 81179,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/e01-canonical-python-green.log",
+      "sha256": "3592746c190f8abaaba78fef5cc918532cd45519b7569c211a539ec3f49dcccf"
+    },
+    {
+      "bytes": 10322,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/e01-final-green.junit.xml",
+      "sha256": "bef2f1451ef31bb52ef5330e330871073ab6a8fe8cdaae5b843da85e6e087119"
+    },
+    {
+      "bytes": 2162,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/e01-final-green.log",
+      "sha256": "4fa8b5b53dea35d496a4895815a1225c7bb91a67c0b911729812c42e0373219b"
+    },
+    {
+      "bytes": 29226,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/e01-first-green.junit.xml",
+      "sha256": "9f5d21cce075dfeef4098c5f464933bd8714898f006a73830292996607d20fdf"
+    },
+    {
+      "bytes": 20445,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/e01-first-green.log",
+      "sha256": "490e838a6f255aec46361bd5cdfbc9ebd940cba2f571662acc0ade6e89a8d908"
+    },
+    {
+      "bytes": 8434,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/e01-global-operand-identity-green.junit.xml",
+      "sha256": "9086d5280ee0016d30866d2c294cc5e3c3d26648574609ab7bbc51a93716f524"
+    },
+    {
+      "bytes": 114,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/e01-global-operand-identity-green.log",
+      "sha256": "8cf87ed78ef4876a3b4659f94883fead0b8f56ef1abf7a3f9c97d08979ac4b5a"
+    },
+    {
+      "bytes": 1131,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/e01-golden-setup.log",
+      "sha256": "175a6f02c2d43451930aa2eb117dea883834ba06f2ec919446411db5cbc66ef2"
+    },
+    {
+      "bytes": 45375,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/e01-inherited-red-red.junit.xml",
+      "sha256": "2b7222e01483bcd94a8f8e748e7cd3d1ae8e1fa56cd523adb13429476dd73f92"
+    },
+    {
+      "bytes": 41108,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/e01-inherited-red-red.log",
+      "sha256": "9e7475e771b526947665bf727cf4d84923db920e78bbd3b20219f02e896fc53b"
+    },
+    {
+      "bytes": 45662,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/e01-red.junit.xml",
+      "sha256": "09868dc7cf3d367c7d6f8c1b4243f262b5b89f2d586fb60c1c915a52c4aa94e7"
+    },
+    {
+      "bytes": 41432,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/e01-red.log",
+      "sha256": "0b60f7a24a7ad023ee9d3573396198954b4c51bd8dcb8358155ebcb00a40f796"
+    },
+    {
+      "bytes": 2225,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/e01-resource-setup.log",
+      "sha256": "dbaa663283210288166e3a1c6b471de662d36e50cca986764a77ebc4b1075109"
+    },
+    {
+      "bytes": 10322,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/e01-second-green.junit.xml",
+      "sha256": "957a8c4b0e6e7f7e8842a357a69d948485c79fe21e82ec9f1f3621e17e836e7e"
+    },
+    {
+      "bytes": 2162,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/e01-second-green.log",
+      "sha256": "6b7ddff69b9565cfc55de4aaba3a5ec65bcd298e13f27218aa291abf31e363cb"
+    },
+    {
+      "bytes": 41,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/e01-selected-golden-setup.log",
+      "sha256": "628d9a80b9163bce118657fbeed651df1b0fee076f73a3173300e7582d9f64b0"
+    },
+    {
+      "bytes": 2251,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/e02-removal-verification.junit.xml",
+      "sha256": "511a4b1bc3887edafb4f9b51cdc57838e14eb2165a84f39c288548ec3df9d842"
+    },
+    {
+      "bytes": 2159,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/e02-removal-verification.log",
+      "sha256": "e2eb442f53f42cdc77781881febef4c1051307d8c63d78cff3d37c69767ab215"
+    },
+    {
+      "bytes": 690,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef-format-refactor.log",
+      "sha256": "3ab77944df6083389d13fe1694b4610ff739caf60e732bff8fc1f6b21c17ec74"
+    },
+    {
+      "bytes": 41,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef-goldens312-setup.log",
+      "sha256": "628d9a80b9163bce118657fbeed651df1b0fee076f73a3173300e7582d9f64b0"
+    },
+    {
+      "bytes": 41,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef-goldens313-setup.log",
+      "sha256": "628d9a80b9163bce118657fbeed651df1b0fee076f73a3173300e7582d9f64b0"
+    },
+    {
+      "bytes": 41,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef-goldens314-setup.log",
+      "sha256": "628d9a80b9163bce118657fbeed651df1b0fee076f73a3173300e7582d9f64b0"
+    },
+    {
+      "bytes": 47227,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef01-full-native-rust-312-verification.junit.xml",
+      "sha256": "ed9eaea525f8b4f2202b662304f7fe8041fa3bad77238eddc2138da801a311d6"
+    },
+    {
+      "bytes": 420,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef01-full-native-rust-312-verification.log",
+      "sha256": "10a363306672ae072010de1ded2aeaca606ffecd6872938f8c87416dd0a6a08d"
+    },
+    {
+      "bytes": 49360,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef01-full-native-rust-313-verification.junit.xml",
+      "sha256": "107189bd68b4fc49ec8a9e160e511dcbc72254a958b3296f843cd9ce74f8d0f6"
+    },
+    {
+      "bytes": 2573,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef01-full-native-rust-313-verification.log",
+      "sha256": "6dee17cbd7f0ceb3a414a052c4bf6ec8a9186c5bbf79d08e2de05d39a7950422"
+    },
+    {
+      "bytes": 49360,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef01-full-native-rust-314-verification.junit.xml",
+      "sha256": "19b17e62def72609d9be70fc25ad51a5dc26b3661c4adb5cf5910440ec354fe8"
+    },
+    {
+      "bytes": 2573,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef01-full-native-rust-314-verification.log",
+      "sha256": "e63f2c386744f321e36a1d210b5c86b2f90a1062b0f657c3c270402172953188"
+    },
+    {
+      "bytes": 47228,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef01-full-python-312-verification.junit.xml",
+      "sha256": "6c1d5c2d8a8cf36fe0f9fa7d7ee18e29ac8fa97a987e2001dec59797571d5ed5"
+    },
+    {
+      "bytes": 421,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef01-full-python-312-verification.log",
+      "sha256": "8b53d7adab4b38fc99d2d0a44e821825f960fb747da7ec228b128c0d8dbeb71f"
+    },
+    {
+      "bytes": 55553,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef01-full-python-313-verification.junit.xml",
+      "sha256": "f2f8262f131d1fae1c02901b0da3e9e3375f6939aade0e76e1106f8441da4403"
+    },
+    {
+      "bytes": 8754,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef01-full-python-313-verification.log",
+      "sha256": "c134a5c1aa711222a17e9c91804796cdb27af3f6a812c3413ca9ce4a79299077"
+    },
+    {
+      "bytes": 55544,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef01-full-python-314-verification.junit.xml",
+      "sha256": "56de0a8d7dd0b443b3e399c00efc451abf437bad66d144ea344b353bed88d5bd"
+    },
+    {
+      "bytes": 8754,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef01-full-python-314-verification.log",
+      "sha256": "67e48b0019e266e555b4b9ca8377a5b752358b91632871810937995adcb5953c"
+    },
+    {
+      "bytes": 52,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef02-distinct-rules-setup.log",
+      "sha256": "3f6fd93c104c89aa1df6aa6851eaf8699014b4c8d6c51a1f7a8dd92dec060076"
+    },
+    {
+      "bytes": 2470,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef02-indexed-all-corrected-setup.log",
+      "sha256": "1bf67e4fd5b174bc7bb69f5c67d29bc14b08b4874fe1e0727d4a2ab95d48db0d"
+    },
+    {
+      "bytes": 2164,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef02-indexed-all-setup.log",
+      "sha256": "8f037aad78d020a51359e391e4a1c53edddb514c5f67dd97b54ebe5d90d44fd8"
+    },
+    {
+      "bytes": 52,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef02-indexed-eq-resource-setup.log",
+      "sha256": "3f6fd93c104c89aa1df6aa6851eaf8699014b4c8d6c51a1f7a8dd92dec060076"
+    },
+    {
+      "bytes": 927,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef02-native-bytecode-verification.junit.xml",
+      "sha256": "8e52de7d47d9b6b8771632f5b0d5fb8530c9707ca0d1431ebf15a99d9d210b19"
+    },
+    {
+      "bytes": 98,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef02-native-bytecode-verification.log",
+      "sha256": "9fe17b0188270dee55574f487842bfdc85861c7dca5c4c925b90b1f6bf41702f"
+    },
+    {
+      "bytes": 1581,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef02-result-pass-green.junit.xml",
+      "sha256": "598252e1f36781148f47ea7bb75444d319d7cbb27bcdcfa74b222a2aba433818"
+    },
+    {
+      "bytes": 1238,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef02-result-pass-green.log",
+      "sha256": "e4c12a29e32d504f6e6c8d94bbcaf7a49fc5f4773f68d43e7cca10027f801cb9"
+    },
+    {
+      "bytes": 2154,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef02-view-index-all-green.junit.xml",
+      "sha256": "3b9bf521e957907e98e264876491a1201b31e47f9e47a048745c0e183527c062"
+    },
+    {
+      "bytes": 2100,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef02-view-index-all-green.log",
+      "sha256": "470e189d1b2612659a581d71e2a4af8191653e7a83b1400b6ae6e1dfef2a8df5"
+    },
+    {
+      "bytes": 8738,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef02-view-index-first-green.junit.xml",
+      "sha256": "fac243c13fd4f6c1bf9d824dd103daa069d892484ce644b1726b9ddaa6884024"
+    },
+    {
+      "bytes": 8481,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef02-view-index-first-green.log",
+      "sha256": "925bc4d9dcfd8f9139a7a3d539816f62b179a94d3171fbc3ecbb0a72b7f3b340"
+    },
+    {
+      "bytes": 8678,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef02-view-index-red-red.junit.xml",
+      "sha256": "07539ddc3c8c1fdfb74a9daff8c2560a590b170e8cc99b9a3b3f07d8c88c8b2e"
+    },
+    {
+      "bytes": 8436,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef02-view-index-red-red.log",
+      "sha256": "735401bf984903f94bcbd15170f069d5ccb9a161fd277b81b0cd2ae75f03442e"
+    },
+    {
+      "bytes": 954,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef03-hash-slot-proof-verification.junit.xml",
+      "sha256": "118bf20b4a7f59596f6d14cb03b99b055a1ee598ef2c6cfd77177f4ed4f669eb"
+    },
+    {
+      "bytes": 997,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef03-hash-slot-proof-verification.log",
+      "sha256": "a39e497daa83733dca66ab4a312565158c680b739e2613e26ba0ede5f303dfa4"
+    },
+    {
+      "bytes": 954,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef03-hash-slot-proof2-verification.junit.xml",
+      "sha256": "99ba1b35b0724953a97a120dfb6420c02abc33b03a459e8e59cc28743cab62d2"
+    },
+    {
+      "bytes": 997,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef03-hash-slot-proof2-verification.log",
+      "sha256": "20f9a2bc6430cba7d40aeca30ba2065db22a2e9c47ef4bf0e3052418491ae851"
+    },
+    {
+      "bytes": 375,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef03-hash-slot-red.junit.xml",
+      "sha256": "de1e16ca9988d03b9bf15eaaf399922b84ae5d64c6d3d90d47f7c8b78866a291"
+    },
+    {
+      "bytes": 112,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef03-hash-slot-red.log",
+      "sha256": "adb475b3b93867c79b7d2121c164fb1fe7120b11ecdf0d2707fe0c078411a163"
+    },
+    {
+      "bytes": 353,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef04-view-naming-green.junit.xml",
+      "sha256": "d6c3dc13235460fe1b9ad5bbdf13d7c9eba75db69f451c64045557f467e817a1"
+    },
+    {
+      "bytes": 113,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef04-view-naming-green.log",
+      "sha256": "bd44c897865952a4423e81f7d9ddf00404573f80098cd19be4aa9a47efb69832"
+    },
+    {
+      "bytes": 41,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef05-golden312-verification.log",
+      "sha256": "628d9a80b9163bce118657fbeed651df1b0fee076f73a3173300e7582d9f64b0"
+    },
+    {
+      "bytes": 41,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef05-golden313-verification.log",
+      "sha256": "628d9a80b9163bce118657fbeed651df1b0fee076f73a3173300e7582d9f64b0"
+    },
+    {
+      "bytes": 41,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef05-golden314-verification.log",
+      "sha256": "628d9a80b9163bce118657fbeed651df1b0fee076f73a3173300e7582d9f64b0"
+    },
+    {
+      "bytes": 47361,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef06-final-native-rust-312-verification.junit.xml",
+      "sha256": "64ea96093e9419f3c3b508732c9d0bb6dd4a3e1bced2b3ebbd8f69850d520029"
+    },
+    {
+      "bytes": 421,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef06-final-native-rust-312-verification.log",
+      "sha256": "bb113c4f10f0553ec26f20ac5548421ed298ba0ed6f701ed6185e7c61198c67f"
+    },
+    {
+      "bytes": 48590,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef06-final-native-rust-313-verification.junit.xml",
+      "sha256": "453c6b19aff8a86600b8b850d0ca432f267e7aad06ae23c84586e220a31beed4"
+    },
+    {
+      "bytes": 1556,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef06-final-native-rust-313-verification.log",
+      "sha256": "5b8176f240d7a2e8ca94d88f8af0f1abcbfd5683fad2e22dc8d7205ab91da482"
+    },
+    {
+      "bytes": 48590,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef06-final-native-rust-314-verification.junit.xml",
+      "sha256": "d5c9d7aa0364545ca01fa7a55a9492ae3ae6170c1b6cdc0331cecf1978c75ebc"
+    },
+    {
+      "bytes": 1556,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef06-final-native-rust-314-verification.log",
+      "sha256": "96dc031aa4c8e14184adab7f74629ad05358a166f3e9cc0ed4845b14921c9ccd"
+    },
+    {
+      "bytes": 47362,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef06-final-python-312-verification.junit.xml",
+      "sha256": "a08050afe48b088959d9ac61874f769e980066d604523bb1860ea13122a3bd74"
+    },
+    {
+      "bytes": 421,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef06-final-python-312-verification.log",
+      "sha256": "0ad78a6f26e6349458e7478aecf7758e37abace96181418d6021f54c78cf0da4"
+    },
+    {
+      "bytes": 47362,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef06-final-python-313-verification.junit.xml",
+      "sha256": "b38540d304b144c82bbc124790255f12a2a78878aa8e5d73d3af544bc9f3df44"
+    },
+    {
+      "bytes": 421,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef06-final-python-313-verification.log",
+      "sha256": "27d29f7a55cf9909ef6038ad05f0a43b6ac287a773b3c306569335f54bfe627e"
+    },
+    {
+      "bytes": 47362,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef06-final-python-314-verification.junit.xml",
+      "sha256": "a093850ff13f668dc3ebd139a91c9169af0b03b157c9c205e594bc302b4e1dbb"
+    },
+    {
+      "bytes": 421,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef06-final-python-314-verification.log",
+      "sha256": "8351121a38f03147710df7645e24c9a0b4020440ea0a936a370c08f8f0143899"
+    },
+    {
+      "bytes": 375,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef07-public-hash-source-green.junit.xml",
+      "sha256": "d085180a592420efc75aa7ac6de9a66ceaae19bb06ae8cc2ed37afe2b4874e55"
+    },
+    {
+      "bytes": 112,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef07-public-hash-source-green.log",
+      "sha256": "0bb0b25e3a4c8abe12c4bfe9852439bbdfdd133072545dc099f268c808ea1f65"
+    },
+    {
+      "bytes": 1605,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef07-public-hash-source-red.junit.xml",
+      "sha256": "033a3bc8e31f5a2eb6c22c47d65c1dadbe23385e468a25628b48df520384f710"
+    },
+    {
+      "bytes": 1299,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef07-public-hash-source-red.log",
+      "sha256": "20c9402890a4d0e68c737cfa1f7ba7e3893c1730c1217a19b0e66167777dafb6"
+    },
+    {
+      "bytes": 491,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef08-authority-negative-verification.junit.xml",
+      "sha256": "229d27337caab6406b93cda4c568e31c467e5b3c94f5752db829ec2995e10ad8"
+    },
+    {
+      "bytes": 112,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef08-authority-negative-verification.log",
+      "sha256": "459dcdc6f38b8de960ead250f699694be8f7c46bf0746c894a4b9f48cc462844"
+    },
+    {
+      "bytes": 41,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef08-gold312-verification.log",
+      "sha256": "628d9a80b9163bce118657fbeed651df1b0fee076f73a3173300e7582d9f64b0"
+    },
+    {
+      "bytes": 41,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef08-gold313-verification.log",
+      "sha256": "628d9a80b9163bce118657fbeed651df1b0fee076f73a3173300e7582d9f64b0"
+    },
+    {
+      "bytes": 41,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef08-gold314-verification.log",
+      "sha256": "628d9a80b9163bce118657fbeed651df1b0fee076f73a3173300e7582d9f64b0"
+    },
+    {
+      "bytes": 47610,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef09-final-native-rust-312-verification.junit.xml",
+      "sha256": "23d6b8ecddf1bc31bd03856329663dbaa7da11329e8833c89a193ef01291aa5a"
+    },
+    {
+      "bytes": 421,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef09-final-native-rust-312-verification.log",
+      "sha256": "6c066d1ab9b5e068fc987888afa63b2cbea1d56073db25560c5a365ef07b774f"
+    },
+    {
+      "bytes": 47610,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef09-final-native-rust-313-verification.junit.xml",
+      "sha256": "3b9a8dadc27bf0770f73c0ca8b07abf5f81cf853d8c1d74ab57357a5737f483a"
+    },
+    {
+      "bytes": 421,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef09-final-native-rust-313-verification.log",
+      "sha256": "ff670ad1cd803b66370ebd1ccbe3e83c544286472ac0132fd3acffd91a46e054"
+    },
+    {
+      "bytes": 47610,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef09-final-native-rust-314-verification.junit.xml",
+      "sha256": "625df378e7c5b4e08cf2fcd62a6b8c4907c02f2a9b7ca39145c40b1235a3c32d"
+    },
+    {
+      "bytes": 421,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef09-final-native-rust-314-verification.log",
+      "sha256": "921b32f977ad7405c1fab4f646f9a03b88175395130655c12b05f3f9e5000842"
+    },
+    {
+      "bytes": 47610,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef09-final-python-312-verification.junit.xml",
+      "sha256": "025ca725b577fb269417409611ed128cb49b87690ea13bc3dfe35ae61c1ed0cc"
+    },
+    {
+      "bytes": 421,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef09-final-python-312-verification.log",
+      "sha256": "a8c072514874afbbcc39fbbd3260652baa22216334697d96a7021546f8e6234b"
+    },
+    {
+      "bytes": 47610,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef09-final-python-313-verification.junit.xml",
+      "sha256": "c3ef234c18621c721dc5cc4c1a7fbe54309cea21f0e355180ddc86405ca45a5f"
+    },
+    {
+      "bytes": 421,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef09-final-python-313-verification.log",
+      "sha256": "ba5ba51afcef77f65ab687b4771c3446cee44224cdb68a54632855f9cc76c096"
+    },
+    {
+      "bytes": 47610,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef09-final-python-314-verification.junit.xml",
+      "sha256": "3dd24c43a1c97960b68731eb3b4d6e9183fae23f38d1df5a1929080b8004251f"
+    },
+    {
+      "bytes": 421,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/ef09-final-python-314-verification.log",
+      "sha256": "76e109577a2696e75b34364b9a043c500b2494591ec67a7348ad929b26c9b378"
+    },
+    {
+      "bytes": 1937,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/environment-native-rust-312.json",
+      "sha256": "f8c78e9dc49fd42eeed69171a8a6aaa751a29b18e7093728ecc858da1191d10c"
+    },
+    {
+      "bytes": 1955,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/environment-native-rust-313.json",
+      "sha256": "572a84bc0d0a6f040f4407f61481c3eb8d020c87daeb6f4f7ed0fe6c91062b2a"
+    },
+    {
+      "bytes": 1954,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/environment-native-rust-314.json",
+      "sha256": "b6543b5b14b14de9f0ac58be684a538d807dc6052bbc42928de20108c699d48b"
+    },
+    {
+      "bytes": 1932,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/environment-python-312.json",
+      "sha256": "1b5da1b6ab1628baea2407f6ca4eb453811d1369d890165611e0b1775f184a2a"
+    },
+    {
+      "bytes": 1950,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/environment-python-313.json",
+      "sha256": "c94392450b39502c4b8991de936c19e06ec02ae96e41fa145dc83e65a52aaf4a"
+    },
+    {
+      "bytes": 1949,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/environment-python-314.json",
+      "sha256": "4665ac8cccf13b63c47c9b32daea786f508209dd0ed73818ded41850df58c294"
+    },
+    {
+      "bytes": 2466,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/environment_probe.py",
+      "sha256": "2ff380dfb25c2838db1596a0c84dd8cee6948e89d0b3cfc43548dd7f0fdcd148"
+    },
+    {
+      "bytes": 1393,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/evidence-qa.json",
+      "sha256": "752f87b6cedf9b1f4f2ebfe21fd253bd31789ce80b2e14bacb6f620d6a564832"
+    },
+    {
+      "bytes": 509,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f01-completed-green.junit.xml",
+      "sha256": "089b1b9025d320bf2ad4c5acc99ae909b35f4405172dbcfd7abe238dc386dc13"
+    },
+    {
+      "bytes": 113,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f01-completed-green.log",
+      "sha256": "0bc9b2630057176bc07e6e7ef8f81e9a3f847d90979b59c1995cf106486a314b"
+    },
+    {
+      "bytes": 13863,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f01-first-green-green.junit.xml",
+      "sha256": "63f7ed09226aa3b91db47baba5bff98f65280563a219a9e1a98cff4f23cfcef9"
+    },
+    {
+      "bytes": 13354,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f01-first-green-green.log",
+      "sha256": "ee7a6c18308ab4e29787688d2aeb289ce7e19e06ce9c449a05c251ed3563d284"
+    },
+    {
+      "bytes": 52,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f01-kept-prelude-setup.log",
+      "sha256": "3f6fd93c104c89aa1df6aa6851eaf8699014b4c8d6c51a1f7a8dd92dec060076"
+    },
+    {
+      "bytes": 52,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f01-prelude-setup.log",
+      "sha256": "3f6fd93c104c89aa1df6aa6851eaf8699014b4c8d6c51a1f7a8dd92dec060076"
+    },
+    {
+      "bytes": 3049,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f01-red.junit.xml",
+      "sha256": "164d574a3a125e478f2b77127bfb96e97e0287f03b7c7b2ce1ebd5ee4ebd8dc5"
+    },
+    {
+      "bytes": 2881,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f01-red.log",
+      "sha256": "46cdbbc0f850037e3fd0b7109028df79969e2be401dcadbf9cb19a093203b3c3"
+    },
+    {
+      "bytes": 41,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f01-retained-root-golden-setup.log",
+      "sha256": "628d9a80b9163bce118657fbeed651df1b0fee076f73a3173300e7582d9f64b0"
+    },
+    {
+      "bytes": 1727,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f01-selected-golden-setup.log",
+      "sha256": "a7d774afe963b1a2850c91193e4ef98a03b9ea2e69e773d6d9b997b3e4c6b7ed"
+    },
+    {
+      "bytes": 52,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f01-single-statement-prelude-setup.log",
+      "sha256": "3f6fd93c104c89aa1df6aa6851eaf8699014b4c8d6c51a1f7a8dd92dec060076"
+    },
+    {
+      "bytes": 3049,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f01-thaw-red-red.junit.xml",
+      "sha256": "7dc834b7be1f84c04bb4fca0ff1377f54446ddfe1d05a0100d45696f970fa95a"
+    },
+    {
+      "bytes": 2881,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f01-thaw-red-red.log",
+      "sha256": "d3e97d19967f604ce41f1492d9add4adb6f0eed5bf1ba6e07e13ada21df4e4ee"
+    },
+    {
+      "bytes": 4108,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f02-native-before-verification.junit.xml",
+      "sha256": "9096165590331d33427e1806f013323e5629efa29e92e1ee237df4f075b58561"
+    },
+    {
+      "bytes": 99,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f02-native-before-verification.log",
+      "sha256": "ae915455e3a32856611b414fe55a7fe57765fd042daf5b81fced19b66e23047b"
+    },
+    {
+      "bytes": 6865,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f03-carrier-native-rust-green.junit.xml",
+      "sha256": "d3ab16b95dfd3b813455e8ccdcd2460b57153b01e38a8ac0151f0b4df8431266"
+    },
+    {
+      "bytes": 99,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f03-carrier-native-rust-green.log",
+      "sha256": "2a2cb6b150788663e7d0c79d0cc463f8e8267c3ea45ca4977cdb7061255ebbdb"
+    },
+    {
+      "bytes": 6865,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f03-carrier-python-green.junit.xml",
+      "sha256": "0582fcde1372964f7a75b2d05178e6e78745d2bc31b3e717afbbdf4e5878a520"
+    },
+    {
+      "bytes": 99,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f03-carrier-python-green.log",
+      "sha256": "2b8f0ac52e2e199a1676fe4ccbe24f3a982eb9c0632b009e5bc45a757731da9d"
+    },
+    {
+      "bytes": 26687,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f03-context-before-red.junit.xml",
+      "sha256": "10870db390f4c8dab7701c8748b64c98a9e66c27e981995b9ef2d006c23e85d8"
+    },
+    {
+      "bytes": 24118,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f03-context-before-red.log",
+      "sha256": "6b9263205284ad670ae5ff984c9a6cd25b3c2e8f1bb273a65e90ef1869ce4697"
+    },
+    {
+      "bytes": 126610,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f03-first-green-green.junit.xml",
+      "sha256": "72d4b8195d4dccbd06c4856c9cc1484de74d7f2a882f23ab11dce434adfbeb9a"
+    },
+    {
+      "bytes": 117486,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f03-first-green-green.log",
+      "sha256": "710355ca9d638b969f2aa55d1d8d22a6dd8f2e9e726ff823e2d293835a7bb7f1"
+    },
+    {
+      "bytes": 126610,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f03-kept-native-rust-green.junit.xml",
+      "sha256": "25f39039cd5785efcb0422af0772480ea7302bd7395c29b7c9cbaed8242115d9"
+    },
+    {
+      "bytes": 117486,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f03-kept-native-rust-green.log",
+      "sha256": "d96d6d873bce9358788e7f3f1f390b6ac76988481a29b3089c16452c7142014a"
+    },
+    {
+      "bytes": 139822,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f03-kept-python-green.junit.xml",
+      "sha256": "14481ba1a8e5b6b0b566436d55f7b5cdf8f9a0a676ef36a578d44e4de25181ab"
+    },
+    {
+      "bytes": 131904,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f03-kept-python-green.log",
+      "sha256": "3dfabacca17a037d62e8cbfc6d7dc4c777251233772e0b3c615cca5d1382dc90"
+    },
+    {
+      "bytes": 139822,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f03-python-attempt-green.junit.xml",
+      "sha256": "97ef9e87bd3d6c421d74137363f7cd5ac6f963d4589cb3110acac2e507658361"
+    },
+    {
+      "bytes": 131904,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f03-python-attempt-green.log",
+      "sha256": "53140f235e89e7e3d8f8100a00ddcbb56a42bf0aec542eaafbe928636560fc03"
+    },
+    {
+      "bytes": 927,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f04-authority-corrected-verification.junit.xml",
+      "sha256": "e4092d5025c7a4428876263b12c2f0f1243e44b6648e5c0789beb9ee7f02775b"
+    },
+    {
+      "bytes": 98,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f04-authority-corrected-verification.log",
+      "sha256": "06ca81d2dad002998f1edaf6e5085798550ed9fd2c677dd01c1aced720143646"
+    },
+    {
+      "bytes": 7373,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f04-authority-runtime-verification.junit.xml",
+      "sha256": "8d6e0dcf6c6eff8e2ea416621dbc6672952c1980dd68822cc8fe81b0370c77c8"
+    },
+    {
+      "bytes": 6090,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f04-authority-runtime-verification.log",
+      "sha256": "c97cf081be194ce0250b41ba8ca444e0baa321e708a75e386825baac7281e98f"
+    },
+    {
+      "bytes": 3567,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f04-source-native-verification.junit.xml",
+      "sha256": "9cc333cc2e6d583f336da43f95cdd64b6b96fb8a411c115d829a7adc4da09398"
+    },
+    {
+      "bytes": 99,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f04-source-native-verification.log",
+      "sha256": "d8a8ef877c34089d0026d1962be4b112b25a6d43a030d08fd84d492eca201a8a"
+    },
+    {
+      "bytes": 3567,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f04-source-python-verification.junit.xml",
+      "sha256": "eb1be6e57d9ed205e158e7f9d2fb3247304692904ea7eb6839b796198ccc5839"
+    },
+    {
+      "bytes": 99,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f04-source-python-verification.log",
+      "sha256": "0697e9c058c47ae88489e78e0dd599c29586dc812102bb9a8918b8afa552e0bc"
+    },
+    {
+      "bytes": 8628,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f05-expanded-verification.junit.xml",
+      "sha256": "aeee5739cbb2aa62e42416850558d426aaf71dc6ec90966d03e05574439392e5"
+    },
+    {
+      "bytes": 99,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/f05-expanded-verification.log",
+      "sha256": "64b272c95179ecd2d071a132fec82fa06b027338f76c4c046c8c6cf5712b865d"
+    },
+    {
+      "bytes": 75549,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/increments.jsonl",
+      "sha256": "73db607629986c8f2a9cfbb9ab36b8f31f9da31ed6bc240eeb645afaa94feabc"
+    },
+    {
+      "bytes": 3262,
+      "inventory_relation": "owned_inventory",
+      "path": "docs/validation/stage-ef/record_increment.py",
+      "sha256": "03efca72529c12fb7a6fd3c706ce29705d0ee5263d3b6deba1563466dfe44cb5"
+    },
+    {
+      "bytes": 993,
+      "inventory_relation": "owned_inventory",
+      "path": "pyproject.toml",
+      "sha256": "4e586b0e4a34cde4391712250901797b464f293e02ce84debd7279ccf66d03b7"
+    },
+    {
+      "bytes": 1342,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/__init__.py",
+      "sha256": "25ae9732f642484976e46cf7a8e694edd9313f9c2ea7d820d6cdbc54ec2f4e32"
+    },
+    {
+      "bytes": 198087,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/_generated_undoable_base.py",
+      "sha256": "f38cfe834ba551d9e91300bcc9aab15d632b17bf6b49d74898c1cada1abbde11"
+    },
+    {
+      "bytes": 853,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/bindings.py",
+      "sha256": "31e46568faa9838d3a9e11528d825e1127190115f4cc92211cd327d7666235da"
+    },
+    {
+      "bytes": 3156,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/callbacks.py",
+      "sha256": "96763aaa39d77d33b7856d2a0047ed933119b519ab13ac53d690382bf36e595b"
+    },
+    {
+      "bytes": 191,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/candidates.py",
+      "sha256": "82f4dfb268c1754d4eb1e904fb5d2331e9ac2fb37ada5dbaf2aea95d09775b48"
+    },
+    {
+      "bytes": 680,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/errors.py",
+      "sha256": "b941cfc850db021261780c0589748fdd1f39152c2918711dd972a715a946c2ae"
+    },
+    {
+      "bytes": 11680,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/facades.py",
+      "sha256": "0ef6f62c163a08bd865546e42ceabfb04a65ccac68e58ff5d0c178bfc1740a7d"
+    },
+    {
+      "bytes": 1705,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/graph.py",
+      "sha256": "f5bae0901ef2d3848475bf5e084c5320af2f789bc603e1a7512822d1285f4b5d"
+    },
+    {
+      "bytes": 1388,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/history.py",
+      "sha256": "7efa86e3da7ddebd3b2338f02470c4c04ca708548ac499b376bfe6934a862ffc"
+    },
+    {
+      "bytes": 975,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/policies.py",
+      "sha256": "fbcb81baf2f32d658db20ad3db1123ab6571b9fb28d26b07ca523688646176d3"
+    },
+    {
+      "bytes": 0,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/py.typed",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 4414,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/regenerate_undoable_base.py",
+      "sha256": "f5614739ffe674ee3d84d42d3fe2a684ecdcb2e9a489f12df42f573cfd62f34c"
+    },
+    {
+      "bytes": 1641,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/snapshots.py",
+      "sha256": "342fbae13ab38de4c873a98903302e59e6f7a0a40c0896f200e3804dbd15994b"
+    },
+    {
+      "bytes": 962,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/states.py",
+      "sha256": "84b01c991bbcff71a4a1bdd674d7b8d5baeeefb0319ab591263bfed21c66d58a"
+    },
+    {
+      "bytes": 30938,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/transaction_yidl.py",
+      "sha256": "99ca200875fe1f74f8fd85b3f698d8f220124e9f6b4923fe0f728bb5c77b955b"
+    },
+    {
+      "bytes": 5919,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/undoable.py",
+      "sha256": "740d2012c9d64149fe0d86a56d4b016235118ac599f315680fa5b30d7cb70170"
+    },
+    {
+      "bytes": 5748,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/undoable_harvester.py",
+      "sha256": "18d274aabc21d47167eb03afce0c3a187d7fe55d16ee7038b82df71765fbc412"
+    },
+    {
+      "bytes": 3208,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/undoable_markers.py",
+      "sha256": "0d0fa2566464ca9134b2c28f0f3f2cca4e43705670e2272ef1e4094139caf96d"
+    },
+    {
+      "bytes": 4880,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/values.py",
+      "sha256": "124ebca00e0ef896d8c94fca0883827700834d0c3cc2a669491095b64fccc399"
+    },
+    {
+      "bytes": 630,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/write_comparison_context.py",
+      "sha256": "1993ffe98c68a1be017aef724feee323237e42343051081dbc21400cbd75032e"
+    },
+    {
+      "bytes": 156,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/yidl/undoable_base.yidl",
+      "sha256": "5838c0c66a6640fd93f213cf580f244eee5da844ee77a8c052dae02439429448"
+    },
+    {
+      "bytes": 2024,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/yidl/undoable_binding.yidl",
+      "sha256": "b2f5bd18875042e1e552fc5eb96c88981357d25bec2f308fff4bfe8914e73df7"
+    },
+    {
+      "bytes": 10189,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/yidl/undoable_comparison.yidl",
+      "sha256": "34b0b857201d762befdd66f21efde247010bd20537dc043b357675e585244aae"
+    },
+    {
+      "bytes": 4835,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/yidl/undoable_const_static.yidl",
+      "sha256": "518c0e00fdf34119a130b5520fae4b39b126d238b61eb21f7c4e1ab7f6d0d8a0"
+    },
+    {
+      "bytes": 9627,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/yidl/undoable_core.yidl",
+      "sha256": "535cda46c06f44c84dde1fbe3aa2633902c370971b5ee4caa4964b27cb06f269"
+    },
+    {
+      "bytes": 519,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/yidl/undoable_default_factories.yidl",
+      "sha256": "8b103140dd1de0c4d4584e9acd8a92986459d803431498ae59d0f69d2a75dbcb"
+    },
+    {
+      "bytes": 1309,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/yidl/undoable_local_store.yidl",
+      "sha256": "494830f7b105dee583e53a6a2be0e06addccdb3bac10411d0796296e4b128764"
+    },
+    {
+      "bytes": 1271,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/yidl/undoable_managed.yidl",
+      "sha256": "e550d63f3b405415f2159797992039893498100835dbd189b8417255ec268bc4"
+    },
+    {
+      "bytes": 2143,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/yidl/undoable_transient.yidl",
+      "sha256": "ed0901c22fc66c8f083fa60037a5cb941c4f8e73a0dd429e26a860da654c2a0b"
+    },
+    {
+      "bytes": 2783,
+      "inventory_relation": "owned_inventory",
+      "path": "src/yidl_undoable/yidl/undoable_views.yidl",
+      "sha256": "4d073e76b1bd3379ef223fe913c6f356e2628777609bfc5e522150ba41c14806"
+    },
+    {
+      "bytes": 959,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/canonical_support.py",
+      "sha256": "7e3806f7c557c927dc1ecddaeef7802736bdae3b4e8f7b0e8be52a0fa35274c4"
+    },
+    {
+      "bytes": 819,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/01_initial.py",
+      "sha256": "a849086be685e703f840b022d3427c33808db3bc7cd4998dd8e95f1db43a20e0"
+    },
+    {
+      "bytes": 1397,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/02_transactions.py",
+      "sha256": "d4ce37e629d00c788d3e10e422221dec7841310bd117ebd7f2f4e0339bf18de5"
+    },
+    {
+      "bytes": 1161,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/03_sparse_branch.py",
+      "sha256": "bb3913a7e6d14e160c89367fcedc6e091dbad7b911bf7af7221e8be4bdfd4399"
+    },
+    {
+      "bytes": 2227,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/04_topology.py",
+      "sha256": "8ac74b29f865f0c6452ed743b4e585e9f779f8896f00934556a66bbfa976bfdc"
+    },
+    {
+      "bytes": 1996,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/05_absence_snapshots.py",
+      "sha256": "f532492e0be10da7ad6c0c5f41939c388ef20d100a290afcb853f593a57778b2"
+    },
+    {
+      "bytes": 3023,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/06_field_policies.py",
+      "sha256": "b6dd67909c5956f0fe00b009d63d12c5c469fd3bed17f6d03a71e34bee3a96dc"
+    },
+    {
+      "bytes": 1976,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/07_construction_providers.py",
+      "sha256": "ba16afc89f5213a77b465819090e9911e7dfa635298a06a885309753201b95aa"
+    },
+    {
+      "bytes": 2531,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/08_callback_fences.py",
+      "sha256": "2e17585012268d66a7c6455dd0369db08794b5719f03355a297466efd8c16cf6"
+    },
+    {
+      "bytes": 2836,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/09_atomic_validation.py",
+      "sha256": "daab7f72293e63c097bc64a9f59cc7b680a656b3ce0653ff2ea977e42dc139c1"
+    },
+    {
+      "bytes": 3081,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/10_stability_and_providers.py",
+      "sha256": "612b57aff21de6e019f7732e3b88e5797d3252be519e684112d6521f8fa1dc07"
+    },
+    {
+      "bytes": 3076,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/11_layers.py",
+      "sha256": "645de3fd0135d2dbe3900f8e9fd29cb0fc3bac7fa0500775a2a1a76a0bdee453"
+    },
+    {
+      "bytes": 2629,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/12_completion_and_containers.py",
+      "sha256": "ed685abce675ed7c7bffaec930c9a9f34aa6561be7206f4a6f3a98ba32c7904a"
+    },
+    {
+      "bytes": 1064,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/13_zero_constructor_fields.py",
+      "sha256": "ba0d99f640da0eed4d5194758dccac2a33eb59fa197274397dcfb45f24fb385b"
+    },
+    {
+      "bytes": 1580,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/14_working_sets.py",
+      "sha256": "8394dd23c87cd1e3a7f0b108ee5a3e65b0918bb4d6ba44e730bf20b9847782d5"
+    },
+    {
+      "bytes": 1007,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/15_lazy_constructor_providers.py",
+      "sha256": "33ecc1bb748b668c7ffd2b483b353c15b112d3de1081a74bf6ea4548f29ff906"
+    },
+    {
+      "bytes": 1969,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/16_candidate_transients.py",
+      "sha256": "c633ed4f8e867a38197f44be285fb23d849e59f0bc79c6cf0939acdfdea50d5f"
+    },
+    {
+      "bytes": 1105,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/17_snapshot_node_identity.py",
+      "sha256": "1dae66c53b10e16e84a1494077d5903b5c304d691f72af5df0ea0e1a0c175a01"
+    },
+    {
+      "bytes": 1894,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/18_provisional_child_views.py",
+      "sha256": "06557f3590b02ca7b49aaa02eb05c7283fab1c6b82090da9b2586954a5727fd8"
+    },
+    {
+      "bytes": 2097,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/19_thaw_result_child_views.py",
+      "sha256": "3a88d9acd5d28755bfdfe811a64b61bdd81b911b1e938d77b13a059aebeb6f9a"
+    },
+    {
+      "bytes": 2066,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/20_custom_transaction_keys.py",
+      "sha256": "663687ac306de432b9f4937fce4581551d6e5ef89dd1ba03e28d174fe8bc254d"
+    },
+    {
+      "bytes": 2827,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/21_undoable_comparisons.py",
+      "sha256": "685d9108c1fa3d534b01d49922ea6f14d912d786349d6002b0af228220457948"
+    },
+    {
+      "bytes": 1339,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/22_undoable_field_removal.py",
+      "sha256": "203026449326297aa4e68dd9a2295adf97301b1a39857c6b9d4077e9a54bb68b"
+    },
+    {
+      "bytes": 2466,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/gold_src/23_undoable_write_compatibility.py",
+      "sha256": "3a28df65521af20709ace9f7e1ff94c3fe403d6344c457c969e7a852d020ee8c"
+    },
+    {
+      "bytes": 2764,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/01_initial.generated.py",
+      "sha256": "b76a038e2fa27f64ae9bc62a23552fd0bbf24209806ba8eabdca1e2dcc638c1b"
+    },
+    {
+      "bytes": 2551,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/02_transactions.generated.py",
+      "sha256": "9b3d5b6ca2a9f0c1324db7a6978de6374322a4246f2a92b26eaefd625152e315"
+    },
+    {
+      "bytes": 2777,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/03_sparse_branch.generated.py",
+      "sha256": "5ea89b24e814710bb702ff2de3a720338f430c48193ab6a95d02375b839940f3"
+    },
+    {
+      "bytes": 2287,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/04_topology.generated.py",
+      "sha256": "bc496e2e88c3b78ecbbfce75273d35ce09e260fa663483661f07a3cd0ce6cd5d"
+    },
+    {
+      "bytes": 2596,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/05_absence_snapshots.generated.py",
+      "sha256": "4d1fd187a43f8d03739b8dc8da339428c716afa86cf38136b570b48d813bb01f"
+    },
+    {
+      "bytes": 10049,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/06_field_policies.generated.py",
+      "sha256": "3764e402b82d91b9f5138d4188b539f406d19848b8e4ca413c6a64af5c5b4b6a"
+    },
+    {
+      "bytes": 9821,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/07_construction_providers.generated.py",
+      "sha256": "57d96c6d838f054fac923254aab42bf9250f6a20e1067436508416bd3e3e3fa8"
+    },
+    {
+      "bytes": 5955,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/08_callback_fences.generated.py",
+      "sha256": "bda283f1dac30c5e96bc922dcf01ea8bfa26b023792f44723ca5b26573bcc882"
+    },
+    {
+      "bytes": 6206,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/09_atomic_validation.generated.py",
+      "sha256": "8df8102dc0cfa27f0184919efc18f6b8ddb24741f08413db8158de5058ad3ff7"
+    },
+    {
+      "bytes": 9467,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/10_stability_and_providers.generated.py",
+      "sha256": "c6500f169e16e74587044557181ffec1198f38e73b0af48bef0373b0aa3395ae"
+    },
+    {
+      "bytes": 22322,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/11_layers.generated.py",
+      "sha256": "019db60642f46f30f3a68084745482ba31c0734ab9d102d550ec0ef1a12a3375"
+    },
+    {
+      "bytes": 4831,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/12_completion_and_containers.generated.py",
+      "sha256": "58c849b079dbd1ec2a1093b70f79d0743156a6164fe9ad06b8042a24e43e2099"
+    },
+    {
+      "bytes": 6194,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/13_zero_constructor_fields.generated.py",
+      "sha256": "3b32b930b32ee71cfb2ab674483e693119fd5675491c3f4c35d93980c58aa7e5"
+    },
+    {
+      "bytes": 2990,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/14_working_sets.generated.py",
+      "sha256": "4a7195e8b1aff3fe5c2fa52ad3c1a45b7baea3b5ed8fbd93cf009bf080db218d"
+    },
+    {
+      "bytes": 4313,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/15_lazy_constructor_providers.generated.py",
+      "sha256": "437ed05f19c20032c7c132799240758c20f16f10b1562b89a9d58cfc2c14b58c"
+    },
+    {
+      "bytes": 2341,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/16_candidate_transients.generated.py",
+      "sha256": "8f4fc835de3418f8238df61536940046f733444b27bdb6929a67a68e11005276"
+    },
+    {
+      "bytes": 2996,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/17_snapshot_node_identity.generated.py",
+      "sha256": "7f62780f45b2ae361b3f95a00d353d1ddb6f3d96af0ad57b24989c03c4fe3106"
+    },
+    {
+      "bytes": 3750,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/18_provisional_child_views.generated.py",
+      "sha256": "254b57d341c1d535f64fc170f7e242ea5fb36a3fb88f24e9710a7a4123332f23"
+    },
+    {
+      "bytes": 3866,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/19_thaw_result_child_views.generated.py",
+      "sha256": "2cb3d2285ea9d020d1eb0ae78e182b964b57e99953a70e6f5dc439d5e4f9cf29"
+    },
+    {
+      "bytes": 1872,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/20_custom_transaction_keys.generated.py",
+      "sha256": "4b1564a48aaeae55735b0d35e8998a8bc815fea0ea5fdf90ea2f885a2d46e783"
+    },
+    {
+      "bytes": 20280,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/21_undoable_comparisons.py312.generated.py",
+      "sha256": "2b0b843c6497e1aa72291ecc588baee5ee7e3c33de3ebb37e76ecf229e31ad98"
+    },
+    {
+      "bytes": 22980,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/21_undoable_comparisons.py313.generated.py",
+      "sha256": "c882968128646c03ec6c050ba91a8dc6e20bd674b75063e0afa163a390d4941d"
+    },
+    {
+      "bytes": 22980,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/21_undoable_comparisons.py314.generated.py",
+      "sha256": "c882968128646c03ec6c050ba91a8dc6e20bd674b75063e0afa163a390d4941d"
+    },
+    {
+      "bytes": 17009,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/22_undoable_field_removal.py312.generated.py",
+      "sha256": "f4b0b9acf39d65acc2ae113d9fd46fde0b0e49519b14cb14fd1c7ea1cb267039"
+    },
+    {
+      "bytes": 17201,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/22_undoable_field_removal.py313.generated.py",
+      "sha256": "81120793c5037b73b7147fb25e0e1433e4e85da01716eafc4dda54f553a9f94f"
+    },
+    {
+      "bytes": 17201,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/22_undoable_field_removal.py314.generated.py",
+      "sha256": "81120793c5037b73b7147fb25e0e1433e4e85da01716eafc4dda54f553a9f94f"
+    },
+    {
+      "bytes": 50214,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/23_undoable_write_compatibility.py312.generated.py",
+      "sha256": "a797acc75fbecc3964ffce06c506b3205b86e15238e97e457b27d07adde8a390"
+    },
+    {
+      "bytes": 50946,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/23_undoable_write_compatibility.py313.generated.py",
+      "sha256": "507c3056e14279e4ae4ef380f94ff74ecee748bae72796b9f6aa6b59d6abc24c"
+    },
+    {
+      "bytes": 50946,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/data/golden/23_undoable_write_compatibility.py314.generated.py",
+      "sha256": "507c3056e14279e4ae4ef380f94ff74ecee748bae72796b9f6aa6b59d6abc24c"
+    },
+    {
+      "bytes": 895,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/regenerate_golden.py",
+      "sha256": "7bd7c279ddce8c3a9dd82c2ce2ca76c6ac52f00160d69be5ed633a227f33bc40"
+    },
+    {
+      "bytes": 3602,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/test_adversarial_diagnostics.py",
+      "sha256": "4938e01bb5380ab454e901ac7f1a20a59b15820d0bb10e8361893b475ca0000c"
+    },
+    {
+      "bytes": 499,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/test_annotation_recognition.py",
+      "sha256": "54ade764cb20caee104a24f411d306b171a6c9832bccba69da780ee0f416f17b"
+    },
+    {
+      "bytes": 5149,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/test_begin_setup_faults.py",
+      "sha256": "1cdae36dd32e2ed5b76e53b71152abb700553d9fc7827f4c519456f987fe9a60"
+    },
+    {
+      "bytes": 399,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/test_canonical.py",
+      "sha256": "f35f7b74eb2af61cf1e28e8568270a64db27785bfd51131afc506990450cea01"
+    },
+    {
+      "bytes": 4276,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/test_comparison_definitions.py",
+      "sha256": "f5e00c3c0d49fb45b0a3dd76008bebbbf34c0131012052a10ab6548e7bfd4b6f"
+    },
+    {
+      "bytes": 7187,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/test_comparison_source.py",
+      "sha256": "ba76249c422e5e119cbc872b716868b27d4fe9e1679f55449be8a3ba6923a3ce"
+    },
+    {
+      "bytes": 12452,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/test_completion_authority.py",
+      "sha256": "28f375054e9b6c01dc7d4f0c0ddf4f0ccef2a04d0473a159ea53bdbc2c949fe4"
+    },
+    {
+      "bytes": 4085,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/test_definitions.py",
+      "sha256": "b3e47dbde6c63fdb4439829b42d30bcaa33e6c96dc597c20cde094f752db4756"
+    },
+    {
+      "bytes": 1929,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/test_faults.py",
+      "sha256": "40ef37ab4b8dcb5807e1152c06a66b72b3b0cbe63be02c9bdf72bbb36e62e27c"
+    },
+    {
+      "bytes": 2559,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/test_generation.py",
+      "sha256": "9ac87bc06da079a7ca1b2a3db58b0fdd9b671f7028016e9237e1c96963dd1c30"
+    },
+    {
+      "bytes": 382,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/test_history.py",
+      "sha256": "6d6a643f1d7e819624d01e871feb862ff6cd247aa2a4fd73e42edd205f3b06dc"
+    },
+    {
+      "bytes": 1768,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/test_provisional_fences.py",
+      "sha256": "21801662f68a13bd6b1a8cb680d76d53afa2f2e2aeba21f5a97cc43ff9c32f5c"
+    },
+    {
+      "bytes": 592,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/test_remediation_diagnostics.py",
+      "sha256": "c8a90373b9862a121d7c8c2db13eab4963d5e022633950ae90ccadaf4ef80a4c"
+    },
+    {
+      "bytes": 2775,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/test_remediation_faults.py",
+      "sha256": "7226120189f7f4da8b03c164f883d2b160517df73dee7055c9696c03f306da6e"
+    },
+    {
+      "bytes": 1195,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/test_state_diagnostics.py",
+      "sha256": "6d6ff295a5ddb3a39b46bca2d061d5b92c8fef74dbe03cc33ff68c08b9108ba1"
+    },
+    {
+      "bytes": 1973,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/test_thaw_result_fences.py",
+      "sha256": "f378899e900a198a884b0fa895fe669181105702c72470d7403f006bc5b4f8f4"
+    },
+    {
+      "bytes": 7608,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/test_transaction_key_fences.py",
+      "sha256": "c562b936bc41f73c530dfe2c70b4db9f54e7b9210b1e8ae386af66c713fb1181"
+    },
+    {
+      "bytes": 15046,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/test_write_comparison_context.py",
+      "sha256": "bf155dd218fd434f4ef568d3752efdce84cf8794372fd910bab62a416bc1b524"
+    },
+    {
+      "bytes": 8179,
+      "inventory_relation": "owned_inventory",
+      "path": "tests/test_write_native_dispatch.py",
+      "sha256": "1ee7ab266f133a7a6eb9316bb2753fb5da7440317a6f299ff1a1ebbd0576468b"
+    }
+  ],
+  "raw_archive": "external:yidl-undoable-stage-ef-raw",
+  "removed_owned_paths": [],
+  "stage": "E/F"
+}

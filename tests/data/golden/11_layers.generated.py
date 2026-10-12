@@ -7,6 +7,14 @@ def build_undoable_class(base_cls, *, schema):
         __slots__ = ()
         __undoable_schema__ = schema
         pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         def __init__(self, *, transaction_manager, plain=_HAS_DEFAULT_FACTORY, constant=_HAS_DEFAULT_FACTORY, delayed=_HAS_DEFAULT_FACTORY, value=_HAS_DEFAULT_FACTORY, items=_HAS_DEFAULT_FACTORY, scratch=_HAS_DEFAULT_FACTORY, resource=_HAS_DEFAULT_FACTORY):
             state = self._u_start(transaction_manager)
@@ -85,6 +93,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class LayerNode_Current(LayerNode):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def value(self):
@@ -104,6 +118,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class LayerNode_Working(LayerNode):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def value(self):
@@ -131,6 +151,9 @@ def build_undoable_class(base_cls, *, schema):
     class LayerNode(base_cls):
         __slots__ = ()
         __undoable_schema__ = schema
+        pass
+        pass
+        pass
         pass
 
         def __init__(self, *, transaction_manager, plain=_HAS_DEFAULT_FACTORY, constant=_HAS_DEFAULT_FACTORY, delayed=_HAS_DEFAULT_FACTORY, value=_HAS_DEFAULT_FACTORY, items=_HAS_DEFAULT_FACTORY, scratch=_HAS_DEFAULT_FACTORY, resource=_HAS_DEFAULT_FACTORY):
@@ -203,9 +226,11 @@ def build_undoable_class(base_cls, *, schema):
     class LayerNode_Current(LayerNode):
         __slots__ = ()
         pass
+        pass
 
     class LayerNode_Working(LayerNode):
         __slots__ = ()
+        pass
         pass
     LayerNode.__undoable_views__ = {'default': LayerNode, 'current': LayerNode_Current, 'working': LayerNode_Working}
     return LayerNode
@@ -218,6 +243,9 @@ def build_undoable_class(base_cls, *, schema):
     class LayerNode(base_cls):
         __slots__ = ()
         __undoable_schema__ = schema
+        pass
+        pass
+        pass
         pass
 
         def __init__(self, *, transaction_manager, plain=_HAS_DEFAULT_FACTORY, constant=_HAS_DEFAULT_FACTORY, delayed=_HAS_DEFAULT_FACTORY):
@@ -254,9 +282,11 @@ def build_undoable_class(base_cls, *, schema):
     class LayerNode_Current(LayerNode):
         __slots__ = ()
         pass
+        pass
 
     class LayerNode_Working(LayerNode):
         __slots__ = ()
+        pass
         pass
     LayerNode.__undoable_views__ = {'default': LayerNode, 'current': LayerNode_Current, 'working': LayerNode_Working}
     return LayerNode
@@ -269,6 +299,9 @@ def build_undoable_class(base_cls, *, schema):
     class LayerNode(base_cls):
         __slots__ = ()
         __undoable_schema__ = schema
+        pass
+        pass
+        pass
         pass
 
         def __init__(self, *, transaction_manager, plain=_HAS_DEFAULT_FACTORY):
@@ -287,9 +320,11 @@ def build_undoable_class(base_cls, *, schema):
     class LayerNode_Current(LayerNode):
         __slots__ = ()
         pass
+        pass
 
     class LayerNode_Working(LayerNode):
         __slots__ = ()
+        pass
         pass
     LayerNode.__undoable_views__ = {'default': LayerNode, 'current': LayerNode_Current, 'working': LayerNode_Working}
     return LayerNode
@@ -302,6 +337,9 @@ def build_undoable_class(base_cls, *, schema):
     class LayerNode(base_cls):
         __slots__ = ()
         __undoable_schema__ = schema
+        pass
+        pass
+        pass
         pass
 
         def __init__(self, *, transaction_manager, plain=_HAS_DEFAULT_FACTORY, constant=_HAS_DEFAULT_FACTORY, delayed=_HAS_DEFAULT_FACTORY, value=_HAS_DEFAULT_FACTORY, items=_HAS_DEFAULT_FACTORY):
@@ -356,9 +394,11 @@ def build_undoable_class(base_cls, *, schema):
     class LayerNode_Current(LayerNode):
         __slots__ = ()
         pass
+        pass
 
     class LayerNode_Working(LayerNode):
         __slots__ = ()
+        pass
         pass
     LayerNode.__undoable_views__ = {'default': LayerNode, 'current': LayerNode_Current, 'working': LayerNode_Working}
     return LayerNode
@@ -371,6 +411,9 @@ def build_undoable_class(base_cls, *, schema):
     class LayerNode(base_cls):
         __slots__ = ()
         __undoable_schema__ = schema
+        pass
+        pass
+        pass
         pass
 
         def __init__(self, *, transaction_manager, plain=_HAS_DEFAULT_FACTORY, constant=_HAS_DEFAULT_FACTORY, delayed=_HAS_DEFAULT_FACTORY, value=_HAS_DEFAULT_FACTORY, items=_HAS_DEFAULT_FACTORY, scratch=_HAS_DEFAULT_FACTORY, resource=_HAS_DEFAULT_FACTORY):
@@ -451,9 +494,11 @@ def build_undoable_class(base_cls, *, schema):
     class LayerNode_Current(LayerNode):
         __slots__ = ()
         pass
+        pass
 
     class LayerNode_Working(LayerNode):
         __slots__ = ()
+        pass
         pass
     LayerNode.__undoable_views__ = {'default': LayerNode, 'current': LayerNode_Current, 'working': LayerNode_Working}
     return LayerNode
@@ -466,6 +511,9 @@ def build_undoable_class(base_cls, *, schema):
     class LayerNode(base_cls):
         __slots__ = ()
         __undoable_schema__ = schema
+        pass
+        pass
+        pass
         pass
 
         def __init__(self, *, transaction_manager, plain=_HAS_DEFAULT_FACTORY, constant=_HAS_DEFAULT_FACTORY, delayed=_HAS_DEFAULT_FACTORY, value=_HAS_DEFAULT_FACTORY):
@@ -511,9 +559,11 @@ def build_undoable_class(base_cls, *, schema):
     class LayerNode_Current(LayerNode):
         __slots__ = ()
         pass
+        pass
 
     class LayerNode_Working(LayerNode):
         __slots__ = ()
+        pass
         pass
     LayerNode.__undoable_views__ = {'default': LayerNode, 'current': LayerNode_Current, 'working': LayerNode_Working}
     return LayerNode
@@ -526,6 +576,9 @@ def build_undoable_class(base_cls, *, schema):
     class LayerNode(base_cls):
         __slots__ = ()
         __undoable_schema__ = schema
+        pass
+        pass
+        pass
         pass
 
         def __init__(self, *, transaction_manager, plain=_HAS_DEFAULT_FACTORY, constant=_HAS_DEFAULT_FACTORY, delayed=_HAS_DEFAULT_FACTORY, value=_HAS_DEFAULT_FACTORY, items=_HAS_DEFAULT_FACTORY, scratch=_HAS_DEFAULT_FACTORY):
@@ -589,9 +642,11 @@ def build_undoable_class(base_cls, *, schema):
     class LayerNode_Current(LayerNode):
         __slots__ = ()
         pass
+        pass
 
     class LayerNode_Working(LayerNode):
         __slots__ = ()
+        pass
         pass
     LayerNode.__undoable_views__ = {'default': LayerNode, 'current': LayerNode_Current, 'working': LayerNode_Working}
     return LayerNode
@@ -604,6 +659,9 @@ def build_undoable_class(base_cls, *, schema):
     class LayerNode(base_cls):
         __slots__ = ()
         __undoable_schema__ = schema
+        pass
+        pass
+        pass
         pass
 
         def __init__(self, *, transaction_manager, plain=_HAS_DEFAULT_FACTORY, constant=_HAS_DEFAULT_FACTORY, delayed=_HAS_DEFAULT_FACTORY, value=_HAS_DEFAULT_FACTORY, items=_HAS_DEFAULT_FACTORY, scratch=_HAS_DEFAULT_FACTORY, resource=_HAS_DEFAULT_FACTORY):
@@ -683,6 +741,7 @@ def build_undoable_class(base_cls, *, schema):
 
     class LayerNode_Current(LayerNode):
         __slots__ = ()
+        pass
 
         @property
         def value(self):
@@ -702,6 +761,7 @@ def build_undoable_class(base_cls, *, schema):
 
     class LayerNode_Working(LayerNode):
         __slots__ = ()
+        pass
 
         @property
         def value(self):

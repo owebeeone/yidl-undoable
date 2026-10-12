@@ -17,6 +17,7 @@ from .callbacks import call, capture, dispatch, require_mutation
 from .graph import traverse
 from .policies import RaiseAbsent, ReadLastVisible
 from .snapshots import FrameSnapshot
+from .write_comparison_context import _historical_write_equal
 from .errors import ObjectAbsentError, HistoryFaultError, ReentrantOperationError
 from .candidates import CandidateRead
 from yidl_lifecycle.transaction_yidl import (
@@ -609,7 +610,7 @@ class UndoRedoManager:
         equal = self._call(
             f"{facade._u_state.schema.name}.{name}: comparison",
             lambda: (
-                old is value if fact["compare"] == "identity" else bool(old == value)
+                old is value if fact["compare"] == "identity" else _historical_write_equal(old, value)
             ),
         )
         if not equal:

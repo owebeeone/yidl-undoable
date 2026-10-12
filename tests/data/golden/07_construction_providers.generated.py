@@ -7,6 +7,14 @@ def build_undoable_class(base_cls, *, schema):
         __slots__ = ()
         __undoable_schema__ = schema
         pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         def __init__(self, *, transaction_manager, doubled=_HAS_DEFAULT_FACTORY, base=_HAS_DEFAULT_FACTORY, derived=_HAS_DEFAULT_FACTORY):
             state = self._u_start(transaction_manager)
@@ -41,6 +49,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class Constructed_Current(Constructed):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def doubled(self):
@@ -68,6 +82,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class Constructed_Working(Constructed):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def doubled(self):
@@ -104,6 +124,14 @@ def build_undoable_class(base_cls, *, schema):
         __slots__ = ()
         __undoable_schema__ = schema
         pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         def __init__(self, *, transaction_manager, base=_HAS_DEFAULT_FACTORY, bad=_HAS_DEFAULT_FACTORY):
             state = self._u_start(transaction_manager)
@@ -129,6 +157,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class ConstructorWrite_Current(ConstructorWrite):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def base(self):
@@ -148,6 +182,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class ConstructorWrite_Working(ConstructorWrite):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def base(self):
@@ -176,6 +216,14 @@ def build_undoable_class(base_cls, *, schema):
         __slots__ = ()
         __undoable_schema__ = schema
         pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         def __init__(self, *, transaction_manager, a=_HAS_DEFAULT_FACTORY, b=_HAS_DEFAULT_FACTORY):
             state = self._u_start(transaction_manager)
@@ -201,6 +249,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class Recursive_Current(Recursive):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def a(self):
@@ -220,6 +274,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class Recursive_Working(Recursive):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def a(self):
@@ -248,6 +308,14 @@ def build_undoable_class(base_cls, *, schema):
         __slots__ = ()
         __undoable_schema__ = schema
         pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         def __init__(self, *, transaction_manager, first=_HAS_DEFAULT_FACTORY, later=_HAS_DEFAULT_FACTORY):
             state = self._u_start(transaction_manager)
@@ -273,6 +341,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class Unresolved_Current(Unresolved):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def first(self):
@@ -292,6 +366,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class Unresolved_Working(Unresolved):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def first(self):

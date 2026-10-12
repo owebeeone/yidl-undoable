@@ -7,6 +7,14 @@ def build_undoable_class(base_cls, *, schema):
         __slots__ = ()
         __undoable_schema__ = schema
         pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         def __init__(self, *, transaction_manager, value=_HAS_DEFAULT_FACTORY, sequence=_HAS_DEFAULT_FACTORY, plain=_HAS_DEFAULT_FACTORY):
             state = self._u_start(transaction_manager)
@@ -41,6 +49,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class Item_Current(Item):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def value(self):
@@ -60,6 +74,12 @@ def build_undoable_class(base_cls, *, schema):
 
     class Item_Working(Item):
         __slots__ = ()
+        pass
+        pass
+        pass
+        pass
+        pass
+        pass
 
         @property
         def value(self):

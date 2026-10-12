@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.663" timestamp="2026-10-13T00:54:46.483229+11:00" hostname="[host]"><testcase classname="tests.test_canonical" name="test_generated_story[21_undoable_comparisons]" time="0.444"><failure message="yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: Quote: Undoable AST generation/execution failed: build: duplicate instance name: EqMethod; hint: choose a unique instance name for each `builder.add`">cls = &lt;class '__canonical__.Quote'&gt;, eq = True, order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if (
+                    base in (object, RuntimeFacade)
+                    or "__undoable_schema__" in base.__dict__
+                ):
+                    continue
+                for name in (
+                    "__eq__",
+                    "__hash__",
+                    *(("__lt__", "__le__", "__gt__", "__ge__") if order else ()),
+                ):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(
+                            f"{cls.__qualname__}: conflicting {name}"
+                        )
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+&gt;           composable = build_composable(schema)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/yidl_undoable/undoable.py:112: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/yidl_undoable/undoable.py:88: in build_composable
+    return generated.build_UndoableModule(generated.build_container(builder))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1297: in build_UndoableModule
+    return build_assembly('UndoableModule', container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/_generated_undoable_base.py:1294: in build_assembly
+    return run_assembly(ASSEMBLY_CONCEPT, entrypoint, container, unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py313/lib/python3.13/site-packages/yidl/generation/assembly_runtime.py:242: in run_assembly
+    return _run_production(
+.venvs/py313/lib/python3.13/site-packages/yidl/generation/assembly_runtime.py:285: in _run_production
+    return scope.build(unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py313/lib/python3.13/site-packages/astichi/assembler/scope.py:1017: in build
+    return self._build_with_adapter(unroll=unroll)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venvs/py313/lib/python3.13/site-packages/astichi/assembler/scope.py:1020: in _build_with_adapter
+    self._flush_deferred_composable_adapter_edges()
+.venvs/py313/lib/python3.13/site-packages/astichi/assembler/scope.py:1085: in _flush_deferred_composable_adapter_edges
+    self._apply_composable_to_builder_adapter(candidate)
+.venvs/py313/lib/python3.13/site-packages/astichi/assembler/scope.py:1092: in _apply_composable_to_builder_adapter
+    self.builder.add(
+.venvs/py313/lib/python3.13/site-packages/astichi/builder/handles.py:304: in __call__
+    return _NamedAdder(
+.venvs/py313/lib/python3.13/site-packages/astichi/builder/handles.py:269: in __call__
+    self.graph.add_instance(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = BuilderGraph(_instances={'Root': InstanceRecord(name='Root', composable=BasicComposable(tree=&lt;ast.Module object at 0x1...verlay=EdgeSourceOverlay(arg_names=(), keep_names=frozenset(), bind_values=()))], _assigns=[], _identifier_bindings=[])
+name = 'EqMethod'
+composable = BasicComposable(tree=&lt;ast.Module object at 0x1092aead0&gt;, origin=CompileOrigin(file_name='shared/comparison.yidl', line...edError', 'dict', 'IsADirectoryError', 'staticmethod', 'issubclass', 'other', 'enumerate', 'EncodingWarning', 'self'}))
+placement = RootCapableInstancePlacement()
+
+    def add_instance(
+        self,
+        name: str,
+        composable: Composable,
+        *,
+        placement: InstancePlacement = ROOT_CAPABLE_INSTANCE,
+    ) -&gt; InstanceRecord:
+        """Register a named composable instance."""
+        parsed = parse_indexed_instance_name(name)
+        if not name.isidentifier() and parsed is None:
+            raise ValueError(
+                format_astichi_error(
+                    "build",
+                    f"instance name must be a valid identifier: {name!r}",
+                    hint="use `builder.add.&lt;Name&gt;(...)` or `builder.add.&lt;Name&gt;[i](...)` with integer indexes",
+                )
+            )
+        if name in self._instances:
+&gt;           raise ValueError(
+                format_astichi_error(
+                    "build",
+                    f"duplicate instance name: {name}",
+                    hint="choose a unique instance name for each `builder.add`",
+                )
+            )
+E           ValueError: build: duplicate instance name: EqMethod; hint: choose a unique instance name for each `builder.add`
+
+.venvs/py313/lib/python3.13/site-packages/astichi/builder/graph.py:233: ValueError
+
+The above exception was the direct cause of the following exception:
+
+story = PosixPath('[consumer-root]/tests/data/gold_src/21_undoable_comparisons.py')
+
+    @pytest.mark.parametrize("story", sorted(STORIES.glob("*.py")), ids=lambda p: p.stem)
+    def test_generated_story(story):
+&gt;       actual = run_story(story)
+                 ^^^^^^^^^^^^^^^^
+
+tests/test_canonical.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/canonical_support.py:12: in run_story
+    namespace = runpy.run_path(str(story), run_name="__canonical__")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen runpy&gt;:287: in run_path
+    ???
+&lt;frozen runpy&gt;:98: in _run_module_code
+    ???
+&lt;frozen runpy&gt;:88: in _run_code
+    ???
+tests/data/gold_src/21_undoable_comparisons.py:14: in &lt;module&gt;
+    @undoable(eq=True, order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:149: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class '__canonical__.Quote'&gt;, eq = True, order = True
+
+    def _decorate(cls, *, eq, order):
+        if not isinstance(cls, type):
+            raise TypeError("@undoable can only decorate classes")
+        if eq:
+            for base in cls.__mro__:
+                if (
+                    base in (object, RuntimeFacade)
+                    or "__undoable_schema__" in base.__dict__
+                ):
+                    continue
+                for name in (
+                    "__eq__",
+                    "__hash__",
+                    *(("__lt__", "__le__", "__gt__", "__ge__") if order else ()),
+                ):
+                    if name in base.__dict__:
+                        raise UndoableDefinitionError(
+                            f"{cls.__qualname__}: conflicting {name}"
+                        )
+        schema = harvest_undoable_definition(cls, eq=eq, order=order)
+        try:
+            composable = build_composable(schema)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            namespace = {
+                "__name__": cls.__module__,
+                "_u_historical_write_scope": _historical_write_scope,
+                "_u_historical_eq": RuntimeFacade.__eq__,
+                "_u_historical_hash": RuntimeFacade.__hash__,
+                "_u_object_lt": object.__lt__,
+                "_u_object_le": object.__le__,
+                "_u_object_gt": object.__gt__,
+                "_u_object_ge": object.__ge__,
+            }
+            exec(compile(module, f"&lt;undoable.{cls.__qualname__}&gt;", "exec"), namespace)
+        except Exception as exc:
+&gt;           raise UndoableDefinitionError(
+                f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"
+            ) from exc
+E           yidl_lifecycle.lifecycle_markers.LifecycleDefinitionError: Quote: Undoable AST generation/execution failed: build: duplicate instance name: EqMethod; hint: choose a unique instance name for each `builder.add`
+
+src/yidl_undoable/undoable.py:127: LifecycleDefinitionError</failure></testcase></testsuite></testsuites>

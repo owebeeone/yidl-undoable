@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "[consumer-root]/tests/regenerate_golden.py", line 26, in <module>
+    main()
+  File "[consumer-root]/tests/regenerate_golden.py", line 12, in main
+    actual = run_story(story)
+             ^^^^^^^^^^^^^^^^
+  File "[consumer-root]/tests/canonical_support.py", line 11, in run_story
+    namespace = runpy.run_path(str(story), run_name="__canonical__")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "[consumer-root]/tests/data/gold_src/11_layers.py", line 58, in <module>
+    composable = build_composable(schema, generation_module=module)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "[consumer-root]/src/yidl_undoable/undoable.py", line 57, in build_composable
+    builder.add(generated.ComparisonClassesCollection, generated.ComparisonClass(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'layer_core' has no attribute 'ComparisonClassesCollection'

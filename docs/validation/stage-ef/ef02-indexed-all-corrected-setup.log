@@ -1,0 +1,35 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "[consumer-root]/src/yidl_undoable/regenerate_undoable_base.py", line 141, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "[consumer-root]/src/yidl_undoable/regenerate_undoable_base.py", line 128, in main
+    write_undoable_base()
+  File "[consumer-root]/src/yidl_undoable/regenerate_undoable_base.py", line 110, in write_undoable_base
+    generated_path.write_text(render_undoable_base_source(), encoding="utf-8")
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "[consumer-root]/src/yidl_undoable/regenerate_undoable_base.py", line 60, in render_undoable_base_source
+    compiled = compile_yidl_files(
+               ^^^^^^^^^^^^^^^^^^^
+  File "[consumer-root]/.venvs/py312/lib/python3.12/site-packages/yidl/concept_parser.py", line 224, in compile_yidl_files
+    return compiler.compile(entry_path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "[consumer-root]/.venvs/py312/lib/python3.12/site-packages/yidl/concept_parser.py", line 249, in compile
+    imports = self._compile_imports(resolved_path, tree)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "[consumer-root]/.venvs/py312/lib/python3.12/site-packages/yidl/concept_parser.py", line 285, in _compile_imports
+    aliases[alias] = self.compile(imported_path)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "[consumer-root]/.venvs/py312/lib/python3.12/site-packages/yidl/concept_parser.py", line 264, in compile
+    ).compile(concept_tree)
+      ^^^^^^^^^^^^^^^^^^^^^
+  File "[consumer-root]/.venvs/py312/lib/python3.12/site-packages/yidl/concept_parser.py", line 526, in compile
+    contribution_matchers = _merge_contribution_matchers(
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "[consumer-root]/.venvs/py312/lib/python3.12/site-packages/yidl/concept_parser.py", line 3344, in _merge_contribution_matchers
+    merged[name] = _combine_contribution_matchers(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "[consumer-root]/.venvs/py312/lib/python3.12/site-packages/yidl/concept_parser.py", line 3390, in _combine_contribution_matchers
+    raise YidlSymbolError(f"{context}: duplicate rule {rule.name!r}")
+yidl.concept_parser.YidlSymbolError: contribution matcher 'LtMethodContributions' extended by concept 'UndoableComparison': duplicate rule 'populated'

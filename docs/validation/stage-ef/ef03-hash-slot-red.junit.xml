@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="2.100" timestamp="2026-10-13T01:05:53.557224+11:00" hostname="[host]"><testcase classname="tests.test_comparison_source" name="test_multifield_view_hash_slot_keeps_its_public_dunder_name" time="1.350" /></testsuite></testsuites>

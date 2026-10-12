@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
+from importlib.resources import files
+from importlib.metadata import version
 import difflib
 from pathlib import Path
 import sys
@@ -14,7 +17,29 @@ _YIDL_SOURCE_DIR = _PACKAGE_ROOT / "yidl"
 _GENERATED_BASE_PATH = _PACKAGE_ROOT / "_generated_undoable_base.py"
 _ENTRY_PATH = _YIDL_SOURCE_DIR / "undoable_base.yidl"
 _CONCEPT_NAME = "UndoableBase"
-_LOGICAL_RESOURCE_ROOT = Path("src/yidl_undoable/yidl")
+_LOGICAL_RESOURCE_ROOT = Path("undoable")
+_SHARED_VERSION = "0.1.0.dev0"
+_SHARED_DIGEST = "2f7e6df989b0714d8764de84d8a6f6b03f39c3ad7f57dba5e55f5131b8354eef"
+
+
+def generation_sources(source_dir: Path = _YIDL_SOURCE_DIR) -> dict[str, str]:
+    """Load consumer sources plus the pinned authoritative build-time resource."""
+    paths = tuple(sorted(source_dir.glob("*.yidl")))
+    sources = {
+        (_LOGICAL_RESOURCE_ROOT / path.name).as_posix(): path.read_text(
+            encoding="utf-8"
+        )
+        for path in paths
+    }
+    if version("yidl-dataclass") != _SHARED_VERSION:
+        raise RuntimeError(
+            "comparison regeneration requires pinned yidl-dataclass " + _SHARED_VERSION
+        )
+    shared = files("yidl_dataclass").joinpath("yidl/shared/comparison.yidl").read_text()
+    if hashlib.sha256(shared.encode()).hexdigest() != _SHARED_DIGEST:
+        raise RuntimeError("pinned comparison resource digest mismatch")
+    sources["shared/comparison.yidl"] = shared
+    return sources
 
 
 def render_undoable_base_source(
@@ -31,21 +56,26 @@ def render_undoable_base_source(
 
     del project_root
 
-    paths = tuple(sorted(source_dir.glob("*.yidl")))
+    sources = generation_sources(source_dir)
     compiled = compile_yidl_files(
-        {
-            (_LOGICAL_RESOURCE_ROOT / path.name).as_posix(): path.read_text(
-                encoding="utf-8"
-            )
-            for path in paths
-        },
-        (_LOGICAL_RESOURCE_ROOT / entry_path.name).as_posix(),
+        sources, (_LOGICAL_RESOURCE_ROOT / entry_path.name).as_posix()
     )
     concept = compiled.concepts[_CONCEPT_NAME]
-    return emit_concept_runtime_source(
+    rendered = emit_concept_runtime_source(
         concept.plan.build_data_definition(),
         resources=concept.resources,
         assembly_plan=concept,
+    )
+    provenance = "".join(
+        f"# {name} sha256={hashlib.sha256(text.encode()).hexdigest()}\n"
+        for name, text in sorted(sources.items())
+    )
+    return (
+        "# Regenerated with yidl-dataclass "
+        + _SHARED_VERSION
+        + "\n"
+        + provenance
+        + rendered
     )
 
 

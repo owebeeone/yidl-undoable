@@ -1,0 +1,52 @@
+........................................................................ [ 21%]
+..........................................F............................. [ 42%]
+........................................................................ [ 64%]
+........................................................................ [ 85%]
+.................................................                        [100%]
+=================================== FAILURES ===================================
+___________ test_constant_carrier_adds_no_runtime_branch_or_dispatch ___________
+
+    def test_constant_carrier_adds_no_runtime_branch_or_dispatch():
+        def reference(self, other):
+            _u_write_scope = _u_historical_write_scope.get()
+            if _u_write_scope is not None and _u_write_scope.active:
+                return _u_historical_eq(self, other)
+            return None
+    
+        def prefix(function):
+            result = []
+            for instruction in dis.get_instructions(function):
+                if instruction.opname in ("RESUME", "NOP"):
+                    continue
+                if instruction.opname == "RETURN_VALUE":
+                    return result
+                result.append(
+                    (
+                        (
+                            "LOAD_FAST"
+                            if instruction.opname == "LOAD_FAST_BORROW"
+                            else instruction.opname
+                        ),
+                        instruction.argval,
+                    )
+                )
+    
+        # Jump byte offsets depend on the structural tail; opcode/name/constant prefix is identical.
+        def semantic_prefix(function):
+            return [
+                (operation, None if "JUMP" in operation else value)
+                for operation, value in prefix(function)
+            ]
+    
+        for view in Shape.__undoable_views__.values():
+>           assert semantic_prefix(view.__eq__) == semantic_prefix(reference)
+E           AssertionError: assert [('LOAD_GLOBA..._scope'), ...] == [('LOAD_GLOBA...', None), ...]
+E             
+E             At index 3 diff: ('STORE_FAST_LOAD_FAST', ('_u_write_scope', '_u_write_scope')) != ('STORE_FAST', '_u_write_scope')
+E             Right contains one more item: ('CALL', 2)
+E             Use -v to get more diff
+
+tests/test_comparison_source.py:94: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_comparison_source.py::test_constant_carrier_adds_no_runtime_branch_or_dispatch
+1 failed, 336 passed in 10.78s

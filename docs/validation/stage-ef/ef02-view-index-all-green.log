@@ -1,0 +1,43 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________________ test_generated_story[21_undoable_comparisons] _________________
+
+story = PosixPath('[consumer-root]/tests/data/gold_src/21_undoable_comparisons.py')
+
+    @pytest.mark.parametrize("story", sorted(STORIES.glob("*.py")), ids=lambda p: p.stem)
+    def test_generated_story(story):
+>       actual = run_story(story)
+                 ^^^^^^^^^^^^^^^^
+
+tests/test_canonical.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/canonical_support.py:12: in run_story
+    namespace = runpy.run_path(str(story), run_name="__canonical__")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen runpy>:287: in run_path
+    ???
+<frozen runpy>:98: in _run_module_code
+    ???
+<frozen runpy>:88: in _run_code
+    ???
+tests/data/gold_src/21_undoable_comparisons.py:14: in <module>
+    @undoable(eq=True, order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:149: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:135: in _decorate
+    result = namespace["build_undoable_class"](base, schema=schema)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+base_cls = <class 'yidl_undoable.undoable.Quote_UserBase'>
+schema = Schema(name='Quote', fields=(mappingproxy({'field_id': 'Quote.seed', 'field_owner': 'Quote', 'field_name': 'seed', 'fi...'resource': True, 'scratch': False, 'cache': False}), eq=True, order=True, restore_identity=False, restore_order=False)
+
+>   ???
+E   NameError: name 'Quote__astichi_scoped_1' is not defined
+
+<undoable.Quote>:120: NameError
+=========================== short test summary info ============================
+FAILED tests/test_canonical.py::test_generated_story[21_undoable_comparisons]
+1 failed, 22 deselected in 1.61s

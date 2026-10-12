@@ -1,0 +1,803 @@
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF             [100%]
+=================================== FAILURES ===================================
+____________________ test_options_are_exact_booleans[0-eq] _____________________
+
+option = 'eq', value = 0
+
+    @pytest.mark.parametrize("option",("eq","order"))
+    @pytest.mark.parametrize("value",(0,1,None,"true",object()))
+    def test_options_are_exact_booleans(option,value):
+        with pytest.raises(UndoableDefinitionError,match=option+".*bool"):
+>           undoable(type("Bad",(),{}),**{option:value})
+E           TypeError: undoable() got an unexpected keyword argument 'eq'
+
+tests/test_comparison_definitions.py:11: TypeError
+___________________ test_options_are_exact_booleans[0-order] ___________________
+
+option = 'order', value = 0
+
+    @pytest.mark.parametrize("option",("eq","order"))
+    @pytest.mark.parametrize("value",(0,1,None,"true",object()))
+    def test_options_are_exact_booleans(option,value):
+        with pytest.raises(UndoableDefinitionError,match=option+".*bool"):
+>           undoable(type("Bad",(),{}),**{option:value})
+E           TypeError: undoable() got an unexpected keyword argument 'order'
+
+tests/test_comparison_definitions.py:11: TypeError
+____________________ test_options_are_exact_booleans[1-eq] _____________________
+
+option = 'eq', value = 1
+
+    @pytest.mark.parametrize("option",("eq","order"))
+    @pytest.mark.parametrize("value",(0,1,None,"true",object()))
+    def test_options_are_exact_booleans(option,value):
+        with pytest.raises(UndoableDefinitionError,match=option+".*bool"):
+>           undoable(type("Bad",(),{}),**{option:value})
+E           TypeError: undoable() got an unexpected keyword argument 'eq'
+
+tests/test_comparison_definitions.py:11: TypeError
+___________________ test_options_are_exact_booleans[1-order] ___________________
+
+option = 'order', value = 1
+
+    @pytest.mark.parametrize("option",("eq","order"))
+    @pytest.mark.parametrize("value",(0,1,None,"true",object()))
+    def test_options_are_exact_booleans(option,value):
+        with pytest.raises(UndoableDefinitionError,match=option+".*bool"):
+>           undoable(type("Bad",(),{}),**{option:value})
+E           TypeError: undoable() got an unexpected keyword argument 'order'
+
+tests/test_comparison_definitions.py:11: TypeError
+___________________ test_options_are_exact_booleans[None-eq] ___________________
+
+option = 'eq', value = None
+
+    @pytest.mark.parametrize("option",("eq","order"))
+    @pytest.mark.parametrize("value",(0,1,None,"true",object()))
+    def test_options_are_exact_booleans(option,value):
+        with pytest.raises(UndoableDefinitionError,match=option+".*bool"):
+>           undoable(type("Bad",(),{}),**{option:value})
+E           TypeError: undoable() got an unexpected keyword argument 'eq'
+
+tests/test_comparison_definitions.py:11: TypeError
+_________________ test_options_are_exact_booleans[None-order] __________________
+
+option = 'order', value = None
+
+    @pytest.mark.parametrize("option",("eq","order"))
+    @pytest.mark.parametrize("value",(0,1,None,"true",object()))
+    def test_options_are_exact_booleans(option,value):
+        with pytest.raises(UndoableDefinitionError,match=option+".*bool"):
+>           undoable(type("Bad",(),{}),**{option:value})
+E           TypeError: undoable() got an unexpected keyword argument 'order'
+
+tests/test_comparison_definitions.py:11: TypeError
+___________________ test_options_are_exact_booleans[true-eq] ___________________
+
+option = 'eq', value = 'true'
+
+    @pytest.mark.parametrize("option",("eq","order"))
+    @pytest.mark.parametrize("value",(0,1,None,"true",object()))
+    def test_options_are_exact_booleans(option,value):
+        with pytest.raises(UndoableDefinitionError,match=option+".*bool"):
+>           undoable(type("Bad",(),{}),**{option:value})
+E           TypeError: undoable() got an unexpected keyword argument 'eq'
+
+tests/test_comparison_definitions.py:11: TypeError
+_________________ test_options_are_exact_booleans[true-order] __________________
+
+option = 'order', value = 'true'
+
+    @pytest.mark.parametrize("option",("eq","order"))
+    @pytest.mark.parametrize("value",(0,1,None,"true",object()))
+    def test_options_are_exact_booleans(option,value):
+        with pytest.raises(UndoableDefinitionError,match=option+".*bool"):
+>           undoable(type("Bad",(),{}),**{option:value})
+E           TypeError: undoable() got an unexpected keyword argument 'order'
+
+tests/test_comparison_definitions.py:11: TypeError
+__________________ test_options_are_exact_booleans[value4-eq] __________________
+
+option = 'eq', value = <object object at 0x1022fead0>
+
+    @pytest.mark.parametrize("option",("eq","order"))
+    @pytest.mark.parametrize("value",(0,1,None,"true",object()))
+    def test_options_are_exact_booleans(option,value):
+        with pytest.raises(UndoableDefinitionError,match=option+".*bool"):
+>           undoable(type("Bad",(),{}),**{option:value})
+E           TypeError: undoable() got an unexpected keyword argument 'eq'
+
+tests/test_comparison_definitions.py:11: TypeError
+________________ test_options_are_exact_booleans[value4-order] _________________
+
+option = 'order', value = <object object at 0x1022fead0>
+
+    @pytest.mark.parametrize("option",("eq","order"))
+    @pytest.mark.parametrize("value",(0,1,None,"true",object()))
+    def test_options_are_exact_booleans(option,value):
+        with pytest.raises(UndoableDefinitionError,match=option+".*bool"):
+>           undoable(type("Bad",(),{}),**{option:value})
+E           TypeError: undoable() got an unexpected keyword argument 'order'
+
+tests/test_comparison_definitions.py:11: TypeError
+___________ test_order_requires_explicit_enabled_equality[options0] ____________
+
+options = {'order': True}
+
+    @pytest.mark.parametrize("options",({"order":True},{"eq":False,"order":True}))
+    def test_order_requires_explicit_enabled_equality(options):
+        with pytest.raises(UndoableDefinitionError,match="order.*eq"):
+>           undoable(type("Bad",(),{}),**options)
+E           TypeError: undoable() got an unexpected keyword argument 'order'
+
+tests/test_comparison_definitions.py:17: TypeError
+___________ test_order_requires_explicit_enabled_equality[options1] ____________
+
+options = {'eq': False, 'order': True}
+
+    @pytest.mark.parametrize("options",({"order":True},{"eq":False,"order":True}))
+    def test_order_requires_explicit_enabled_equality(options):
+        with pytest.raises(UndoableDefinitionError,match="order.*eq"):
+>           undoable(type("Bad",(),{}),**options)
+E           TypeError: undoable() got an unexpected keyword argument 'eq'
+
+tests/test_comparison_definitions.py:17: TypeError
+_____________ test_eligible_logical_compare_is_exact_bool[0-field] _____________
+
+factory = <function field at 0x108a0ede0>, invalid = 0
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,managed))
+    @pytest.mark.parametrize("invalid",(0,1,None,"other"))
+    def test_eligible_logical_compare_is_exact_bool(factory,invalid):
+        with pytest.raises(UndoableDefinitionError,match="compare.*bool"):
+>           factory(compare=invalid)
+E           TypeError: field() got an unexpected keyword argument 'compare'
+
+tests/test_comparison_definitions.py:24: TypeError
+_____________ test_eligible_logical_compare_is_exact_bool[0-const] _____________
+
+factory = <function const at 0x108ac0fe0>, invalid = 0
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,managed))
+    @pytest.mark.parametrize("invalid",(0,1,None,"other"))
+    def test_eligible_logical_compare_is_exact_bool(factory,invalid):
+        with pytest.raises(UndoableDefinitionError,match="compare.*bool"):
+>           factory(compare=invalid)
+E           TypeError: const() got an unexpected keyword argument 'compare'
+
+tests/test_comparison_definitions.py:24: TypeError
+_____________ test_eligible_logical_compare_is_exact_bool[0-lazy] ______________
+
+factory = <function lazy at 0x108ac0ea0>, invalid = 0
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,managed))
+    @pytest.mark.parametrize("invalid",(0,1,None,"other"))
+    def test_eligible_logical_compare_is_exact_bool(factory,invalid):
+        with pytest.raises(UndoableDefinitionError,match="compare.*bool"):
+>           factory(compare=invalid)
+E           TypeError: lazy() got an unexpected keyword argument 'compare'
+
+tests/test_comparison_definitions.py:24: TypeError
+____________ test_eligible_logical_compare_is_exact_bool[0-binding] ____________
+
+factory = <function binding at 0x108ac11c0>, invalid = 0
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,managed))
+    @pytest.mark.parametrize("invalid",(0,1,None,"other"))
+    def test_eligible_logical_compare_is_exact_bool(factory,invalid):
+        with pytest.raises(UndoableDefinitionError,match="compare.*bool"):
+>           factory(compare=invalid)
+E           TypeError: binding() got an unexpected keyword argument 'compare'
+
+tests/test_comparison_definitions.py:24: TypeError
+____________ test_eligible_logical_compare_is_exact_bool[0-managed] ____________
+
+factory = <function managed at 0x108ac1080>, invalid = 0
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,managed))
+    @pytest.mark.parametrize("invalid",(0,1,None,"other"))
+    def test_eligible_logical_compare_is_exact_bool(factory,invalid):
+>       with pytest.raises(UndoableDefinitionError,match="compare.*bool"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'compare.*bool'
+E         Actual message: "compare must be 'value' or 'identity'"
+
+tests/test_comparison_definitions.py:23: AssertionError
+_____________ test_eligible_logical_compare_is_exact_bool[1-field] _____________
+
+factory = <function field at 0x108a0ede0>, invalid = 1
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,managed))
+    @pytest.mark.parametrize("invalid",(0,1,None,"other"))
+    def test_eligible_logical_compare_is_exact_bool(factory,invalid):
+        with pytest.raises(UndoableDefinitionError,match="compare.*bool"):
+>           factory(compare=invalid)
+E           TypeError: field() got an unexpected keyword argument 'compare'
+
+tests/test_comparison_definitions.py:24: TypeError
+_____________ test_eligible_logical_compare_is_exact_bool[1-const] _____________
+
+factory = <function const at 0x108ac0fe0>, invalid = 1
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,managed))
+    @pytest.mark.parametrize("invalid",(0,1,None,"other"))
+    def test_eligible_logical_compare_is_exact_bool(factory,invalid):
+        with pytest.raises(UndoableDefinitionError,match="compare.*bool"):
+>           factory(compare=invalid)
+E           TypeError: const() got an unexpected keyword argument 'compare'
+
+tests/test_comparison_definitions.py:24: TypeError
+_____________ test_eligible_logical_compare_is_exact_bool[1-lazy] ______________
+
+factory = <function lazy at 0x108ac0ea0>, invalid = 1
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,managed))
+    @pytest.mark.parametrize("invalid",(0,1,None,"other"))
+    def test_eligible_logical_compare_is_exact_bool(factory,invalid):
+        with pytest.raises(UndoableDefinitionError,match="compare.*bool"):
+>           factory(compare=invalid)
+E           TypeError: lazy() got an unexpected keyword argument 'compare'
+
+tests/test_comparison_definitions.py:24: TypeError
+____________ test_eligible_logical_compare_is_exact_bool[1-binding] ____________
+
+factory = <function binding at 0x108ac11c0>, invalid = 1
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,managed))
+    @pytest.mark.parametrize("invalid",(0,1,None,"other"))
+    def test_eligible_logical_compare_is_exact_bool(factory,invalid):
+        with pytest.raises(UndoableDefinitionError,match="compare.*bool"):
+>           factory(compare=invalid)
+E           TypeError: binding() got an unexpected keyword argument 'compare'
+
+tests/test_comparison_definitions.py:24: TypeError
+____________ test_eligible_logical_compare_is_exact_bool[1-managed] ____________
+
+factory = <function managed at 0x108ac1080>, invalid = 1
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,managed))
+    @pytest.mark.parametrize("invalid",(0,1,None,"other"))
+    def test_eligible_logical_compare_is_exact_bool(factory,invalid):
+>       with pytest.raises(UndoableDefinitionError,match="compare.*bool"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'compare.*bool'
+E         Actual message: "compare must be 'value' or 'identity'"
+
+tests/test_comparison_definitions.py:23: AssertionError
+___________ test_eligible_logical_compare_is_exact_bool[None-field] ____________
+
+factory = <function field at 0x108a0ede0>, invalid = None
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,managed))
+    @pytest.mark.parametrize("invalid",(0,1,None,"other"))
+    def test_eligible_logical_compare_is_exact_bool(factory,invalid):
+        with pytest.raises(UndoableDefinitionError,match="compare.*bool"):
+>           factory(compare=invalid)
+E           TypeError: field() got an unexpected keyword argument 'compare'
+
+tests/test_comparison_definitions.py:24: TypeError
+___________ test_eligible_logical_compare_is_exact_bool[None-const] ____________
+
+factory = <function const at 0x108ac0fe0>, invalid = None
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,managed))
+    @pytest.mark.parametrize("invalid",(0,1,None,"other"))
+    def test_eligible_logical_compare_is_exact_bool(factory,invalid):
+        with pytest.raises(UndoableDefinitionError,match="compare.*bool"):
+>           factory(compare=invalid)
+E           TypeError: const() got an unexpected keyword argument 'compare'
+
+tests/test_comparison_definitions.py:24: TypeError
+____________ test_eligible_logical_compare_is_exact_bool[None-lazy] ____________
+
+factory = <function lazy at 0x108ac0ea0>, invalid = None
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,managed))
+    @pytest.mark.parametrize("invalid",(0,1,None,"other"))
+    def test_eligible_logical_compare_is_exact_bool(factory,invalid):
+        with pytest.raises(UndoableDefinitionError,match="compare.*bool"):
+>           factory(compare=invalid)
+E           TypeError: lazy() got an unexpected keyword argument 'compare'
+
+tests/test_comparison_definitions.py:24: TypeError
+__________ test_eligible_logical_compare_is_exact_bool[None-binding] ___________
+
+factory = <function binding at 0x108ac11c0>, invalid = None
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,managed))
+    @pytest.mark.parametrize("invalid",(0,1,None,"other"))
+    def test_eligible_logical_compare_is_exact_bool(factory,invalid):
+        with pytest.raises(UndoableDefinitionError,match="compare.*bool"):
+>           factory(compare=invalid)
+E           TypeError: binding() got an unexpected keyword argument 'compare'
+
+tests/test_comparison_definitions.py:24: TypeError
+__________ test_eligible_logical_compare_is_exact_bool[None-managed] ___________
+
+factory = <function managed at 0x108ac1080>, invalid = None
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,managed))
+    @pytest.mark.parametrize("invalid",(0,1,None,"other"))
+    def test_eligible_logical_compare_is_exact_bool(factory,invalid):
+>       with pytest.raises(UndoableDefinitionError,match="compare.*bool"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'compare.*bool'
+E         Actual message: "compare must be 'value' or 'identity'"
+
+tests/test_comparison_definitions.py:23: AssertionError
+___________ test_eligible_logical_compare_is_exact_bool[other-field] ___________
+
+factory = <function field at 0x108a0ede0>, invalid = 'other'
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,managed))
+    @pytest.mark.parametrize("invalid",(0,1,None,"other"))
+    def test_eligible_logical_compare_is_exact_bool(factory,invalid):
+        with pytest.raises(UndoableDefinitionError,match="compare.*bool"):
+>           factory(compare=invalid)
+E           TypeError: field() got an unexpected keyword argument 'compare'
+
+tests/test_comparison_definitions.py:24: TypeError
+___________ test_eligible_logical_compare_is_exact_bool[other-const] ___________
+
+factory = <function const at 0x108ac0fe0>, invalid = 'other'
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,managed))
+    @pytest.mark.parametrize("invalid",(0,1,None,"other"))
+    def test_eligible_logical_compare_is_exact_bool(factory,invalid):
+        with pytest.raises(UndoableDefinitionError,match="compare.*bool"):
+>           factory(compare=invalid)
+E           TypeError: const() got an unexpected keyword argument 'compare'
+
+tests/test_comparison_definitions.py:24: TypeError
+___________ test_eligible_logical_compare_is_exact_bool[other-lazy] ____________
+
+factory = <function lazy at 0x108ac0ea0>, invalid = 'other'
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,managed))
+    @pytest.mark.parametrize("invalid",(0,1,None,"other"))
+    def test_eligible_logical_compare_is_exact_bool(factory,invalid):
+        with pytest.raises(UndoableDefinitionError,match="compare.*bool"):
+>           factory(compare=invalid)
+E           TypeError: lazy() got an unexpected keyword argument 'compare'
+
+tests/test_comparison_definitions.py:24: TypeError
+__________ test_eligible_logical_compare_is_exact_bool[other-binding] __________
+
+factory = <function binding at 0x108ac11c0>, invalid = 'other'
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,managed))
+    @pytest.mark.parametrize("invalid",(0,1,None,"other"))
+    def test_eligible_logical_compare_is_exact_bool(factory,invalid):
+        with pytest.raises(UndoableDefinitionError,match="compare.*bool"):
+>           factory(compare=invalid)
+E           TypeError: binding() got an unexpected keyword argument 'compare'
+
+tests/test_comparison_definitions.py:24: TypeError
+__________ test_eligible_logical_compare_is_exact_bool[other-managed] __________
+
+factory = <function managed at 0x108ac1080>, invalid = 'other'
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,managed))
+    @pytest.mark.parametrize("invalid",(0,1,None,"other"))
+    def test_eligible_logical_compare_is_exact_bool(factory,invalid):
+>       with pytest.raises(UndoableDefinitionError,match="compare.*bool"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'compare.*bool'
+E         Actual message: "compare must be 'value' or 'identity'"
+
+tests/test_comparison_definitions.py:23: AssertionError
+_________ test_excluded_family_rejects_explicit_logical_true[initvar] __________
+
+factory = <function initvar at 0x108aee8e0>
+
+    @pytest.mark.parametrize("factory",(initvar,classvar,transient,local_store))
+    def test_excluded_family_rejects_explicit_logical_true(factory):
+        with pytest.raises(UndoableDefinitionError,match="compare.*excluded"):
+>           factory(compare=True)
+E           TypeError: initvar() got an unexpected keyword argument 'compare'
+
+tests/test_comparison_definitions.py:30: TypeError
+_________ test_excluded_family_rejects_explicit_logical_true[classvar] _________
+
+factory = <function classvar at 0x108ac0f40>
+
+    @pytest.mark.parametrize("factory",(initvar,classvar,transient,local_store))
+    def test_excluded_family_rejects_explicit_logical_true(factory):
+        with pytest.raises(UndoableDefinitionError,match="compare.*excluded"):
+>           factory(compare=True)
+E           TypeError: classvar() got an unexpected keyword argument 'compare'
+
+tests/test_comparison_definitions.py:30: TypeError
+________ test_excluded_family_rejects_explicit_logical_true[transient] _________
+
+factory = <function transient at 0x108ac1300>
+
+    @pytest.mark.parametrize("factory",(initvar,classvar,transient,local_store))
+    def test_excluded_family_rejects_explicit_logical_true(factory):
+>       with pytest.raises(UndoableDefinitionError,match="compare.*excluded"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'compare.*excluded'
+E         Actual message: "compare must be 'value' or 'identity'"
+
+tests/test_comparison_definitions.py:29: AssertionError
+_______ test_excluded_family_rejects_explicit_logical_true[local_store] ________
+
+factory = <function local_store at 0x108ac1260>
+
+    @pytest.mark.parametrize("factory",(initvar,classvar,transient,local_store))
+    def test_excluded_family_rejects_explicit_logical_true(factory):
+>       with pytest.raises(UndoableDefinitionError,match="compare.*excluded"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'compare.*excluded'
+E         Actual message: 'local_store does not support compare'
+
+tests/test_comparison_definitions.py:29: AssertionError
+_______________ test_write_policy_only_belongs_to_managed[field] _______________
+
+factory = <function field at 0x108a0ede0>
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,initvar,classvar,transient,local_store))
+    def test_write_policy_only_belongs_to_managed(factory):
+        with pytest.raises(UndoableDefinitionError,match="write_compare.*managed"):
+>           factory(write_compare="value")
+E           TypeError: field() got an unexpected keyword argument 'write_compare'
+
+tests/test_comparison_definitions.py:37: TypeError
+_______________ test_write_policy_only_belongs_to_managed[const] _______________
+
+factory = <function const at 0x108ac0fe0>
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,initvar,classvar,transient,local_store))
+    def test_write_policy_only_belongs_to_managed(factory):
+        with pytest.raises(UndoableDefinitionError,match="write_compare.*managed"):
+>           factory(write_compare="value")
+E           TypeError: const() got an unexpected keyword argument 'write_compare'
+
+tests/test_comparison_definitions.py:37: TypeError
+_______________ test_write_policy_only_belongs_to_managed[lazy] ________________
+
+factory = <function lazy at 0x108ac0ea0>
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,initvar,classvar,transient,local_store))
+    def test_write_policy_only_belongs_to_managed(factory):
+        with pytest.raises(UndoableDefinitionError,match="write_compare.*managed"):
+>           factory(write_compare="value")
+E           TypeError: lazy() got an unexpected keyword argument 'write_compare'
+
+tests/test_comparison_definitions.py:37: TypeError
+______________ test_write_policy_only_belongs_to_managed[binding] ______________
+
+factory = <function binding at 0x108ac11c0>
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,initvar,classvar,transient,local_store))
+    def test_write_policy_only_belongs_to_managed(factory):
+        with pytest.raises(UndoableDefinitionError,match="write_compare.*managed"):
+>           factory(write_compare="value")
+E           TypeError: binding() got an unexpected keyword argument 'write_compare'
+
+tests/test_comparison_definitions.py:37: TypeError
+______________ test_write_policy_only_belongs_to_managed[initvar] ______________
+
+factory = <function initvar at 0x108aee8e0>
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,initvar,classvar,transient,local_store))
+    def test_write_policy_only_belongs_to_managed(factory):
+        with pytest.raises(UndoableDefinitionError,match="write_compare.*managed"):
+>           factory(write_compare="value")
+E           TypeError: initvar() got an unexpected keyword argument 'write_compare'
+
+tests/test_comparison_definitions.py:37: TypeError
+_____________ test_write_policy_only_belongs_to_managed[classvar] ______________
+
+factory = <function classvar at 0x108ac0f40>
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,initvar,classvar,transient,local_store))
+    def test_write_policy_only_belongs_to_managed(factory):
+        with pytest.raises(UndoableDefinitionError,match="write_compare.*managed"):
+>           factory(write_compare="value")
+E           TypeError: classvar() got an unexpected keyword argument 'write_compare'
+
+tests/test_comparison_definitions.py:37: TypeError
+_____________ test_write_policy_only_belongs_to_managed[transient] _____________
+
+factory = <function transient at 0x108ac1300>
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,initvar,classvar,transient,local_store))
+    def test_write_policy_only_belongs_to_managed(factory):
+        with pytest.raises(UndoableDefinitionError,match="write_compare.*managed"):
+>           factory(write_compare="value")
+E           TypeError: transient() got an unexpected keyword argument 'write_compare'
+
+tests/test_comparison_definitions.py:37: TypeError
+____________ test_write_policy_only_belongs_to_managed[local_store] ____________
+
+factory = <function local_store at 0x108ac1260>
+
+    @pytest.mark.parametrize("factory",(field,const,lazy,binding,initvar,classvar,transient,local_store))
+    def test_write_policy_only_belongs_to_managed(factory):
+>       with pytest.raises(UndoableDefinitionError,match="write_compare.*managed"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'write_compare.*managed'
+E         Actual message: 'local_store does not support write_compare'
+
+tests/test_comparison_definitions.py:36: AssertionError
+___________________ test_invalid_managed_write_policy[None] ____________________
+
+policy = None
+
+    @pytest.mark.parametrize("policy",(None,True,0,"other"))
+    def test_invalid_managed_write_policy(policy):
+        with pytest.raises(UndoableDefinitionError,match="write_compare"):
+>           managed(write_compare=policy)
+E           TypeError: managed() got an unexpected keyword argument 'write_compare'
+
+tests/test_comparison_definitions.py:43: TypeError
+___________________ test_invalid_managed_write_policy[True] ____________________
+
+policy = True
+
+    @pytest.mark.parametrize("policy",(None,True,0,"other"))
+    def test_invalid_managed_write_policy(policy):
+        with pytest.raises(UndoableDefinitionError,match="write_compare"):
+>           managed(write_compare=policy)
+E           TypeError: managed() got an unexpected keyword argument 'write_compare'
+
+tests/test_comparison_definitions.py:43: TypeError
+_____________________ test_invalid_managed_write_policy[0] _____________________
+
+policy = 0
+
+    @pytest.mark.parametrize("policy",(None,True,0,"other"))
+    def test_invalid_managed_write_policy(policy):
+        with pytest.raises(UndoableDefinitionError,match="write_compare"):
+>           managed(write_compare=policy)
+E           TypeError: managed() got an unexpected keyword argument 'write_compare'
+
+tests/test_comparison_definitions.py:43: TypeError
+___________________ test_invalid_managed_write_policy[other] ___________________
+
+policy = 'other'
+
+    @pytest.mark.parametrize("policy",(None,True,0,"other"))
+    def test_invalid_managed_write_policy(policy):
+        with pytest.raises(UndoableDefinitionError,match="write_compare"):
+>           managed(write_compare=policy)
+E           TypeError: managed() got an unexpected keyword argument 'write_compare'
+
+tests/test_comparison_definitions.py:43: TypeError
+________ test_legacy_plus_explicit_write_policy_conflicts[value-value] _________
+
+legacy = 'value', explicit = 'value'
+
+    @pytest.mark.parametrize("legacy",("value","identity"))
+    @pytest.mark.parametrize("explicit",("value","identity"))
+    def test_legacy_plus_explicit_write_policy_conflicts(legacy,explicit):
+        with pytest.raises(UndoableDefinitionError,match="legacy.*write_compare"):
+>           managed(compare=legacy,write_compare=explicit)
+E           TypeError: managed() got an unexpected keyword argument 'write_compare'
+
+tests/test_comparison_definitions.py:50: TypeError
+_______ test_legacy_plus_explicit_write_policy_conflicts[value-identity] _______
+
+legacy = 'identity', explicit = 'value'
+
+    @pytest.mark.parametrize("legacy",("value","identity"))
+    @pytest.mark.parametrize("explicit",("value","identity"))
+    def test_legacy_plus_explicit_write_policy_conflicts(legacy,explicit):
+        with pytest.raises(UndoableDefinitionError,match="legacy.*write_compare"):
+>           managed(compare=legacy,write_compare=explicit)
+E           TypeError: managed() got an unexpected keyword argument 'write_compare'
+
+tests/test_comparison_definitions.py:50: TypeError
+_______ test_legacy_plus_explicit_write_policy_conflicts[identity-value] _______
+
+legacy = 'value', explicit = 'identity'
+
+    @pytest.mark.parametrize("legacy",("value","identity"))
+    @pytest.mark.parametrize("explicit",("value","identity"))
+    def test_legacy_plus_explicit_write_policy_conflicts(legacy,explicit):
+        with pytest.raises(UndoableDefinitionError,match="legacy.*write_compare"):
+>           managed(compare=legacy,write_compare=explicit)
+E           TypeError: managed() got an unexpected keyword argument 'write_compare'
+
+tests/test_comparison_definitions.py:50: TypeError
+_____ test_legacy_plus_explicit_write_policy_conflicts[identity-identity] ______
+
+legacy = 'identity', explicit = 'identity'
+
+    @pytest.mark.parametrize("legacy",("value","identity"))
+    @pytest.mark.parametrize("explicit",("value","identity"))
+    def test_legacy_plus_explicit_write_policy_conflicts(legacy,explicit):
+        with pytest.raises(UndoableDefinitionError,match="legacy.*write_compare"):
+>           managed(compare=legacy,write_compare=explicit)
+E           TypeError: managed() got an unexpected keyword argument 'write_compare'
+
+tests/test_comparison_definitions.py:50: TypeError
+______ test_enabled_comparisons_reject_conflicting_custom_methods[__eq__] ______
+
+name = '__eq__'
+
+    @pytest.mark.parametrize("name",("__eq__","__lt__","__le__","__gt__","__ge__","__hash__"))
+    def test_enabled_comparisons_reject_conflicting_custom_methods(name):
+        declaration=type("Custom",(),{name:lambda self,other=None:True})
+        with pytest.raises(UndoableDefinitionError,match=name):
+>           undoable(declaration,eq=True,order=True)
+E           TypeError: undoable() got an unexpected keyword argument 'eq'
+
+tests/test_comparison_definitions.py:57: TypeError
+______ test_enabled_comparisons_reject_conflicting_custom_methods[__lt__] ______
+
+name = '__lt__'
+
+    @pytest.mark.parametrize("name",("__eq__","__lt__","__le__","__gt__","__ge__","__hash__"))
+    def test_enabled_comparisons_reject_conflicting_custom_methods(name):
+        declaration=type("Custom",(),{name:lambda self,other=None:True})
+        with pytest.raises(UndoableDefinitionError,match=name):
+>           undoable(declaration,eq=True,order=True)
+E           TypeError: undoable() got an unexpected keyword argument 'eq'
+
+tests/test_comparison_definitions.py:57: TypeError
+______ test_enabled_comparisons_reject_conflicting_custom_methods[__le__] ______
+
+name = '__le__'
+
+    @pytest.mark.parametrize("name",("__eq__","__lt__","__le__","__gt__","__ge__","__hash__"))
+    def test_enabled_comparisons_reject_conflicting_custom_methods(name):
+        declaration=type("Custom",(),{name:lambda self,other=None:True})
+        with pytest.raises(UndoableDefinitionError,match=name):
+>           undoable(declaration,eq=True,order=True)
+E           TypeError: undoable() got an unexpected keyword argument 'eq'
+
+tests/test_comparison_definitions.py:57: TypeError
+______ test_enabled_comparisons_reject_conflicting_custom_methods[__gt__] ______
+
+name = '__gt__'
+
+    @pytest.mark.parametrize("name",("__eq__","__lt__","__le__","__gt__","__ge__","__hash__"))
+    def test_enabled_comparisons_reject_conflicting_custom_methods(name):
+        declaration=type("Custom",(),{name:lambda self,other=None:True})
+        with pytest.raises(UndoableDefinitionError,match=name):
+>           undoable(declaration,eq=True,order=True)
+E           TypeError: undoable() got an unexpected keyword argument 'eq'
+
+tests/test_comparison_definitions.py:57: TypeError
+______ test_enabled_comparisons_reject_conflicting_custom_methods[__ge__] ______
+
+name = '__ge__'
+
+    @pytest.mark.parametrize("name",("__eq__","__lt__","__le__","__gt__","__ge__","__hash__"))
+    def test_enabled_comparisons_reject_conflicting_custom_methods(name):
+        declaration=type("Custom",(),{name:lambda self,other=None:True})
+        with pytest.raises(UndoableDefinitionError,match=name):
+>           undoable(declaration,eq=True,order=True)
+E           TypeError: undoable() got an unexpected keyword argument 'eq'
+
+tests/test_comparison_definitions.py:57: TypeError
+_____ test_enabled_comparisons_reject_conflicting_custom_methods[__hash__] _____
+
+name = '__hash__'
+
+    @pytest.mark.parametrize("name",("__eq__","__lt__","__le__","__gt__","__ge__","__hash__"))
+    def test_enabled_comparisons_reject_conflicting_custom_methods(name):
+        declaration=type("Custom",(),{name:lambda self,other=None:True})
+        with pytest.raises(UndoableDefinitionError,match=name):
+>           undoable(declaration,eq=True,order=True)
+E           TypeError: undoable() got an unexpected keyword argument 'eq'
+
+tests/test_comparison_definitions.py:57: TypeError
+_____ test_direct_lifecycle_markers_stay_valid_with_original_write_policy ______
+
+    def test_direct_lifecycle_markers_stay_valid_with_original_write_policy():
+        class Declaration:
+            value:int=lifecycle.managed(compare="identity",default=2)
+            cache:list=lifecycle.local_store(default_factory=list)
+>       Model=undoable(Declaration,eq=True)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: undoable() got an unexpected keyword argument 'eq'
+
+tests/test_comparison_definitions.py:64: TypeError
+________________ test_generated_story[21_undoable_comparisons] _________________
+
+story = PosixPath('[consumer-root]/tests/data/gold_src/21_undoable_comparisons.py')
+
+    @pytest.mark.parametrize("story", sorted(STORIES.glob("*.py")), ids=lambda p: p.stem)
+    def test_generated_story(story):
+>       actual = run_story(story)
+                 ^^^^^^^^^^^^^^^^
+
+tests/test_canonical.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/canonical_support.py:11: in run_story
+    namespace = runpy.run_path(str(story), run_name="__canonical__")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen runpy>:287: in run_path
+    ???
+<frozen runpy>:98: in _run_module_code
+    ???
+<frozen runpy>:88: in _run_code
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Logical comparison contrasts fields, views, revisions and disabled identity."""
+    import pytest
+    from yidl_undoable import *
+    
+    calls=[]
+    def stamp(seed):
+        calls.append(seed)
+        return seed
+    
+>   @undoable(eq=True,order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: undoable() got an unexpected keyword argument 'eq'
+
+tests/data/gold_src/21_undoable_comparisons.py:10: TypeError
+=========================== short test summary info ============================
+FAILED tests/test_comparison_definitions.py::test_options_are_exact_booleans[0-eq]
+FAILED tests/test_comparison_definitions.py::test_options_are_exact_booleans[0-order]
+FAILED tests/test_comparison_definitions.py::test_options_are_exact_booleans[1-eq]
+FAILED tests/test_comparison_definitions.py::test_options_are_exact_booleans[1-order]
+FAILED tests/test_comparison_definitions.py::test_options_are_exact_booleans[None-eq]
+FAILED tests/test_comparison_definitions.py::test_options_are_exact_booleans[None-order]
+FAILED tests/test_comparison_definitions.py::test_options_are_exact_booleans[true-eq]
+FAILED tests/test_comparison_definitions.py::test_options_are_exact_booleans[true-order]
+FAILED tests/test_comparison_definitions.py::test_options_are_exact_booleans[value4-eq]
+FAILED tests/test_comparison_definitions.py::test_options_are_exact_booleans[value4-order]
+FAILED tests/test_comparison_definitions.py::test_order_requires_explicit_enabled_equality[options0]
+FAILED tests/test_comparison_definitions.py::test_order_requires_explicit_enabled_equality[options1]
+FAILED tests/test_comparison_definitions.py::test_eligible_logical_compare_is_exact_bool[0-field]
+FAILED tests/test_comparison_definitions.py::test_eligible_logical_compare_is_exact_bool[0-const]
+FAILED tests/test_comparison_definitions.py::test_eligible_logical_compare_is_exact_bool[0-lazy]
+FAILED tests/test_comparison_definitions.py::test_eligible_logical_compare_is_exact_bool[0-binding]
+FAILED tests/test_comparison_definitions.py::test_eligible_logical_compare_is_exact_bool[0-managed]
+FAILED tests/test_comparison_definitions.py::test_eligible_logical_compare_is_exact_bool[1-field]
+FAILED tests/test_comparison_definitions.py::test_eligible_logical_compare_is_exact_bool[1-const]
+FAILED tests/test_comparison_definitions.py::test_eligible_logical_compare_is_exact_bool[1-lazy]
+FAILED tests/test_comparison_definitions.py::test_eligible_logical_compare_is_exact_bool[1-binding]
+FAILED tests/test_comparison_definitions.py::test_eligible_logical_compare_is_exact_bool[1-managed]
+FAILED tests/test_comparison_definitions.py::test_eligible_logical_compare_is_exact_bool[None-field]
+FAILED tests/test_comparison_definitions.py::test_eligible_logical_compare_is_exact_bool[None-const]
+FAILED tests/test_comparison_definitions.py::test_eligible_logical_compare_is_exact_bool[None-lazy]
+FAILED tests/test_comparison_definitions.py::test_eligible_logical_compare_is_exact_bool[None-binding]
+FAILED tests/test_comparison_definitions.py::test_eligible_logical_compare_is_exact_bool[None-managed]
+FAILED tests/test_comparison_definitions.py::test_eligible_logical_compare_is_exact_bool[other-field]
+FAILED tests/test_comparison_definitions.py::test_eligible_logical_compare_is_exact_bool[other-const]
+FAILED tests/test_comparison_definitions.py::test_eligible_logical_compare_is_exact_bool[other-lazy]
+FAILED tests/test_comparison_definitions.py::test_eligible_logical_compare_is_exact_bool[other-binding]
+FAILED tests/test_comparison_definitions.py::test_eligible_logical_compare_is_exact_bool[other-managed]
+FAILED tests/test_comparison_definitions.py::test_excluded_family_rejects_explicit_logical_true[initvar]
+FAILED tests/test_comparison_definitions.py::test_excluded_family_rejects_explicit_logical_true[classvar]
+FAILED tests/test_comparison_definitions.py::test_excluded_family_rejects_explicit_logical_true[transient]
+FAILED tests/test_comparison_definitions.py::test_excluded_family_rejects_explicit_logical_true[local_store]
+FAILED tests/test_comparison_definitions.py::test_write_policy_only_belongs_to_managed[field]
+FAILED tests/test_comparison_definitions.py::test_write_policy_only_belongs_to_managed[const]
+FAILED tests/test_comparison_definitions.py::test_write_policy_only_belongs_to_managed[lazy]
+FAILED tests/test_comparison_definitions.py::test_write_policy_only_belongs_to_managed[binding]
+FAILED tests/test_comparison_definitions.py::test_write_policy_only_belongs_to_managed[initvar]
+FAILED tests/test_comparison_definitions.py::test_write_policy_only_belongs_to_managed[classvar]
+FAILED tests/test_comparison_definitions.py::test_write_policy_only_belongs_to_managed[transient]
+FAILED tests/test_comparison_definitions.py::test_write_policy_only_belongs_to_managed[local_store]
+FAILED tests/test_comparison_definitions.py::test_invalid_managed_write_policy[None]
+FAILED tests/test_comparison_definitions.py::test_invalid_managed_write_policy[True]
+FAILED tests/test_comparison_definitions.py::test_invalid_managed_write_policy[0]
+FAILED tests/test_comparison_definitions.py::test_invalid_managed_write_policy[other]
+FAILED tests/test_comparison_definitions.py::test_legacy_plus_explicit_write_policy_conflicts[value-value]
+FAILED tests/test_comparison_definitions.py::test_legacy_plus_explicit_write_policy_conflicts[value-identity]
+FAILED tests/test_comparison_definitions.py::test_legacy_plus_explicit_write_policy_conflicts[identity-value]
+FAILED tests/test_comparison_definitions.py::test_legacy_plus_explicit_write_policy_conflicts[identity-identity]
+FAILED tests/test_comparison_definitions.py::test_enabled_comparisons_reject_conflicting_custom_methods[__eq__]
+FAILED tests/test_comparison_definitions.py::test_enabled_comparisons_reject_conflicting_custom_methods[__lt__]
+FAILED tests/test_comparison_definitions.py::test_enabled_comparisons_reject_conflicting_custom_methods[__le__]
+FAILED tests/test_comparison_definitions.py::test_enabled_comparisons_reject_conflicting_custom_methods[__gt__]
+FAILED tests/test_comparison_definitions.py::test_enabled_comparisons_reject_conflicting_custom_methods[__ge__]
+FAILED tests/test_comparison_definitions.py::test_enabled_comparisons_reject_conflicting_custom_methods[__hash__]
+FAILED tests/test_comparison_definitions.py::test_direct_lifecycle_markers_stay_valid_with_original_write_policy
+FAILED tests/test_canonical.py::test_generated_story[21_undoable_comparisons]
+60 failed, 20 deselected in 1.23s

@@ -11,6 +11,7 @@ from yidl_lifecycle.lifecycle_markers import (
     transaction_method_markers,
 )
 from .errors import UndoableDefinitionError
+from .undoable_markers import UndoableMarker
 
 RESERVED = {
     "default",
@@ -42,29 +43,45 @@ class Schema:
     validators: tuple
     markers: object
     annotations: object
+    logical: object
+    eq: bool = False
+    order: bool = False
+    restore_identity: bool = False
+    restore_order: bool = False
 
     @property
     def by_name(self):
         return MappingProxyType({f["field_name"]: f for f in self.fields})
 
 
-def harvest_undoable_definition(cls):
+def harvest_undoable_definition(cls, *, eq=False, order=False):
     bases = [b for b in cls.__bases__ if hasattr(b, "__undoable_schema__")]
     if len(bases) > 1:
         raise UndoableDefinitionError(
             f"{cls.__name__}: multiple generated bases unsupported"
         )
-    markers, annotations = {}, {}
+    markers, annotations, logical = {}, {}, {}
     inherited = bases[0].__undoable_schema__ if bases else None
     if inherited:
         markers.update(inherited.markers)
         annotations.update(inherited.annotations)
+        logical.update(inherited.logical)
     local = get_annotations(cls, eval_str=False)
     for name, annotation in local.items():
         if name in RESERVED or name.startswith(("_u_", "_y_", "__undoable_")):
             raise UndoableDefinitionError(f"{cls.__name__}.{name}: reserved field name")
         raw = cls.__dict__.get(name, field())
-        marker = raw if isinstance(raw, LifecycleMarker) else field(default=raw)
+        if isinstance(raw, UndoableMarker):
+            marker, included = raw.marker, raw.logical_compare
+        else:
+            marker = raw if isinstance(raw, LifecycleMarker) else field(default=raw)
+            included = marker.kind not in {
+                "initvar",
+                "classvar",
+                "transient",
+                "local_store",
+            }
+        logical[name] = included
         if marker.kind not in SUPPORTED:
             raise UndoableDefinitionError(
                 f"{cls.__name__}.{name}: unsupported {marker.kind}"
@@ -98,7 +115,9 @@ def harvest_undoable_definition(cls):
         harvested = harvest_lifecycle_definition(declaration)
     except LifecycleDefinitionError as exc:
         raise UndoableDefinitionError(str(exc)) from exc
-    facts = [dict(f) for f in harvested.field_facts]
+    facts = [
+        dict(f, logical_compare=logical[f["field_name"]]) for f in harvested.field_facts
+    ]
     if inherited:
         old = inherited.by_name
         for fact in facts:
@@ -129,4 +148,9 @@ def harvest_undoable_definition(cls):
         tuple(validators.items()),
         MappingProxyType(markers),
         MappingProxyType(annotations),
+        MappingProxyType(logical),
+        eq,
+        order,
+        bool(inherited and inherited.eq and not eq),
+        bool(inherited and inherited.order and not order),
     )

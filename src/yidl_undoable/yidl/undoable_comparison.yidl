@@ -1,0 +1,214 @@
+module undoable.comparison
+import "undoable_views.yidl" as previous
+import "../shared/comparison.yidl" as comparison
+export concept UndoableComparison
+
+concept UndoableComparison extends previous.UndoableViews, comparison.ComparisonCore {
+    contribution IndexedTupleEq = TupleEqProduction {
+        as EqMethod index CmpClassOrder
+        target eq_method { build /ComparisonMethods }
+    }
+    contribution IndexedChainEq = ChainEqProduction {
+        as EqMethod index CmpClassOrder
+        target eq_method { build /ComparisonMethods }
+    }
+    contribution IndexedEmptyTupleEq = EmptyTupleEqProduction {
+        as EqMethod index CmpClassOrder
+        target eq_method { build /ComparisonMethods }
+    }
+    contribution IndexedEmptyChainEq = EmptyChainEqProduction {
+        as EqMethod index CmpClassOrder
+        target eq_method { build /ComparisonMethods }
+    }
+    contribution IndexedEmptyEq = ComparisonPass {
+        as EmptyEq index CmpClassOrder
+        target eq_method { build /ComparisonMethods }
+    }
+    matcher EqMethodContributions(cmp: ComparisonClasses) -> contribution {
+        rule view_absent when CmpEq == False -> IndexedEmptyEq weight 2
+        rule view_indexed_tuple when CmpEq == True and UseTupleEquality == True and HasCompareOperands == True -> IndexedTupleEq weight 2
+        rule view_indexed_chain when CmpEq == True and UseTupleEquality == False and HasCompareOperands == True -> IndexedChainEq weight 2
+        rule view_indexed_empty_tuple when CmpEq == True and UseTupleEquality == True and HasCompareOperands == False -> IndexedEmptyTupleEq weight 2
+        rule view_indexed_empty_chain when CmpEq == True and UseTupleEquality == False and HasCompareOperands == False -> IndexedEmptyChainEq weight 2
+    }
+    contribution IndexedEqGuard = ExactClassGuard {
+        as EqGuard index CmpClassOrder
+        target eq_guard { build /EqMethod }
+    }
+    matcher EqGuardContributions(cmp: ComparisonClasses) -> contribution {
+        rule view_indexed when CmpEq == True -> IndexedEqGuard weight 2
+    }
+    contribution IndexedEqIdentity = SelfIdentityShortcut {
+        as EqIdentity index CmpClassOrder
+        target identity_shortcut { build /EqMethod }
+    }
+    matcher EqIdentityContributions(cmp: ComparisonClasses) -> contribution {
+        rule view_indexed when CmpEq == True -> IndexedEqIdentity weight 2
+    }
+    contribution IndexedLt = LtProduction {
+        as LtMethod index CmpClassOrder
+        target order_methods { build /ComparisonMethods }
+    }
+    contribution IndexedEmptyLt = EmptyLtProduction {
+        as LtMethod index CmpClassOrder
+        target order_methods { build /ComparisonMethods }
+    }
+    contribution IndexedNoLt = ComparisonPass {
+        as NoLt index CmpClassOrder
+        target order_methods { build /ComparisonMethods }
+    }
+    matcher LtMethodContributions(cmp: ComparisonClasses) -> contribution {
+        rule view_populated when CmpOrder == True and HasCompareOperands == True -> IndexedLt weight 2
+        rule view_empty when CmpOrder == True and HasCompareOperands == False -> IndexedEmptyLt weight 2
+        rule view_absent when CmpOrder == False -> IndexedNoLt weight 2
+    }
+    contribution IndexedLtGuard = ExactClassGuard {
+        as LtGuard index CmpClassOrder
+        target order_guard { build /LtMethod }
+    }
+    matcher LtGuardContributions(cmp: ComparisonClasses) -> contribution {
+        rule view_indexed when CmpOrder == True -> IndexedLtGuard weight 2
+    }
+    contribution IndexedLe = LeProduction {
+        as LeMethod index CmpClassOrder
+        target order_methods { build /ComparisonMethods }
+    }
+    contribution IndexedEmptyLe = EmptyLeProduction {
+        as LeMethod index CmpClassOrder
+        target order_methods { build /ComparisonMethods }
+    }
+    contribution IndexedNoLe = ComparisonPass {
+        as NoLe index CmpClassOrder
+        target order_methods { build /ComparisonMethods }
+    }
+    matcher LeMethodContributions(cmp: ComparisonClasses) -> contribution {
+        rule view_populated when CmpOrder == True and HasCompareOperands == True -> IndexedLe weight 2
+        rule view_empty when CmpOrder == True and HasCompareOperands == False -> IndexedEmptyLe weight 2
+        rule view_absent when CmpOrder == False -> IndexedNoLe weight 2
+    }
+    contribution IndexedLeGuard = ExactClassGuard {
+        as LeGuard index CmpClassOrder
+        target order_guard { build /LeMethod }
+    }
+    matcher LeGuardContributions(cmp: ComparisonClasses) -> contribution {
+        rule view_indexed when CmpOrder == True -> IndexedLeGuard weight 2
+    }
+    contribution IndexedGt = GtProduction {
+        as GtMethod index CmpClassOrder
+        target order_methods { build /ComparisonMethods }
+    }
+    contribution IndexedEmptyGt = EmptyGtProduction {
+        as GtMethod index CmpClassOrder
+        target order_methods { build /ComparisonMethods }
+    }
+    contribution IndexedNoGt = ComparisonPass {
+        as NoGt index CmpClassOrder
+        target order_methods { build /ComparisonMethods }
+    }
+    matcher GtMethodContributions(cmp: ComparisonClasses) -> contribution {
+        rule view_populated when CmpOrder == True and HasCompareOperands == True -> IndexedGt weight 2
+        rule view_empty when CmpOrder == True and HasCompareOperands == False -> IndexedEmptyGt weight 2
+        rule view_absent when CmpOrder == False -> IndexedNoGt weight 2
+    }
+    contribution IndexedGtGuard = ExactClassGuard {
+        as GtGuard index CmpClassOrder
+        target order_guard { build /GtMethod }
+    }
+    matcher GtGuardContributions(cmp: ComparisonClasses) -> contribution {
+        rule view_indexed when CmpOrder == True -> IndexedGtGuard weight 2
+    }
+    contribution IndexedGe = GeProduction {
+        as GeMethod index CmpClassOrder
+        target order_methods { build /ComparisonMethods }
+    }
+    contribution IndexedEmptyGe = EmptyGeProduction {
+        as GeMethod index CmpClassOrder
+        target order_methods { build /ComparisonMethods }
+    }
+    contribution IndexedNoGe = ComparisonPass {
+        as NoGe index CmpClassOrder
+        target order_methods { build /ComparisonMethods }
+    }
+    matcher GeMethodContributions(cmp: ComparisonClasses) -> contribution {
+        rule view_populated when CmpOrder == True and HasCompareOperands == True -> IndexedGe weight 2
+        rule view_empty when CmpOrder == True and HasCompareOperands == False -> IndexedEmptyGe weight 2
+        rule view_absent when CmpOrder == False -> IndexedNoGe weight 2
+    }
+    contribution IndexedGeGuard = ExactClassGuard {
+        as GeGuard index CmpClassOrder
+        target order_guard { build /GeMethod }
+    }
+    matcher GeGuardContributions(cmp: ComparisonClasses) -> contribution {
+        rule view_indexed when CmpOrder == True -> IndexedGeGuard weight 2
+    }
+    resource ViewUnhashable = template `__hash__ = None` { keep __hash__ }
+    contribution IndexedHashNone = ViewUnhashable {
+        as SetHashNone index CmpClassOrder
+        target hash_method { build /ComparisonMethods }
+    }
+    contribution IndexedEmptyHash = ComparisonPass {
+        as EmptyHash index CmpClassOrder
+        target hash_method { build /ComparisonMethods }
+    }
+    matcher HashMethodContributions(cmp: ComparisonClasses) -> contribution {
+        rule view_disabled when CmpHashNone == True -> IndexedHashNone weight 2
+        rule view_untouched when CmpHashNone == False and CmpHash == False -> IndexedEmptyHash weight 2
+    }
+    resource HistoricalWriteIdentityPrelude = template $[
+        if True:
+            _u_write_scope = _u_historical_write_scope.get()
+            if _u_write_scope is not None and _u_write_scope.active:
+                return _u_historical_eq(self, other)
+    ]$ { keep self, other, _u_write_scope, _u_historical_write_scope, _u_historical_eq }
+    contribution HistoricalWriteIdentity = HistoricalWriteIdentityPrelude {
+        index CmpClassOrder
+        target eq_prelude { build /EqMethod }
+    }
+    matcher EqPreludeContributions(cmp: ComparisonClasses) -> contribution {
+        rule view_historical_write when CmpEq == True -> HistoricalWriteIdentity weight 2
+    }
+    resource ResetIdentity = template $[
+        __eq__ = _u_historical_eq
+        __hash__ = _u_historical_hash
+    ]$ { keep __eq__, __hash__, _u_historical_eq, _u_historical_hash }
+    resource ResetOrder = template $[
+        __lt__ = _u_object_lt
+        __le__ = _u_object_le
+        __gt__ = _u_object_gt
+        __ge__ = _u_object_ge
+    ]$ { keep __lt__, __le__, __gt__, __ge__, _u_object_lt, _u_object_le, _u_object_gt, _u_object_ge }
+    contribution IdentityReset = ResetIdentity {
+        target comparison_reset { build /ClassDef }
+    }
+    contribution OrderReset = ResetOrder {
+        target order_reset { build /ClassDef }
+    }
+    matcher IdentityResets(cls: Classes) -> contribution {
+        rule view_restore when RestoreIdentity == True -> IdentityReset
+    }
+    matcher OrderResets(cls: Classes) -> contribution {
+        rule view_restore when RestoreOrder == True -> OrderReset
+    }
+    contribution DefaultComparison = ComparisonMethods {
+        as DefaultComparison
+        target default_comparison { build /ClassDef }
+    }
+    contribution CurrentComparison = ComparisonMethods {
+        as CurrentComparison
+        target current_comparison { build /ClassDef }
+    }
+    contribution WorkingComparison = ComparisonMethods {
+        as WorkingComparison
+        target working_comparison { build /ClassDef }
+    }
+    matcher ViewComparisons(cmp: ComparisonClasses, cls: Classes) -> contribution {
+        rule view_default_view when CmpClassOrder == 0 -> DefaultComparison
+        rule view_current_view when CmpClassOrder == 1 -> CurrentComparison
+        rule view_working_view when CmpClassOrder == 2 -> WorkingComparison
+    }
+    extend production ClassProduction {
+        phase identity_reset after constructor_boundary { apply identity_reset using IdentityResets }
+        phase order_reset after identity_reset { apply order_reset using OrderResets }
+        phase comparisons after order_reset from cmp: ComparisonClasses { apply comparisons using ViewComparisons }
+    }
+}

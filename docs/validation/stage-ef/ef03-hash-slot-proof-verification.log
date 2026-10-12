@@ -1,0 +1,19 @@
+
+==================================== ERRORS ====================================
+_______________ ERROR collecting tests/test_comparison_source.py _______________
+tests/test_comparison_source.py:10: in <module>
+    @undoable(eq=True, order=True)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:151: in decorate
+    return _decorate(declaration, eq=eq, order=order)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/yidl_undoable/undoable.py:137: in _decorate
+    result = namespace["build_undoable_class"](base, schema=schema)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<undoable.Shape>:47: in build_undoable_class
+    ???
+E   NameError: name 'base_cls__astichi_scoped_2' is not defined
+=========================== short test summary info ============================
+ERROR tests/test_comparison_source.py - NameError: name 'base_cls__astichi_sc...
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.79s

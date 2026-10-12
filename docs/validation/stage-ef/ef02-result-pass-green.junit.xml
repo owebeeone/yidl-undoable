@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="1.266" timestamp="2026-10-13T01:04:52.382209+11:00" hostname="[host]"><testcase classname="tests.test_canonical" name="test_generated_story[21_undoable_comparisons]" time="1.241"><failure message="AssertionError: assert '# Generated ...citDisabled\n' == '# Generated ...citDisabled\n'&#10;  &#10;  Skipping 5281 identical leading characters in diff, use -v to show&#10;  -   __hash__ = None&#10;  +   __hash____astichi_scoped_1 = None&#10;    &#10;            @property&#10;            def price(self):...&#10;  &#10;  ...Full output truncated (521 lines hidden), use '-vv' to show">story = PosixPath('[consumer-root]/tests/data/gold_src/21_undoable_comparisons.py')
+
+    @pytest.mark.parametrize("story", sorted(STORIES.glob("*.py")), ids=lambda p: p.stem)
+    def test_generated_story(story):
+        actual = run_story(story)
+        expected = golden_path(story).read_text()
+&gt;       assert actual == expected
+E       AssertionError: assert '# Generated ...citDisabled\n' == '# Generated ...citDisabled\n'
+E         
+E         Skipping 5281 identical leading characters in diff, use -v to show
+E         -   __hash__ = None
+E         +   __hash____astichi_scoped_1 = None
+E           
+E                   @property
+E                   def price(self):...
+E         
+E         ...Full output truncated (521 lines hidden), use '-vv' to show
+
+tests/test_canonical.py:11: AssertionError</failure></testcase></testsuite></testsuites>

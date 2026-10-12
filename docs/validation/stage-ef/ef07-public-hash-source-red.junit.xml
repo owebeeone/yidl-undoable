@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="1.585" timestamp="2026-10-13T01:09:17.586459+11:00" hostname="[host]"><testcase classname="tests.test_comparison_source" name="test_multifield_view_hash_slot_keeps_its_public_dunder_name" time="1.063"><failure message="AssertionError: assert '__hash____astichi_scoped' not in 'from yidl_u...n RichHash\n'&#10;  &#10;  '__hash____astichi_scoped' is contained here:&#10;    &#10;            __hash____astichi_scoped_1 = None&#10;    &#10;            @property&#10;            def first(self):...&#10;  &#10;  ...Full output truncated (116 lines hidden), use '-vv' to show">def test_multifield_view_hash_slot_keeps_its_public_dunder_name():
+        @undoable(eq=True, order=True)
+        class RichHash:
+            first: int = managed(default=1)
+            second: int = managed(default=2)
+            third: int = managed(default=3)
+            fourth: int = managed(default=4)
+    
+&gt;       assert "__hash____astichi_scoped" not in RichHash.__undoable_source__
+E       AssertionError: assert '__hash____astichi_scoped' not in 'from yidl_u...n RichHash\n'
+E         
+E         '__hash____astichi_scoped' is contained here:
+E           
+E                   __hash____astichi_scoped_1 = None
+E           
+E                   @property
+E                   def first(self):...
+E         
+E         ...Full output truncated (116 lines hidden), use '-vv' to show
+
+tests/test_comparison_source.py:200: AssertionError</failure></testcase></testsuite></testsuites>
