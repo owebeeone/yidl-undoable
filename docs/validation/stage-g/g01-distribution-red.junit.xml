@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.655" timestamp="2026-10-13T01:29:13.761193+11:00" hostname="[host]"><testcase classname="tests.test_distribution_contract" name="test_wheel_and_sdist_include_public_documentation_and_example" time="0.615"><failure message="AssertionError: README.md&#10;assert ('yidl_undoable/documentation/' + 'README.md') in {'yidl_undoable-0.1.0.dist-info/METADATA', 'yidl_undoable-0.1.0.dist-info/RECORD', 'yidl_undoable-0.1.0.dist-info/WHEE...oable-0.1.0.dist-info/entry_points.txt', 'yidl_undoable/__init__.py', 'yidl_undoable/_generated_undoable_base.py', ...}">tmp_path = PosixPath('[temp]/pytest-of-user/pytest-1628/test_wheel_and_sdist_include_p0')
+
+    def test_wheel_and_sdist_include_public_documentation_and_example(tmp_path):
+        subprocess.run(
+            [sys.executable, "-m", "hatchling", "build", "-d", str(tmp_path)],
+            cwd=ROOT,
+            capture_output=True,
+            check=True,
+        )
+        with zipfile.ZipFile(next(tmp_path.glob("*.whl"))) as wheel:
+            names = set(wheel.namelist())
+            for name in ("README.md", "API.md", "Architecture.md", "first_use.py"):
+&gt;               assert "yidl_undoable/documentation/" + name in names, name
+E               AssertionError: README.md
+E               assert ('yidl_undoable/documentation/' + 'README.md') in {'yidl_undoable-0.1.0.dist-info/METADATA', 'yidl_undoable-0.1.0.dist-info/RECORD', 'yidl_undoable-0.1.0.dist-info/WHEE...oable-0.1.0.dist-info/entry_points.txt', 'yidl_undoable/__init__.py', 'yidl_undoable/_generated_undoable_base.py', ...}
+
+tests/test_distribution_contract.py:22: AssertionError</failure></testcase></testsuite></testsuites>

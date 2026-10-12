@@ -19,8 +19,13 @@ astichi = {path = "../astichi", editable = true}
 yidl-lifecycle = {path = "../yidl-lifecycle", editable = true}
 [tool.hatch.build.targets.wheel]
 packages = ["src/yidl_undoable"]
+[tool.hatch.build.targets.wheel.force-include]
+"README.md" = "yidl_undoable/documentation/README.md"
+"docs/API.md" = "yidl_undoable/documentation/docs/API.md"
+"docs/Architecture.md" = "yidl_undoable/documentation/docs/Architecture.md"
+"examples/first_use.py" = "yidl_undoable/documentation/examples/first_use.py"
 [tool.hatch.build.targets.sdist]
-include = ["src", "tests", "examples", "docs", "dev-docs", "README.md", "pyproject.toml"]
+include = ["src", "tests", "examples", "docs/API.md", "docs/Architecture.md", "README.md", "pyproject.toml"]
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]

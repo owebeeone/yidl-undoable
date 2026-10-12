@@ -1,0 +1,10 @@
+{
+  "absolute_path_or_hostname_matches": 0,
+  "artifact_references": 8,
+  "distinct_raw_hashes": 8,
+  "increments": 4,
+  "junit_files": 4,
+  "paired_installed_evidence": "external:yidl-dataclass-stage-g-owned-evidence",
+  "runtime_source_unchanged_from_ef": true,
+  "sdk_or_lifecycle_changes_or_builds": false
+}

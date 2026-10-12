@@ -4,6 +4,7 @@ import ast
 import dis
 import sys
 from pathlib import Path
+from importlib.resources import files
 from yidl_undoable import undoable, managed
 
 
@@ -109,7 +110,7 @@ def test_constant_carrier_adds_no_runtime_branch_or_dispatch():
 
 
 def test_shared_authority_and_native_write_expression_have_no_projection_helpers():
-    package = Path(__file__).resolve().parents[1] / "src/yidl_undoable"
+    package = files("yidl_undoable")
     source = (package / "write_comparison_context.py").read_text()
     tree = ast.parse(source)
     method = next(node for node in tree.body if isinstance(node, ast.FunctionDef))
@@ -131,7 +132,11 @@ def test_shared_authority_and_native_write_expression_have_no_projection_helpers
         "shared/comparison.yidl sha256=2f7e6df989b0714d8764de84d8a6f6b03f39c3ad7f57dba5e55f5131b8354eef"
         in generated
     )
+
+
+def test_undoable_scope_does_not_change_dataclass_equality():
     from yidl_dataclass import dataclass, generated_source
+    from yidl_undoable.write_comparison_context import _historical_write_equal
 
     @dataclass
     class Plain:
@@ -139,16 +144,6 @@ def test_shared_authority_and_native_write_expression_have_no_projection_helpers
 
     assert "historical_write" not in generated_source(Plain)
     assert "_u_write_scope" not in Plain.__eq__.__code__.co_names
-
-
-def test_undoable_scope_does_not_change_dataclass_equality():
-    from yidl_dataclass import dataclass
-    from yidl_undoable.write_comparison_context import _historical_write_equal
-
-    @dataclass
-    class Plain:
-        value: int
-
     left, right = Plain(2), Plain(2)
 
     class Callback:
@@ -178,13 +173,21 @@ assert a>b
 """
     import os
 
+    import yidl_undoable
+
+    installed = Path(yidl_undoable.__file__).resolve().is_relative_to(Path(sys.prefix))
+    environment = dict(os.environ)
+    if installed:
+        environment.pop("PYTHONPATH", None)
+    else:
+        environment["PYTHONPATH"] = str(
+            Path(yidl_undoable.__file__).resolve().parent.parent
+        )
     result = subprocess.run(
-        [sys.executable, "-c", script],
+        [sys.executable, *(["-I"] if installed else []), "-c", script],
         capture_output=True,
         text=True,
-        env=dict(
-            os.environ, PYTHONPATH=str(Path(__file__).resolve().parents[1] / "src")
-        ),
+        env=environment,
     )
     assert result.returncode == 0, result.stderr
 

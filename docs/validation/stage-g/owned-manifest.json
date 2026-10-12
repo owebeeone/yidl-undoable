@@ -1,0 +1,751 @@
+{
+  "baseline_owner_commit": "bedec080d1d3531d7a250b9e4f729040c57645c7",
+  "files": [
+    {
+      "bytes": 62,
+      "path": ".gitignore",
+      "sha256": "050d50be39b72d47389e3c1e64333ac38da0a757eb10890ea0c6c0c8f0fdff77",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 6652,
+      "path": "README.md",
+      "sha256": "24d785db0efa13f1372b463fc7de45f1e3a449ad06367205dfeee466d200a2e0",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 12727,
+      "path": "docs/API.md",
+      "sha256": "d3ff77ae91d189ab35f2d4a39d8ec1a39527ae6b356d8d4ec9940ec7a8097769",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 4979,
+      "path": "docs/Architecture.md",
+      "sha256": "77bcfdbdb2588298f8d997615c557cc9f101a6fe95b94d44089e02805c31a97a",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 2146,
+      "path": "docs/validation/stage-g/README.md",
+      "sha256": "dcd9093084c7c1ada646f2ac91037917f1558410bc698f78909fd85836a1bd4c",
+      "stage_ef_relation": "new"
+    },
+    {
+      "bytes": 3900,
+      "path": "docs/validation/stage-g/check_evidence.py",
+      "sha256": "572816c5f30963bc86bc2c5a60144411ca96842007069e4e222b4b5631989071",
+      "stage_ef_relation": "new"
+    },
+    {
+      "bytes": 312,
+      "path": "docs/validation/stage-g/evidence-qa.json",
+      "sha256": "0cab7312c92e3a18a610e70120d761efb011e3deca82e81cd158e1d8de4329e0",
+      "stage_ef_relation": "new"
+    },
+    {
+      "bytes": 381,
+      "path": "docs/validation/stage-g/g01-distribution-green.junit.xml",
+      "sha256": "2a8cb18a313b0bd81d95f40d040d70c2a55338cde3a9a24521a5f0321c506d04",
+      "stage_ef_relation": "new"
+    },
+    {
+      "bytes": 98,
+      "path": "docs/validation/stage-g/g01-distribution-green.log",
+      "sha256": "0234d51de03c8da96792f0ed8d0043697c9f1b2888dbf66e9cf6b5620819903b",
+      "stage_ef_relation": "new"
+    },
+    {
+      "bytes": 1796,
+      "path": "docs/validation/stage-g/g01-distribution-red.junit.xml",
+      "sha256": "4ac219a3aec0a3fc3bc0d53c05ab5c84da575b7b4a43970676a76d51435f9b0b",
+      "stage_ef_relation": "new"
+    },
+    {
+      "bytes": 1495,
+      "path": "docs/validation/stage-g/g01-distribution-red.log",
+      "sha256": "0e92948d5c1a2bf009ba509a7aeb690c5304ff1d76e59ebbae7158f87b4da4d4",
+      "stage_ef_relation": "new"
+    },
+    {
+      "bytes": 1678,
+      "path": "docs/validation/stage-g/g02-source-verification.junit.xml",
+      "sha256": "4b9491d97f6e8d8bdfc405c18a4618dfd6818b176c28a5862253db85032f91c8",
+      "stage_ef_relation": "new"
+    },
+    {
+      "bytes": 99,
+      "path": "docs/validation/stage-g/g02-source-verification.log",
+      "sha256": "37d25716ceac8529d9495ddde86d69c913c34b3da7abe791edefbb90a4ca07be",
+      "stage_ef_relation": "new"
+    },
+    {
+      "bytes": 381,
+      "path": "docs/validation/stage-g/g03-package-layout-verification.junit.xml",
+      "sha256": "e6eeb2646f8c91b1b7e6f1fd26bf890caf9b9cca006a2a67d6f09a39faa9346d",
+      "stage_ef_relation": "new"
+    },
+    {
+      "bytes": 98,
+      "path": "docs/validation/stage-g/g03-package-layout-verification.log",
+      "sha256": "cb3e233265a78a075f64f6cc4b7977c9bbf430f86a16e9f3d13bd616bf431067",
+      "stage_ef_relation": "new"
+    },
+    {
+      "bytes": 4069,
+      "path": "docs/validation/stage-g/increments.jsonl",
+      "sha256": "dbb2c6cbd9cab7385aa03a5ffda127342bbb67d77af20eb455ae4d8d927d9442",
+      "stage_ef_relation": "new"
+    },
+    {
+      "bytes": 3258,
+      "path": "docs/validation/stage-g/record_increment.py",
+      "sha256": "546cbc2167b424443b92576fb07feab516e01ab7bb91116696ae2ea1926178c8",
+      "stage_ef_relation": "new"
+    },
+    {
+      "bytes": 684,
+      "path": "examples/first_use.py",
+      "sha256": "d5a477f669d86ad1dd0cb5c65f322fcbd937841a364717e2d002fe578b1ca9d9",
+      "stage_ef_relation": "new"
+    },
+    {
+      "bytes": 891,
+      "path": "examples/nested.py",
+      "sha256": "d4312cf0e5a3d6ef5df73d68ce6e80f841b95a1e527541fc56b4fe3fbc1438fc",
+      "stage_ef_relation": "new"
+    },
+    {
+      "bytes": 1325,
+      "path": "pyproject.toml",
+      "sha256": "b87b17c87cd72d64ea62b447f2a431e35c79b9d175447e47c6f0f6e3bdb16ee4",
+      "stage_ef_relation": "changed"
+    },
+    {
+      "bytes": 1342,
+      "path": "src/yidl_undoable/__init__.py",
+      "sha256": "25ae9732f642484976e46cf7a8e694edd9313f9c2ea7d820d6cdbc54ec2f4e32",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 198087,
+      "path": "src/yidl_undoable/_generated_undoable_base.py",
+      "sha256": "f38cfe834ba551d9e91300bcc9aab15d632b17bf6b49d74898c1cada1abbde11",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 853,
+      "path": "src/yidl_undoable/bindings.py",
+      "sha256": "31e46568faa9838d3a9e11528d825e1127190115f4cc92211cd327d7666235da",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 3156,
+      "path": "src/yidl_undoable/callbacks.py",
+      "sha256": "96763aaa39d77d33b7856d2a0047ed933119b519ab13ac53d690382bf36e595b",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 191,
+      "path": "src/yidl_undoable/candidates.py",
+      "sha256": "82f4dfb268c1754d4eb1e904fb5d2331e9ac2fb37ada5dbaf2aea95d09775b48",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 680,
+      "path": "src/yidl_undoable/errors.py",
+      "sha256": "b941cfc850db021261780c0589748fdd1f39152c2918711dd972a715a946c2ae",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 11680,
+      "path": "src/yidl_undoable/facades.py",
+      "sha256": "0ef6f62c163a08bd865546e42ceabfb04a65ccac68e58ff5d0c178bfc1740a7d",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 1705,
+      "path": "src/yidl_undoable/graph.py",
+      "sha256": "f5bae0901ef2d3848475bf5e084c5320af2f789bc603e1a7512822d1285f4b5d",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 1388,
+      "path": "src/yidl_undoable/history.py",
+      "sha256": "7efa86e3da7ddebd3b2338f02470c4c04ca708548ac499b376bfe6934a862ffc",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 975,
+      "path": "src/yidl_undoable/policies.py",
+      "sha256": "fbcb81baf2f32d658db20ad3db1123ab6571b9fb28d26b07ca523688646176d3",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 0,
+      "path": "src/yidl_undoable/py.typed",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 4414,
+      "path": "src/yidl_undoable/regenerate_undoable_base.py",
+      "sha256": "f5614739ffe674ee3d84d42d3fe2a684ecdcb2e9a489f12df42f573cfd62f34c",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 1641,
+      "path": "src/yidl_undoable/snapshots.py",
+      "sha256": "342fbae13ab38de4c873a98903302e59e6f7a0a40c0896f200e3804dbd15994b",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 962,
+      "path": "src/yidl_undoable/states.py",
+      "sha256": "84b01c991bbcff71a4a1bdd674d7b8d5baeeefb0319ab591263bfed21c66d58a",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 30938,
+      "path": "src/yidl_undoable/transaction_yidl.py",
+      "sha256": "99ca200875fe1f74f8fd85b3f698d8f220124e9f6b4923fe0f728bb5c77b955b",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 5919,
+      "path": "src/yidl_undoable/undoable.py",
+      "sha256": "740d2012c9d64149fe0d86a56d4b016235118ac599f315680fa5b30d7cb70170",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 5748,
+      "path": "src/yidl_undoable/undoable_harvester.py",
+      "sha256": "18d274aabc21d47167eb03afce0c3a187d7fe55d16ee7038b82df71765fbc412",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 3208,
+      "path": "src/yidl_undoable/undoable_markers.py",
+      "sha256": "0d0fa2566464ca9134b2c28f0f3f2cca4e43705670e2272ef1e4094139caf96d",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 4880,
+      "path": "src/yidl_undoable/values.py",
+      "sha256": "124ebca00e0ef896d8c94fca0883827700834d0c3cc2a669491095b64fccc399",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 630,
+      "path": "src/yidl_undoable/write_comparison_context.py",
+      "sha256": "1993ffe98c68a1be017aef724feee323237e42343051081dbc21400cbd75032e",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 156,
+      "path": "src/yidl_undoable/yidl/undoable_base.yidl",
+      "sha256": "5838c0c66a6640fd93f213cf580f244eee5da844ee77a8c052dae02439429448",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 2024,
+      "path": "src/yidl_undoable/yidl/undoable_binding.yidl",
+      "sha256": "b2f5bd18875042e1e552fc5eb96c88981357d25bec2f308fff4bfe8914e73df7",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 10189,
+      "path": "src/yidl_undoable/yidl/undoable_comparison.yidl",
+      "sha256": "34b0b857201d762befdd66f21efde247010bd20537dc043b357675e585244aae",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 4835,
+      "path": "src/yidl_undoable/yidl/undoable_const_static.yidl",
+      "sha256": "518c0e00fdf34119a130b5520fae4b39b126d238b61eb21f7c4e1ab7f6d0d8a0",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 9627,
+      "path": "src/yidl_undoable/yidl/undoable_core.yidl",
+      "sha256": "535cda46c06f44c84dde1fbe3aa2633902c370971b5ee4caa4964b27cb06f269",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 519,
+      "path": "src/yidl_undoable/yidl/undoable_default_factories.yidl",
+      "sha256": "8b103140dd1de0c4d4584e9acd8a92986459d803431498ae59d0f69d2a75dbcb",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 1309,
+      "path": "src/yidl_undoable/yidl/undoable_local_store.yidl",
+      "sha256": "494830f7b105dee583e53a6a2be0e06addccdb3bac10411d0796296e4b128764",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 1271,
+      "path": "src/yidl_undoable/yidl/undoable_managed.yidl",
+      "sha256": "e550d63f3b405415f2159797992039893498100835dbd189b8417255ec268bc4",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 2143,
+      "path": "src/yidl_undoable/yidl/undoable_transient.yidl",
+      "sha256": "ed0901c22fc66c8f083fa60037a5cb941c4f8e73a0dd429e26a860da654c2a0b",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 2783,
+      "path": "src/yidl_undoable/yidl/undoable_views.yidl",
+      "sha256": "4d073e76b1bd3379ef223fe913c6f356e2628777609bfc5e522150ba41c14806",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 959,
+      "path": "tests/canonical_support.py",
+      "sha256": "7e3806f7c557c927dc1ecddaeef7802736bdae3b4e8f7b0e8be52a0fa35274c4",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 819,
+      "path": "tests/data/gold_src/01_initial.py",
+      "sha256": "a849086be685e703f840b022d3427c33808db3bc7cd4998dd8e95f1db43a20e0",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 1397,
+      "path": "tests/data/gold_src/02_transactions.py",
+      "sha256": "d4ce37e629d00c788d3e10e422221dec7841310bd117ebd7f2f4e0339bf18de5",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 1161,
+      "path": "tests/data/gold_src/03_sparse_branch.py",
+      "sha256": "bb3913a7e6d14e160c89367fcedc6e091dbad7b911bf7af7221e8be4bdfd4399",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 2227,
+      "path": "tests/data/gold_src/04_topology.py",
+      "sha256": "8ac74b29f865f0c6452ed743b4e585e9f779f8896f00934556a66bbfa976bfdc",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 1996,
+      "path": "tests/data/gold_src/05_absence_snapshots.py",
+      "sha256": "f532492e0be10da7ad6c0c5f41939c388ef20d100a290afcb853f593a57778b2",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 3023,
+      "path": "tests/data/gold_src/06_field_policies.py",
+      "sha256": "b6dd67909c5956f0fe00b009d63d12c5c469fd3bed17f6d03a71e34bee3a96dc",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 1976,
+      "path": "tests/data/gold_src/07_construction_providers.py",
+      "sha256": "ba16afc89f5213a77b465819090e9911e7dfa635298a06a885309753201b95aa",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 2531,
+      "path": "tests/data/gold_src/08_callback_fences.py",
+      "sha256": "2e17585012268d66a7c6455dd0369db08794b5719f03355a297466efd8c16cf6",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 2836,
+      "path": "tests/data/gold_src/09_atomic_validation.py",
+      "sha256": "daab7f72293e63c097bc64a9f59cc7b680a656b3ce0653ff2ea977e42dc139c1",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 3081,
+      "path": "tests/data/gold_src/10_stability_and_providers.py",
+      "sha256": "612b57aff21de6e019f7732e3b88e5797d3252be519e684112d6521f8fa1dc07",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 3076,
+      "path": "tests/data/gold_src/11_layers.py",
+      "sha256": "645de3fd0135d2dbe3900f8e9fd29cb0fc3bac7fa0500775a2a1a76a0bdee453",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 2629,
+      "path": "tests/data/gold_src/12_completion_and_containers.py",
+      "sha256": "ed685abce675ed7c7bffaec930c9a9f34aa6561be7206f4a6f3a98ba32c7904a",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 1064,
+      "path": "tests/data/gold_src/13_zero_constructor_fields.py",
+      "sha256": "ba0d99f640da0eed4d5194758dccac2a33eb59fa197274397dcfb45f24fb385b",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 1580,
+      "path": "tests/data/gold_src/14_working_sets.py",
+      "sha256": "8394dd23c87cd1e3a7f0b108ee5a3e65b0918bb4d6ba44e730bf20b9847782d5",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 1007,
+      "path": "tests/data/gold_src/15_lazy_constructor_providers.py",
+      "sha256": "33ecc1bb748b668c7ffd2b483b353c15b112d3de1081a74bf6ea4548f29ff906",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 1969,
+      "path": "tests/data/gold_src/16_candidate_transients.py",
+      "sha256": "c633ed4f8e867a38197f44be285fb23d849e59f0bc79c6cf0939acdfdea50d5f",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 1105,
+      "path": "tests/data/gold_src/17_snapshot_node_identity.py",
+      "sha256": "1dae66c53b10e16e84a1494077d5903b5c304d691f72af5df0ea0e1a0c175a01",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 1894,
+      "path": "tests/data/gold_src/18_provisional_child_views.py",
+      "sha256": "06557f3590b02ca7b49aaa02eb05c7283fab1c6b82090da9b2586954a5727fd8",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 2097,
+      "path": "tests/data/gold_src/19_thaw_result_child_views.py",
+      "sha256": "3a88d9acd5d28755bfdfe811a64b61bdd81b911b1e938d77b13a059aebeb6f9a",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 2066,
+      "path": "tests/data/gold_src/20_custom_transaction_keys.py",
+      "sha256": "663687ac306de432b9f4937fce4581551d6e5ef89dd1ba03e28d174fe8bc254d",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 2827,
+      "path": "tests/data/gold_src/21_undoable_comparisons.py",
+      "sha256": "685d9108c1fa3d534b01d49922ea6f14d912d786349d6002b0af228220457948",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 1339,
+      "path": "tests/data/gold_src/22_undoable_field_removal.py",
+      "sha256": "203026449326297aa4e68dd9a2295adf97301b1a39857c6b9d4077e9a54bb68b",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 2466,
+      "path": "tests/data/gold_src/23_undoable_write_compatibility.py",
+      "sha256": "3a28df65521af20709ace9f7e1ff94c3fe403d6344c457c969e7a852d020ee8c",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 2764,
+      "path": "tests/data/golden/01_initial.generated.py",
+      "sha256": "b76a038e2fa27f64ae9bc62a23552fd0bbf24209806ba8eabdca1e2dcc638c1b",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 2551,
+      "path": "tests/data/golden/02_transactions.generated.py",
+      "sha256": "9b3d5b6ca2a9f0c1324db7a6978de6374322a4246f2a92b26eaefd625152e315",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 2777,
+      "path": "tests/data/golden/03_sparse_branch.generated.py",
+      "sha256": "5ea89b24e814710bb702ff2de3a720338f430c48193ab6a95d02375b839940f3",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 2287,
+      "path": "tests/data/golden/04_topology.generated.py",
+      "sha256": "bc496e2e88c3b78ecbbfce75273d35ce09e260fa663483661f07a3cd0ce6cd5d",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 2596,
+      "path": "tests/data/golden/05_absence_snapshots.generated.py",
+      "sha256": "4d1fd187a43f8d03739b8dc8da339428c716afa86cf38136b570b48d813bb01f",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 10049,
+      "path": "tests/data/golden/06_field_policies.generated.py",
+      "sha256": "3764e402b82d91b9f5138d4188b539f406d19848b8e4ca413c6a64af5c5b4b6a",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 9821,
+      "path": "tests/data/golden/07_construction_providers.generated.py",
+      "sha256": "57d96c6d838f054fac923254aab42bf9250f6a20e1067436508416bd3e3e3fa8",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 5955,
+      "path": "tests/data/golden/08_callback_fences.generated.py",
+      "sha256": "bda283f1dac30c5e96bc922dcf01ea8bfa26b023792f44723ca5b26573bcc882",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 6206,
+      "path": "tests/data/golden/09_atomic_validation.generated.py",
+      "sha256": "8df8102dc0cfa27f0184919efc18f6b8ddb24741f08413db8158de5058ad3ff7",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 9467,
+      "path": "tests/data/golden/10_stability_and_providers.generated.py",
+      "sha256": "c6500f169e16e74587044557181ffec1198f38e73b0af48bef0373b0aa3395ae",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 22322,
+      "path": "tests/data/golden/11_layers.generated.py",
+      "sha256": "019db60642f46f30f3a68084745482ba31c0734ab9d102d550ec0ef1a12a3375",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 4831,
+      "path": "tests/data/golden/12_completion_and_containers.generated.py",
+      "sha256": "58c849b079dbd1ec2a1093b70f79d0743156a6164fe9ad06b8042a24e43e2099",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 6194,
+      "path": "tests/data/golden/13_zero_constructor_fields.generated.py",
+      "sha256": "3b32b930b32ee71cfb2ab674483e693119fd5675491c3f4c35d93980c58aa7e5",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 2990,
+      "path": "tests/data/golden/14_working_sets.generated.py",
+      "sha256": "4a7195e8b1aff3fe5c2fa52ad3c1a45b7baea3b5ed8fbd93cf009bf080db218d",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 4313,
+      "path": "tests/data/golden/15_lazy_constructor_providers.generated.py",
+      "sha256": "437ed05f19c20032c7c132799240758c20f16f10b1562b89a9d58cfc2c14b58c",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 2341,
+      "path": "tests/data/golden/16_candidate_transients.generated.py",
+      "sha256": "8f4fc835de3418f8238df61536940046f733444b27bdb6929a67a68e11005276",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 2996,
+      "path": "tests/data/golden/17_snapshot_node_identity.generated.py",
+      "sha256": "7f62780f45b2ae361b3f95a00d353d1ddb6f3d96af0ad57b24989c03c4fe3106",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 3750,
+      "path": "tests/data/golden/18_provisional_child_views.generated.py",
+      "sha256": "254b57d341c1d535f64fc170f7e242ea5fb36a3fb88f24e9710a7a4123332f23",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 3866,
+      "path": "tests/data/golden/19_thaw_result_child_views.generated.py",
+      "sha256": "2cb3d2285ea9d020d1eb0ae78e182b964b57e99953a70e6f5dc439d5e4f9cf29",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 1872,
+      "path": "tests/data/golden/20_custom_transaction_keys.generated.py",
+      "sha256": "4b1564a48aaeae55735b0d35e8998a8bc815fea0ea5fdf90ea2f885a2d46e783",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 20280,
+      "path": "tests/data/golden/21_undoable_comparisons.py312.generated.py",
+      "sha256": "2b0b843c6497e1aa72291ecc588baee5ee7e3c33de3ebb37e76ecf229e31ad98",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 22980,
+      "path": "tests/data/golden/21_undoable_comparisons.py313.generated.py",
+      "sha256": "c882968128646c03ec6c050ba91a8dc6e20bd674b75063e0afa163a390d4941d",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 22980,
+      "path": "tests/data/golden/21_undoable_comparisons.py314.generated.py",
+      "sha256": "c882968128646c03ec6c050ba91a8dc6e20bd674b75063e0afa163a390d4941d",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 17009,
+      "path": "tests/data/golden/22_undoable_field_removal.py312.generated.py",
+      "sha256": "f4b0b9acf39d65acc2ae113d9fd46fde0b0e49519b14cb14fd1c7ea1cb267039",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 17201,
+      "path": "tests/data/golden/22_undoable_field_removal.py313.generated.py",
+      "sha256": "81120793c5037b73b7147fb25e0e1433e4e85da01716eafc4dda54f553a9f94f",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 17201,
+      "path": "tests/data/golden/22_undoable_field_removal.py314.generated.py",
+      "sha256": "81120793c5037b73b7147fb25e0e1433e4e85da01716eafc4dda54f553a9f94f",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 50214,
+      "path": "tests/data/golden/23_undoable_write_compatibility.py312.generated.py",
+      "sha256": "a797acc75fbecc3964ffce06c506b3205b86e15238e97e457b27d07adde8a390",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 50946,
+      "path": "tests/data/golden/23_undoable_write_compatibility.py313.generated.py",
+      "sha256": "507c3056e14279e4ae4ef380f94ff74ecee748bae72796b9f6aa6b59d6abc24c",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 50946,
+      "path": "tests/data/golden/23_undoable_write_compatibility.py314.generated.py",
+      "sha256": "507c3056e14279e4ae4ef380f94ff74ecee748bae72796b9f6aa6b59d6abc24c",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 895,
+      "path": "tests/regenerate_golden.py",
+      "sha256": "7bd7c279ddce8c3a9dd82c2ce2ca76c6ac52f00160d69be5ed633a227f33bc40",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 3602,
+      "path": "tests/test_adversarial_diagnostics.py",
+      "sha256": "4938e01bb5380ab454e901ac7f1a20a59b15820d0bb10e8361893b475ca0000c",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 499,
+      "path": "tests/test_annotation_recognition.py",
+      "sha256": "54ade764cb20caee104a24f411d306b171a6c9832bccba69da780ee0f416f17b",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 5149,
+      "path": "tests/test_begin_setup_faults.py",
+      "sha256": "1cdae36dd32e2ed5b76e53b71152abb700553d9fc7827f4c519456f987fe9a60",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 399,
+      "path": "tests/test_canonical.py",
+      "sha256": "f35f7b74eb2af61cf1e28e8568270a64db27785bfd51131afc506990450cea01",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 4276,
+      "path": "tests/test_comparison_definitions.py",
+      "sha256": "f5e00c3c0d49fb45b0a3dd76008bebbbf34c0131012052a10ab6548e7bfd4b6f",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 7377,
+      "path": "tests/test_comparison_source.py",
+      "sha256": "34f1f2498bbfb16efb55a8f411dcb8476f40170f4fc46dafc171bfd037aaf66e",
+      "stage_ef_relation": "changed"
+    },
+    {
+      "bytes": 12452,
+      "path": "tests/test_completion_authority.py",
+      "sha256": "28f375054e9b6c01dc7d4f0c0ddf4f0ccef2a04d0473a159ea53bdbc2c949fe4",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 4085,
+      "path": "tests/test_definitions.py",
+      "sha256": "b3e47dbde6c63fdb4439829b42d30bcaa33e6c96dc597c20cde094f752db4756",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 1085,
+      "path": "tests/test_distribution_contract.py",
+      "sha256": "12d6131d8ed4e1022ebd2a2be2cfd6c710ac4307f285bacedf99b56c8246f711",
+      "stage_ef_relation": "new"
+    },
+    {
+      "bytes": 1929,
+      "path": "tests/test_faults.py",
+      "sha256": "40ef37ab4b8dcb5807e1152c06a66b72b3b0cbe63be02c9bdf72bbb36e62e27c",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 3233,
+      "path": "tests/test_generation.py",
+      "sha256": "d9f62b84b230ef47368e66801b326ece1713bdf251757b193e949508451c4548",
+      "stage_ef_relation": "changed"
+    },
+    {
+      "bytes": 382,
+      "path": "tests/test_history.py",
+      "sha256": "6d6a643f1d7e819624d01e871feb862ff6cd247aa2a4fd73e42edd205f3b06dc",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 1768,
+      "path": "tests/test_provisional_fences.py",
+      "sha256": "21801662f68a13bd6b1a8cb680d76d53afa2f2e2aeba21f5a97cc43ff9c32f5c",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 592,
+      "path": "tests/test_remediation_diagnostics.py",
+      "sha256": "c8a90373b9862a121d7c8c2db13eab4963d5e022633950ae90ccadaf4ef80a4c",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 2775,
+      "path": "tests/test_remediation_faults.py",
+      "sha256": "7226120189f7f4da8b03c164f883d2b160517df73dee7055c9696c03f306da6e",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 1195,
+      "path": "tests/test_state_diagnostics.py",
+      "sha256": "6d6ff295a5ddb3a39b46bca2d061d5b92c8fef74dbe03cc33ff68c08b9108ba1",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 1973,
+      "path": "tests/test_thaw_result_fences.py",
+      "sha256": "f378899e900a198a884b0fa895fe669181105702c72470d7403f006bc5b4f8f4",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 7608,
+      "path": "tests/test_transaction_key_fences.py",
+      "sha256": "c562b936bc41f73c530dfe2c70b4db9f54e7b9210b1e8ae386af66c713fb1181",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 15046,
+      "path": "tests/test_write_comparison_context.py",
+      "sha256": "bf155dd218fd434f4ef568d3752efdce84cf8794372fd910bab62a416bc1b524",
+      "stage_ef_relation": "unchanged"
+    },
+    {
+      "bytes": 8179,
+      "path": "tests/test_write_native_dispatch.py",
+      "sha256": "1ee7ab266f133a7a6eb9316bb2753fb5da7440317a6f299ff1a1ebbd0576468b",
+      "stage_ef_relation": "unchanged"
+    }
+  ],
+  "raw_archive": "external:yidl-undoable-stage-g-raw",
+  "stage": "G consumer packaging"
+}

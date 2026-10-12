@@ -67,3 +67,20 @@ def test_regeneration_rejects_changed_shared_authority_bytes(monkeypatch):
     monkeypatch.setattr(regeneration, "files", lambda name: AlteredResource())
     with pytest.raises(RuntimeError, match="resource digest mismatch"):
         regeneration.generation_sources()
+
+
+def test_regeneration_missing_authority_fails_before_resource_generation(monkeypatch):
+    import pytest
+    from importlib.metadata import PackageNotFoundError
+    import yidl_undoable.regenerate_undoable_base as regeneration
+
+    def missing_version(name):
+        raise PackageNotFoundError(name)
+
+    def forbidden_resource_load(name):
+        raise AssertionError("resource generation began before authority check")
+
+    monkeypatch.setattr(regeneration, "version", missing_version)
+    monkeypatch.setattr(regeneration, "files", forbidden_resource_load)
+    with pytest.raises(PackageNotFoundError, match="yidl-dataclass"):
+        regeneration.generation_sources()
