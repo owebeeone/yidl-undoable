@@ -5,8 +5,10 @@ Managed data has immutable sparse histories; caches, constants and resources hav
 shared nonversioned storage. Python 3.12 or newer is required.
 
 The original transaction implementation is accepted after independent Code/Surface
-and State review. The optional comparison extension is an unreleased Dataclass
-experiment candidate awaiting its final implementation review. See the [experiment results](dev-docs/ExperimentResults.md) for the
+and State review. The optional comparison extension is also accepted as an
+unreleased functional/package candidate after both independent Dataclass final
+reviews reported GO. See the [Dataclass final result](https://github.com/owebeeone/yidl-dataclass/blob/main/dev-docs/Dataclass-FinalReviewResult.md)
+for that acceptance boundary, and the [experiment results](dev-docs/ExperimentResults.md) for the
 TDD evidence, Python-version checks, elapsed time, observed cost and scope.
 
 ```python

@@ -71,3 +71,11 @@ in GWZ and pushing the member history with all experiment details. This supersed
 the earlier no-push restriction for this member publication only. Runtime/API
 acceptance remains unchanged; publication is outside the recorded experiment
 cost/time baselines. See [publication record](Publication.md).
+
+## Pending root-based initialization helper
+
+The operator requested `undoable_leaf(root, *roots)` with duplicate-root rejection.
+[Helper contract](UndoableLeaf.md) controls this bounded post-experiment addition.
+Original core acceptance remains; the new public helper requires its focused dual
+Code/Surface and State review before acceptance. First-experiment measurements
+remain unchanged.
