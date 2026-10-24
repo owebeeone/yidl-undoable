@@ -21,6 +21,7 @@ def build_undoable_class(base_cls, *, schema):
             state.inputs['label'] = label
             state.inputs['children'] = children
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def label(self):

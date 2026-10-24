@@ -26,6 +26,7 @@ def build_undoable_class(base_cls, *, schema):
             state.inputs['scratch'] = scratch
             state.inputs['resource'] = resource
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def plain(self):
@@ -166,6 +167,7 @@ def build_undoable_class(base_cls, *, schema):
             state.inputs['scratch'] = scratch
             state.inputs['resource'] = resource
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def plain(self):
@@ -254,6 +256,7 @@ def build_undoable_class(base_cls, *, schema):
             state.inputs['constant'] = constant
             state.inputs['delayed'] = delayed
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def plain(self):
@@ -308,6 +311,7 @@ def build_undoable_class(base_cls, *, schema):
             state = self._u_start(transaction_manager)
             state.inputs['plain'] = plain
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def plain(self):
@@ -350,6 +354,7 @@ def build_undoable_class(base_cls, *, schema):
             state.inputs['value'] = value
             state.inputs['items'] = items
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def plain(self):
@@ -426,6 +431,7 @@ def build_undoable_class(base_cls, *, schema):
             state.inputs['scratch'] = scratch
             state.inputs['resource'] = resource
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def plain(self):
@@ -523,6 +529,7 @@ def build_undoable_class(base_cls, *, schema):
             state.inputs['delayed'] = delayed
             state.inputs['value'] = value
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def plain(self):
@@ -590,6 +597,7 @@ def build_undoable_class(base_cls, *, schema):
             state.inputs['items'] = items
             state.inputs['scratch'] = scratch
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def plain(self):
@@ -674,6 +682,7 @@ def build_undoable_class(base_cls, *, schema):
             state.inputs['scratch'] = scratch
             state.inputs['resource'] = resource
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def plain(self):

@@ -22,6 +22,7 @@ def build_undoable_class(base_cls, *, schema):
             state.inputs['base'] = base
             state.inputs['derived'] = derived
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def doubled(self):
@@ -138,6 +139,7 @@ def build_undoable_class(base_cls, *, schema):
             state.inputs['base'] = base
             state.inputs['bad'] = bad
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def base(self):
@@ -230,6 +232,7 @@ def build_undoable_class(base_cls, *, schema):
             state.inputs['a'] = a
             state.inputs['b'] = b
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def a(self):
@@ -322,6 +325,7 @@ def build_undoable_class(base_cls, *, schema):
             state.inputs['first'] = first
             state.inputs['later'] = later
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def first(self):

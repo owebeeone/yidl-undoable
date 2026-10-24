@@ -60,6 +60,11 @@ concept UndoableCore {
                 with astichi_hole(init_values) as astichi_fallback:
                     pass
                 self._u_finish(state)
+            __init__.__annotations__ = {
+                fact["field_name"]: fact["annotation"]
+                for fact in astichi_pass(schema, outer_bind=True).fields
+                if fact["init"] and fact["field_kind"] not in {"classvar", "local_store"}
+            }
             with astichi_hole(properties) as astichi_fallback:
                 pass
         class current_class_0__astichi_arg__(class_name_1__astichi_arg__):

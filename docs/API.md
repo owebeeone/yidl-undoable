@@ -8,6 +8,12 @@ Single generated inheritance preserves field IDs. Kind/key overrides and multipl
 generated bases fail at decoration. A declaration without constructor fields,
 including an empty declaration, still requires only `transaction_manager=`.
 
+Generated `__init__.__annotations__` and `inspect.signature(Model)` expose the
+effective constructor fields' declared types, including inherited overrides and
+constructor-only inputs. Live type objects retain identity; strings and forward
+references stay unevaluated. Non-init fields, classvars, and local stores are
+excluded. These annotations do not enforce runtime types.
+
 ## Manager operations
 
 `UndoRedoManager(tx_key=DEFAULT_TRANSACTION, absent_policy=None)` fixes its key and

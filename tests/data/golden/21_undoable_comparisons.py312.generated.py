@@ -38,6 +38,7 @@ def build_undoable_class(base_cls, *, schema):
             state.inputs['scratch'] = scratch
             state.inputs['extra'] = extra
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def seed(self):
@@ -185,6 +186,7 @@ def build_undoable_class(base_cls, *, schema):
             state = self._u_start(transaction_manager)
             pass
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
         pass
 
     class EmptyDisabled_Current(EmptyDisabled):
@@ -231,6 +233,7 @@ def build_undoable_class(base_cls, *, schema):
             state = self._u_start(transaction_manager)
             pass
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
         pass
 
     class ExplicitDisabled_Current(ExplicitDisabled):
@@ -277,6 +280,7 @@ def build_undoable_class(base_cls, *, schema):
             state = self._u_start(transaction_manager)
             state.inputs['price'] = price
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def price(self):
@@ -374,6 +378,7 @@ def build_undoable_class(base_cls, *, schema):
             state.inputs['resource'] = resource
             state.inputs['scratch'] = scratch
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def seed(self):
@@ -545,6 +550,7 @@ def build_undoable_class(base_cls, *, schema):
             state = self._u_start(transaction_manager)
             pass
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
         pass
 
     class ExplicitDisabled_Current(ExplicitDisabled):

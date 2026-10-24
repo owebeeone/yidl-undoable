@@ -23,6 +23,7 @@ def build_undoable_class(base_cls, *, schema):
             state.inputs['valid'] = valid
             state.inputs['attack'] = attack
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def value(self):
@@ -138,6 +139,7 @@ def build_undoable_class(base_cls, *, schema):
             state = self._u_start(transaction_manager)
             state.inputs['data'] = data
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def data(self):
@@ -205,6 +207,7 @@ def build_undoable_class(base_cls, *, schema):
             state = self._u_start(transaction_manager)
             state.inputs['mapping'] = mapping
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def mapping(self):

@@ -4,7 +4,7 @@
 # undoable/undoable_binding.yidl sha256=b2f5bd18875042e1e552fc5eb96c88981357d25bec2f308fff4bfe8914e73df7
 # undoable/undoable_comparison.yidl sha256=e7ed5acfcb1548be26a2c87329bb5ecf0a8a520b607ad39e9a8d4fc953b2d3dd
 # undoable/undoable_const_static.yidl sha256=518c0e00fdf34119a130b5520fae4b39b126d238b61eb21f7c4e1ab7f6d0d8a0
-# undoable/undoable_core.yidl sha256=535cda46c06f44c84dde1fbe3aa2633902c370971b5ee4caa4964b27cb06f269
+# undoable/undoable_core.yidl sha256=4ce0b42b773f89d284a698a64b1e87d2a253bd35f5e82869e61aec4167635900
 # undoable/undoable_default_factories.yidl sha256=8b103140dd1de0c4d4584e9acd8a92986459d803431498ae59d0f69d2a75dbcb
 # undoable/undoable_local_store.yidl sha256=494830f7b105dee583e53a6a2be0e06addccdb3bac10411d0796296e4b128764
 # undoable/undoable_managed.yidl sha256=e550d63f3b405415f2159797992039893498100835dbd189b8417255ec268bc4
@@ -1079,6 +1079,11 @@ class class_name_0__astichi_arg__(astichi_pass(base_cls, outer_bind=True)):
         with astichi_hole(init_values) as astichi_fallback:
             pass
         self._u_finish(state)
+    __init__.__annotations__ = {
+        fact["field_name"]: fact["annotation"]
+        for fact in astichi_pass(schema, outer_bind=True).fields
+        if fact["init"] and fact["field_kind"] not in {"classvar", "local_store"}
+    }
     with astichi_hole(properties) as astichi_fallback:
         pass
 class current_class_0__astichi_arg__(class_name_1__astichi_arg__):
@@ -1094,29 +1099,29 @@ class working_class_0__astichi_arg__(class_name_2__astichi_arg__):
     with astichi_hole(working_properties) as astichi_fallback:
         pass""", file_name='undoable/undoable_core.yidl', line_number=47)), 'RequiredParam': astichi_template(from_astichi_code("""\
 def astichi_params(*, field_name__astichi_arg__):
-    pass""", file_name='undoable/undoable_core.yidl', line_number=79)), 'EmptyParams': astichi_template(from_astichi_code("""\
+    pass""", file_name='undoable/undoable_core.yidl', line_number=84)), 'EmptyParams': astichi_template(from_astichi_code("""\
 def astichi_params():
-    pass""", file_name='undoable/undoable_core.yidl', line_number=83)), 'OptionalParam': astichi_template(from_astichi_code("""\
+    pass""", file_name='undoable/undoable_core.yidl', line_number=88)), 'OptionalParam': astichi_template(from_astichi_code("""\
 def astichi_params(*, field_name__astichi_arg__=_HAS_DEFAULT_FACTORY):
-    pass""", file_name='undoable/undoable_core.yidl', line_number=87, keep_names=('_HAS_DEFAULT_FACTORY',))), 'InitValue': astichi_template(from_astichi_code('astichi_pass(state, outer_bind=True).inputs[astichi_bind_external(field_name)] = astichi_pass(field_value__astichi_arg__, outer_bind=True)', file_name='undoable/undoable_core.yidl', line_number=91)), 'HiddenInitVar': astichi_template(from_astichi_code("""\
+    pass""", file_name='undoable/undoable_core.yidl', line_number=92, keep_names=('_HAS_DEFAULT_FACTORY',))), 'InitValue': astichi_template(from_astichi_code('astichi_pass(state, outer_bind=True).inputs[astichi_bind_external(field_name)] = astichi_pass(field_value__astichi_arg__, outer_bind=True)', file_name='undoable/undoable_core.yidl', line_number=96)), 'HiddenInitVar': astichi_template(from_astichi_code("""\
 @property
 def getter__astichi_arg__(self):
     raise AttributeError(astichi_bind_external(field_name) + ': constructor-only input')
 @setter_target__astichi_arg__.setter
 def setter__astichi_arg__(self, value):
-    raise AttributeError(astichi_bind_external(field_name) + ': constructor-only input')""", file_name='undoable/undoable_core.yidl', line_number=94)), 'ClassValue': astichi_template(from_astichi_code('field_name__astichi_arg__ = astichi_pass(schema, outer_bind=True).by_name[astichi_bind_external(field_literal)]["default_value"]', file_name='undoable/undoable_core.yidl', line_number=108)), 'PlainProperty': astichi_template(from_astichi_code("""\
+    raise AttributeError(astichi_bind_external(field_name) + ': constructor-only input')""", file_name='undoable/undoable_core.yidl', line_number=99)), 'ClassValue': astichi_template(from_astichi_code('field_name__astichi_arg__ = astichi_pass(schema, outer_bind=True).by_name[astichi_bind_external(field_literal)]["default_value"]', file_name='undoable/undoable_core.yidl', line_number=113)), 'PlainProperty': astichi_template(from_astichi_code("""\
 @property
 def getter__astichi_arg__(self):
     return self._u_read_plain(astichi_bind_external(field_name))
 @setter_target__astichi_arg__.setter
 def setter__astichi_arg__(self, value):
-    self._u_write_plain(astichi_bind_external(field_name), value)""", file_name='undoable/undoable_core.yidl', line_number=111)), 'Result': astichi_template(from_astichi_code("""\
+    self._u_write_plain(astichi_bind_external(field_name), value)""", file_name='undoable/undoable_core.yidl', line_number=116)), 'Result': astichi_template(from_astichi_code("""\
 astichi_pass(class_registry__astichi_arg__, outer_bind=True).__undoable_views__ = {
     'default': astichi_pass(class_default__astichi_arg__, outer_bind=True),
     'current': astichi_pass(class_current__astichi_arg__, outer_bind=True),
     'working': astichi_pass(class_working__astichi_arg__, outer_bind=True),
 }
-return astichi_pass(class_result__astichi_arg__, outer_bind=True)""", file_name='undoable/undoable_core.yidl', line_number=119)), 'ConstFieldProperty': astichi_template(from_astichi_code("""\
+return astichi_pass(class_result__astichi_arg__, outer_bind=True)""", file_name='undoable/undoable_core.yidl', line_number=124)), 'ConstFieldProperty': astichi_template(from_astichi_code("""\
 @property
 def getter__astichi_arg__(self):
     return self._u_read_const(astichi_bind_external(field_name))

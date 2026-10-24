@@ -20,6 +20,7 @@ def build_undoable_class(base_cls, *, schema):
             state = self._u_start(transaction_manager)
             pass
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
         pass
 
     class ClassOnly_Current(ClassOnly):
@@ -66,6 +67,7 @@ def build_undoable_class(base_cls, *, schema):
             state = self._u_start(transaction_manager)
             pass
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
         pass
 
     class Empty_Current(Empty):
@@ -112,6 +114,7 @@ def build_undoable_class(base_cls, *, schema):
             state = self._u_start(transaction_manager)
             pass
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def value(self):
@@ -179,6 +182,7 @@ def build_undoable_class(base_cls, *, schema):
             state = self._u_start(transaction_manager)
             pass
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def cache(self):
@@ -232,6 +236,7 @@ def build_undoable_class(base_cls, *, schema):
             state = self._u_start(transaction_manager)
             pass
             self._u_finish(state)
+        __init__.__annotations__ = {fact['field_name']: fact['annotation'] for fact in schema.fields if fact['init'] and fact['field_kind'] not in {'classvar', 'local_store'}}
 
         @property
         def value(self):
