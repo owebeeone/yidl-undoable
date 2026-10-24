@@ -1,5 +1,21 @@
 # Current Program Checkpoint
 
+## Subsequent constructor annotation acceptance
+
+The bounded constructor annotation fix is accepted at
+`b50445618cc772cd2a451da66cf1112247269466` after independent Code/Surface and
+State reviews both reported GO with no findings. See
+[review checkpoint](ConstructorAnnotations-ReviewCheckpoint.md) for the exact
+object, reference tuple, canonical prompts, verbatim reports and evidence limits.
+The reviews independently exercised focused checks on Python and native-rust
+with CPython 3.12.12; broader source-suite/version results remain author evidence.
+Parameter behavior and transaction semantics are unchanged. The pre-existing
+`schema` capture-name limitation remains a separate follow-up, not a regression
+or prerequisite for this fix. Local review commits do not authorize push or release.
+
+The prior experiment and comparison-implementation acceptance records below
+retain their original scope and metrics.
+
 Status: **runtime accepted at `9d18d60e2244183f3f4715577a1356bf85b517a9` after
 [Code/Surface](UndoableImplementation-ReviewCode-6.md) and
 [State](UndoableImplementation-ReviewState-6.md) reported GO**. This accepts the

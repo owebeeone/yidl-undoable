@@ -1,6 +1,63 @@
 # Constructor annotation review checkpoint
 
-Date: 2026-10-24. Status: awaiting a settled review revision and dual review.
+Date: 2026-10-24. Status: **accepted at
+`b50445618cc772cd2a451da66cf1112247269466` after
+[Code](ConstructorAnnotations-ReviewCode.md) and
+[State](ConstructorAnnotations-ReviewState.md) independently reported GO;
+acceptance covers this constructor-annotation fix only**.
+
+## Acceptance ledger
+
+| Object | Code / Surface | State | Owner disposition |
+| --- | --- | --- | --- |
+| `ca68b8271841931506297db316911fe0ed3ad332..b50445618cc772cd2a451da66cf1112247269466` | GO; no findings | GO; no findings | Accepted in the first review round; no remediation required. |
+
+The two peer-blind reviewers assessed the same committed 40-file object and
+verified the complete reference tuple at start and end. Both independently
+confirmed live identity and unevaluated strings, exact constructor parameter
+parity, generated-artifact equivalence apart from annotation metadata, localized
+component scope and unchanged baseline capture limitations. There was no defect
+convergence requiring remediation; no finding was self-closed by the implementer.
+
+Each independently ran the focused 25-test module on CPython 3.12.12: Code used
+explicit Python, State used explicit native-rust. Both confirmed actual engine
+selection without fallback and performed non-writing baseline/patched probes.
+State additionally checked per-class dictionary isolation, callbacks, provider
+timing, rollback and history. Full-suite, regeneration and Python 3.13/3.14 runs
+remain author evidence, clearly distinct from reviewer execution. This does not
+qualify other platforms or untested interpreter/backend combinations.
+
+Reports are filed verbatim. Canonical prompts are
+[Code](ConstructorAnnotations-PromptCode.md), SHA-256
+`7c92535bf8044a07f77c676e13c5c078c4e8d870ff1f78f72302d1bc3f987cb6`,
+and [State](ConstructorAnnotations-PromptState.md), SHA-256
+`ceaffefdbdf52932ec0884daad0ad2df3b5f87ac88ddbf462a388d186eeea194`.
+Both derive from the review-loop canonical template, SHA-256
+`3b10ae89cf101c6273d34668eaaeaebf7e030a4c132406e0b234a846665eca58`.
+Subsequent audit-only commits do not change the reviewed source bytes.
+
+Reference-only source tuple:
+
+- YIDL: `30eb0d4768f411d8ef1865feb68877017634a401`.
+- Astichi: `ce47c629973d8e5a6340ceaa89b0bc3e8788d5fe`.
+- Lifecycle: `e979f2412b809e2a8a60eefb942790cef1e715ff`.
+- Cache: `f8d883a40d49105ba37fcfdf76d38d1b23af6ea8`.
+- Dataclass: `202b01c879eb0ffb724158efe783b379fe522031`.
+
+The fix and review audit may be committed locally under this review directive.
+No push, dependency change, tag, deployment or release is authorized by this gate.
+The original author record's uncommitted/no-commit status describes its earlier
+handoff; this later owner-authorized settled review does not rewrite that history.
+
+## Separate confirmed follow-up
+
+Both reviewers reproduced the existing `schema` capture collision on baseline
+and patch. Coverage included schema-named fields/classvars, and Code additionally
+confirmed a class itself named `schema`. The practical impact is that otherwise
+usable declaration names can fail with `NameError` during generation. A separate
+capture-isolation change with canonical class-name and field/classvar collision
+coverage is suggested. It demonstrably does not block annotation preservation on
+working declarations and is not implemented or authorized by this review.
 
 ## Operator authority and scope
 
