@@ -1,0 +1,27 @@
+[project]
+name = "yidl-undoable"
+branch = "main"
+remote = "origin"
+tag_prefix = "v"
+github_repo = "owebeeone/yidl-undoable"
+
+[python]
+version = "static"
+manifest = "pyproject.toml"
+
+[release]
+checks = [
+    ["uv", "run", "--no-project", "--python", "3.13", "--with", "build==1.6.1", "--with", "twine==7.0.0", "python", "scripts/check_release.py"],
+]
+github_notes = """
+yidl-undoable {tag} — Python 3.15 qualification and first PyPI publication.
+
+Transactional generated data classes with commit/rollback, sparse frame history,
+undo/redo, nested live views and pinned snapshots. The optional regeneration
+extra uses the published Dataclass 0.1.1 comparison resource. Gearu verifies both
+backends across CPython 3.12–3.15 and fresh wheel/sdist examples and regeneration.
+
+See dev-docs/Python315Release.md and dev-docs/RELEASE_TODOS.md for evidence and
+known limitations. The original experiment, timings, cost records and independent
+reviews remain in dev-docs/ and are included in the source distribution.
+"""

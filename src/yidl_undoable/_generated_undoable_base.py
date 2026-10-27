@@ -1,4 +1,4 @@
-# Regenerated with yidl-dataclass 0.1.0.dev0
+# Regenerated with yidl-dataclass 0.1.1
 # shared/comparison.yidl sha256=2f7e6df989b0714d8764de84d8a6f6b03f39c3ad7f57dba5e55f5131b8354eef
 # undoable/undoable_base.yidl sha256=5838c0c66a6640fd93f213cf580f244eee5da844ee77a8c052dae02439429448
 # undoable/undoable_binding.yidl sha256=b2f5bd18875042e1e552fc5eb96c88981357d25bec2f308fff4bfe8914e73df7

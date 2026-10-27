@@ -5,11 +5,17 @@ build-backend = "hatchling.build"
 name = "yidl-undoable"
 version = "0.1.0"
 description = "YIDL generated transactional data classes with sparse undo history"
-requires-python = ">=3.12"
+readme = "README.md"
+requires-python = ">=3.12,<3.16"
 dependencies = ["yidl>=0.1.0", "astichi>=1.1.3", "yidl-lifecycle>=0.1.0"]
+[project.urls]
+Repository = "https://github.com/owebeeone/yidl-undoable"
+Documentation = "https://github.com/owebeeone/yidl-undoable/blob/main/docs/API.md"
+Issues = "https://github.com/owebeeone/yidl-undoable/issues"
+
 [project.optional-dependencies]
-dev = ["pytest>=7"]
-regenerate = ["yidl-dataclass==0.1.0.dev0"]
+dev = ["pytest>=7", "hatchling>=1.24"]
+regenerate = ["yidl-dataclass==0.1.1"]
 [project.scripts]
 yidl-undoable-regenerate-base = "yidl_undoable.regenerate_undoable_base:main"
 [tool.uv.sources]
@@ -25,7 +31,10 @@ packages = ["src/yidl_undoable"]
 "docs/Architecture.md" = "yidl_undoable/documentation/docs/Architecture.md"
 "examples/first_use.py" = "yidl_undoable/documentation/examples/first_use.py"
 [tool.hatch.build.targets.sdist]
-include = ["src", "tests", "examples", "docs/API.md", "docs/Architecture.md", "README.md", "pyproject.toml"]
+include = ["src", "tests", "examples", "docs/API.md", "docs/Architecture.md", "dev-docs", "scripts", "gearu.toml", "AGENTS.md", "RELEASE.md", "README.md", "pyproject.toml"]
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
+
+[tool.yidl.test-matrix]
+python = ["3.12", "3.13", "3.14", "3.15"]

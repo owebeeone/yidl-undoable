@@ -2,13 +2,13 @@
 
 Generate application data classes with transactions and frame-based undo/redo.
 Managed data has immutable sparse histories; caches, constants and resources have
-shared nonversioned storage. Python 3.12 or newer is required.
+shared nonversioned storage. CPython 3.12–3.15 is supported.
 
 The original transaction implementation is accepted after independent Code/Surface
-and State review. The optional comparison extension is also accepted as an
-unreleased functional/package candidate after both independent Dataclass final
+and State review. The optional comparison extension is also accepted as a
+functional/package candidate after both independent Dataclass final
 reviews reported GO. See the [Dataclass final result](https://github.com/owebeeone/yidl-dataclass/blob/main/dev-docs/Dataclass-FinalReviewResult.md)
-for that acceptance boundary, and the [experiment results](dev-docs/ExperimentResults.md) for the
+for that acceptance boundary, and the [experiment results](https://github.com/owebeeone/yidl-undoable/blob/main/dev-docs/ExperimentResults.md) for the
 TDD evidence, Python-version checks, elapsed time, observed cost and scope.
 
 ```python
@@ -78,13 +78,13 @@ adapters, thread/task isolation and multi-key atomic edits are outside this vers
 Callbacks must be pure; same-manager transactional reentry is rejected. Escaped
 working containers remain ordinary Python objects but are detached on completion.
 
-See the [API and field guide](docs/API.md), [generation architecture](docs/Architecture.md),
-[executable examples](examples/first_use.py), and [TDD evidence](dev-docs/TddEvidence.md).
+See the [API and field guide](https://github.com/owebeeone/yidl-undoable/blob/main/docs/API.md), [generation architecture](https://github.com/owebeeone/yidl-undoable/blob/main/docs/Architecture.md),
+[executable examples](https://github.com/owebeeone/yidl-undoable/blob/main/examples/first_use.py), and [TDD evidence](https://github.com/owebeeone/yidl-undoable/blob/main/dev-docs/TddEvidence.md).
 
 The comparison candidate is verified with original Astichi 1.1.3, YIDL 0.1.0 and
 Lifecycle 0.1.0 wheels in isolated environments. SDKs/Lifecycle are reference-only
 for this experiment. Regeneration additionally requires the pinned
-`yidl-dataclass==0.1.0.dev0` build extra: it loads the authoritative shared
+`yidl-dataclass==0.1.1` build extra: it loads the authoritative shared
 comparison resource, verifies its SHA256 and embeds it into this package's base.
 Normal model generation has no Dataclass runtime dependency or sibling-resource
 lookup. Existing development `tool.uv.sources` is not the experiment install route;
@@ -93,21 +93,31 @@ use explicit locked wheels rather than resolving those sibling checkouts.
 Run `python -m pytest -q`, `python -m yidl_undoable.regenerate_undoable_base`, and
 `python tests/regenerate_golden.py` in that environment. Regeneration checks by
 default; `--write` updates authored-source artifacts. Consumer packaging uses
-`python -m hatchling build`. [E/F evidence](docs/validation/stage-ef/README.md)
+`python -m hatchling build`. [E/F evidence](https://github.com/owebeeone/yidl-undoable/blob/main/docs/validation/stage-ef/README.md)
 records actual commands, failures, original wheel/resource provenance and limits.
 No release or new performance result is claimed.
 
 ## Autonomous implementation experiment
 
-The [experiment results](dev-docs/ExperimentResults.md) record **2h 25m 50s**
+The [experiment results](https://github.com/owebeeone/yidl-undoable/blob/main/dev-docs/ExperimentResults.md) record **2h 25m 50s**
 from autonomous go-ahead (**2h 37m** including earlier design preparation),
 **$20.87 Standard API-equivalent estimated cost**, and **215 tests passing**
 on Python 3.12–3.14. Actual Codex billing is unavailable. Final Code/Surface and
 State reviews both reported GO after five bounded runtime correction cycles.
 
-The [complete experiment record](dev-docs/README.md) includes the archived
+The [complete experiment record](https://github.com/owebeeone/yidl-undoable/blob/main/dev-docs/README.md) includes the archived
 original concept, design, TDD plan and observed red/green evidence, every
 review/report/prompt/remediation plan, supported-version and isolated-wheel
 verification, timestamps, raw sanitized token counters and cost calculations.
-The [publication record](dev-docs/Publication.md) distinguishes this later
+The [publication record](https://github.com/owebeeone/yidl-undoable/blob/main/dev-docs/Publication.md) distinguishes this later
 GitHub upload from the completed experiment's measurements.
+
+Install with `python -m pip install yidl-undoable`. Releases use Gearu and
+`.github/workflows/publish.yml`; see [RELEASE.md](https://github.com/owebeeone/yidl-undoable/blob/main/RELEASE.md).
+For base regeneration, install the `regenerate` extra, which pins its shared
+Dataclass comparison authority. It is not a runtime dependency.
+
+Known limitation: a field named `schema` currently fails during decoration. Use
+another name; this existing capture collision is recorded in the release audit.
+The proposed `undoable_leaf` helper remains unimplemented; initialize roots with
+`history.initialize(*roots)`.

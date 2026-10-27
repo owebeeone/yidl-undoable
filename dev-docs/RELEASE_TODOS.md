@@ -1,6 +1,8 @@
 # Release readiness — 27 October 2026
 
-Reviewed member: `db7f004` on `main`. Scope: inspect current Undoable behavior,
+Initial audit snapshot: `db7f004` on `main`. The later authorized 3.15 patch
+release is recorded in `Python315Release.md`; that record supersedes the old
+regeneration pin and publication setup items below. Scope: inspect current Undoable behavior,
 tests and release packaging; record findings. This pass does not implement the
 paused root helper or modify the transaction runtime, SDKs or Lifecycle.
 

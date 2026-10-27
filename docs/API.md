@@ -188,3 +188,10 @@ Other public errors are `TransactionRequiredError`, `ObjectAbsentError`,
 and `ReentrantOperationError`. `UndoableDefinitionError` is the public alias of
 Lifecycle's ValueError declaration class, preserving immediate errors from the exact
 underlying Lifecycle marker factories. Decoration and provider diagnostics add field/class context.
+
+## Known field-name limitation
+
+A declared field named `schema` currently collides with a generated class capture
+and raises `NameError` during decoration. Use a different name. This existing
+limitation is documented for the 0.1.1 release; arbitrary field-name support is
+not claimed by the Python 3.15 qualification.

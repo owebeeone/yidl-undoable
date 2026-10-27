@@ -18,7 +18,7 @@ _GENERATED_BASE_PATH = _PACKAGE_ROOT / "_generated_undoable_base.py"
 _ENTRY_PATH = _YIDL_SOURCE_DIR / "undoable_base.yidl"
 _CONCEPT_NAME = "UndoableBase"
 _LOGICAL_RESOURCE_ROOT = Path("undoable")
-_SHARED_VERSION = "0.1.0.dev0"
+_SHARED_VERSION = "0.1.1"
 _SHARED_DIGEST = "2f7e6df989b0714d8764de84d8a6f6b03f39c3ad7f57dba5e55f5131b8354eef"
 
 
