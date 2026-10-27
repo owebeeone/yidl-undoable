@@ -1,82 +1,68 @@
 # Release readiness — 27 October 2026
 
-Initial audit snapshot: `db7f004` on `main`. The later authorized 3.15 patch
-release is recorded in `Python315Release.md`; that record supersedes the old
-regeneration pin and publication setup items below. Scope: inspect current Undoable behavior,
-tests and release packaging; record findings. This pass does not implement the
-paused root helper or modify the transaction runtime, SDKs or Lifecycle.
+Initial audit baseline: `db7f004`. The later operator-authorized Python 3.15 pass
+is complete and **0.1.1 is published**. See `Python315Release.md` for the release
+commit, successful publication workflow, dependency tuple and verification.
 
-## Verification
+## Completed release work
 
-| Source run | Result |
-| --- | --- |
-| CPython 3.12.12, automatic native-rust selection | 376 passed |
-| CPython 3.13.12, automatic native-rust selection | 376 passed |
-| CPython 3.14.3, automatic native-rust selection | 376 passed |
+- [x] Check source behavior on CPython 3.12–3.15 with both explicit backends.
+  Every cell passed **376 tests**, in both Gearu candidate and exact-commit rounds.
+- [x] Align the optional shared comparison authority with published Dataclass
+  **0.1.1**, preserving SHA256
+  `2f7e6df989b0714d8764de84d8a6f6b03f39c3ad7f57dba5e55f5131b8354eef`.
+  Regeneration changed only its version provenance comment.
+- [x] Generate the four 3.15 canonical source outputs through the normal helper.
+- [x] Verify wheel/sdist metadata, fresh installed examples and regeneration on
+  all four minors and both backends.
+- [x] Configure Gearu and `publish.yml`; publish through the operator's trusted
+  publisher for `owebeeone/yidl-undoable`, workflow `publish.yml`, environment Any.
+- [x] Verify the published four-package tuple outside the workspace on final
+  CPython 3.15.2, with both backends. Commit/rollback, undo/redo, branching,
+  shared comparisons and installed regeneration passed.
+- [x] Include README metadata, public documentation, the first-use example and
+  experiment records in the appropriate distributions. Historical acceptance,
+  time and token/cost records retain their original scope.
 
-Selection probes report native-rust without fallback. Source and freshly installed
-wheel regeneration pass with the original Dataclass 0.1.0.dev0 regeneration
-authority. Wheel and sdist build successfully. A fresh temporary environment
-installed this wheel and the Dataclass candidate from local artifacts, resolving
-all runtime dependencies from published wheels: YIDL 0.1.0, Astichi 1.1.3,
-Lifecycle 0.1.0, yidl-cache 0.1.0 and compat-sentinel 0.1.2.
+The qualified tuple is YIDL 0.1.2, Lifecycle 0.1.1, Astichi 1.1.3, yidl-cache
+0.1.0 and compat-sentinel 0.1.2. Dataclass 0.1.1 is an optional regeneration-time
+authority, not a required runtime dependency. Existing runtime dependency ranges
+were retained. Initial 3.12–3.14 source runs also passed 376 tests per minor; the
+3.15 baseline initially had nine missing-golden/old-authority failures, resolved
+by the changes above rather than counted as passing.
 
-Installed-wheel transactions, commit/rollback, undo/redo, branching and snapshot
-creation passed. The 25 constructor-annotation tests also passed against the
-installed wheel on the explicit Python lowering backend. These are current local
-checks, not new independent review or a new cross-platform campaign.
+## Known field-name limitation
 
-## Findings and release tasks
+A declared field named `schema` still collides with a generated capture:
 
-- [ ] Resolve or explicitly document the existing `schema` field-name collision.
-  This fails during decoration, even using the installed wheel:
+```python
+from yidl_undoable import undoable, managed
 
-  ```python
-  from yidl_undoable import undoable, managed
+@undoable
+class Model:
+    schema: int = managed(default=1)
+# NameError: name 'schema' is not defined
+```
 
-  @undoable
-  class Model:
-      schema: int = managed(default=1)
-  # NameError: name 'schema' is not defined
-  ```
+This pre-existing issue is documented in README/API and
+`ConstructorAnnotations.md`; it was not fixed or hidden by this compatibility
+pass. Use a different field name. A future bounded consumer-owned capture
+isolation fix is preferable to changing YIDL/Astichi.
 
-  The generated class body uses an outer `schema` capture while defining a field
-  with that same name. This is the pre-existing issue recorded in
-  `ConstructorAnnotations.md`, not an annotation regression. A bounded
-  consumer-owned capture-isolation fix is preferable to changing YIDL/Astichi.
-  Alternatively state the name restriction clearly for this release; passing the
-  suite does not mean arbitrary field names are supported.
+## Paused feature
 
-- [ ] Align the optional regeneration authority with the final Dataclass release.
-  `pyproject.toml`'s `regenerate` extra and
-  `src/yidl_undoable/regenerate_undoable_base.py` currently require exactly
-  `yidl-dataclass==0.1.0.dev0`. The proposed first Dataclass release is 0.1.0.
-  Update both pins together, retain/check the authoritative comparison digest,
-  regenerate the provenance header, then verify regeneration with the released
-  wheel. This affects regeneration, not Undoable's runtime dependencies.
+`undoable_leaf(root, *roots)` remains a proposal in `UndoableLeaf.md`, neither
+exported nor implemented. The operator paused that discussion; release work did
+not resume it. The public API remains `history.initialize(*roots)`. If resumed,
+its duplicate check must compare underlying node identity, including aliases
+through different views, rather than application equality.
 
-- [ ] Confirm the runtime dependency tuple for publication. The existing tuple
-  installs successfully; Lifecycle 0.1.0 and Dataclass's current supported route
-  pin YIDL 0.1.0 even though YIDL 0.1.1 is now available. Supporting the newer YIDL
-  is a separate compatibility decision, not a reason to modify dependencies.
+## Evidence boundary
 
-- [ ] Prepare Undoable's own publication workflow/trusted publisher when it is
-  selected for release. The publisher supplied by the operator in this session
-  is for `owebeeone/yidl-dataclass`, not this repository. PyPI returned no
-  `yidl-undoable` project during this check.
-
-## Paused feature, not a hidden release prerequisite
-
-`undoable_leaf(root, *roots)` is proposed in `UndoableLeaf.md` but is not exported
-or implemented. The current public API remains `history.initialize(*roots)`.
-The operator previously paused that discussion; this audit does not resume it or
-silently add it to the release requirements. If resumed, its supplied-root
-duplicate check must compare underlying node identity, including aliases through
-different views, rather than application equality.
-
-## Boundary and evidence limits
-
-No production files changed in this member during the audit. No SDK/Lifecycle
-changes, tag, push or registry publication were performed. The package's
-`requires-python >=3.12` has no upper bound, while current evidence covers
-3.12–3.14; do not imply that later minors were tested.
+The initial audit changed no production files. The later authorized release
+updated the regeneration pin/header, tests, documentation, metadata and release
+automation; transaction/runtime semantics are unchanged. The package now caps
+Python below 3.16. Current evidence covers 3.12–3.15 locally and on Ubuntu, not
+Windows 3.15. Astichi 1.1.3 has cp312/cp313/cp314 Windows wheels but no cp315 or
+Windows abi3 wheel; a source build was not qualified. No Astichi/Cache change was
+implemented as a hidden release prerequisite.

@@ -37,3 +37,31 @@ The complete 3.15.2 suite then passed on each explicit backend: **376 passed**
 for Python lowering and **376 passed** for native Rust lowering.
 The workflow YAML, release-only upload condition and embedded shell syntax were
 checked before the Gearu release gate.
+
+## Completed publication
+
+Published **0.1.1** using Gearu 0.1.1. Release commit:
+`44e1a2fbc2ad3563d4f76c1016f2185a7705ca7e`.
+
+- GitHub release: https://github.com/owebeeone/yidl-undoable/releases/tag/v0.1.1
+- Successful trusted publication: https://github.com/owebeeone/yidl-undoable/actions/runs/40498363068
+- PyPI wheel and source distribution: https://pypi.org/project/yidl-undoable/0.1.1/
+
+Candidate and exact-commit checks passed for every declared Python minor.
+Local and Ubuntu source matrices include 3.12, 3.13, 3.14 and 3.15.
+Both explicit Python and native Rust lowering backends passed.
+
+A fresh registry-only installation of all four released packages passed the
+combined integration probe on CPython 3.15.2 with each explicit backend. It
+verified freezing, Lifecycle fields/annotations, transactions, rollback, history
+navigation/branching, shared comparisons and installed Dataclass/Undoable
+regeneration. The previously excluded YIDL downstream Lifecycle smoke separately
+passed against the published pair on 3.15.2.
+
+The cross-package evidence, per-cell counts, workflow/tag checks and PyPI artifact
+SHA256s are recorded at:
+https://github.com/owebeeone/yidl-dataclass/blob/main/docs/validation/releases/python315.json
+
+These are qualification results, not new independent reviews or new performance/
+cost measurements. Windows 3.15 remains outside this pass: Astichi 1.1.3 has no
+cp315 Windows wheel. No Astichi implementation change was made.
