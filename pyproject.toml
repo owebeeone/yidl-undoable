@@ -3,7 +3,7 @@ requires = ["hatchling>=1.24"]
 build-backend = "hatchling.build"
 [project]
 name = "yidl-undoable"
-version = "0.1.0"
+version = "0.1.1"
 description = "YIDL generated transactional data classes with sparse undo history"
 readme = "README.md"
 requires-python = ">=3.12,<3.16"
