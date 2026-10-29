@@ -5,7 +5,8 @@ import io
 import json
 from pathlib import Path
 import re
-import runpy
+import subprocess
+import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 GUIDES = (
@@ -18,8 +19,8 @@ GUIDES = (
 def check():
     examples = sorted((ROOT / "examples").glob("*.py"))
     for path in examples:
-        with redirect_stdout(io.StringIO()):
-            runpy.run_path(str(path), run_name="__main__")
+        subprocess.run([sys.executable, str(path)], cwd=ROOT, check=True,
+                       capture_output=True, text=True)
         print("PASS", path.relative_to(ROOT))
 
     count = 0

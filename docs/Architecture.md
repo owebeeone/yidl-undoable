@@ -1,7 +1,7 @@
 # Generation and history architecture
 
-This page describes current main. Specialized accessors and compiled-builder
-caching are unreleased additions relative to the published 0.1.1 package.
+This page describes 0.1.2 and current main. Specialized accessors and compiled-builder
+caching were added after version 0.1.1.
 
 Undoable declarations wrap the actual Lifecycle marker factories with immutable
 logical comparison/write-policy facts. Lifecycle marker objects and APIs are unchanged. The harvester supplies a

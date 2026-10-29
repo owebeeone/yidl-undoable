@@ -83,3 +83,19 @@ these regression timings; the earlier bounded measurements retain their limits.
 Publication here means GitHub main and the documentation site. The current PyPI
 0.1.1 package predates this integration; a separate Gearu patch release is required
 to publish the updated package. No release tag or registry publication is included.
+
+## Subsequent patch-release authorization
+
+After the reviewed integration/main publication, the user explicitly said “Go”
+for the Gearu patch release. Gearu selected 0.1.2 from 0.1.1. Release notes and
+user-documentation version labels now identify the cache additions as 0.1.2;
+this amendment changes release status wording, not the reviewed behavior. The
+original adversarial report retains its exact pre-release candidate manifests.
+Final publication outcome is recorded separately after the release workflow.
+
+GitHub's first Linux build exposed a documentation-example filename collision:
+`examples/collections.py` shadowed Python's standard library during direct script
+execution. It is now `examples/edit_collections.py`. The example verifier launches
+each script in a fresh Python process, matching the documented invocation instead
+of relying only on runpy with already-imported modules. No runtime/library change
+was needed; publication waits for the corrected build checks.

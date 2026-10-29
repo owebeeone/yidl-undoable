@@ -35,9 +35,9 @@ Only managed data is restored; caches, ordinary fields and external resources
 are not rewound. Live handles follow the selected frame; use a
 [snapshot](docs/Snapshots.md) to retain old committed managed values.
 
-The current main checkout adds field-specific generated accessors and optional
-[compiled-builder caching](docs/Cache.md). These additions are not yet in the
-published 0.1.1 package; its transaction API remains the same.
+Version 0.1.2 adds field-specific generated accessors and optional
+[compiled-builder caching](docs/Cache.md). Version 0.1.1 does not include these
+additions; the transaction API remains the same.
 The [original experiment](dev-docs/ExperimentResults.md),
 [accessor experiment](dev-docs/SpecializedAccessorExperiment.md) and
 [cache probe](dev-docs/SpecializedAccessorCacheProbe.md) preserve separate evidence

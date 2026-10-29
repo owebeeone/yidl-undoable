@@ -121,6 +121,16 @@ package publication and documentation deployment where configured.
   same GitHub Release.
 <!-- gearu:release:end -->
 
+## Undoable 0.1.2
+
+This patch promotes specialized accessors and compiled-builder caching while
+preserving the public transaction/model API. Read
+`dev-docs/SpecializedAccessorIntegration.md` and the independent documentation
+review for scope, regression evidence and the separate historical measurements.
+Use `gearu plan 0.1.2`, then `gearu release 0.1.2 --push --github-release`.
+Registry publication remains in `publish.yml` through its existing trusted publisher.
+The runtime cache dependency is explicitly pinned to the already-published 0.1.0.
+
 ## Undoable 0.1.1 qualification
 
 Read `dev-docs/Python315Release.md` and `dev-docs/RELEASE_TODOS.md`. Gearu

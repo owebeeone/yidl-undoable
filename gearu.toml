@@ -14,14 +14,21 @@ checks = [
     ["uv", "run", "--no-project", "--python", "3.13", "--with", "build==1.6.1", "--with", "twine==7.0.0", "python", "scripts/check_release.py"],
 ]
 github_notes = """
-yidl-undoable {tag} — Python 3.15 qualification and first PyPI publication.
+yidl-undoable {tag} — specialized accessors, compiled-builder caching and user documentation.
 
-Transactional generated data classes with commit/rollback, sparse frame history,
-undo/redo, nested live views and pinned snapshots. The optional regeneration
-extra uses the published Dataclass 0.1.1 comparison resource. Gearu verifies both
-backends across CPython 3.12–3.15 and fresh wheel/sdist examples and regeneration.
+The normal decorator now uses field-specific generated accessors and reuses
+compiled model builders through YIDL Cache. Cache hits bind fresh classes,
+schemas, defaults and callbacks, with generated-source inspection preserved.
+Transactions, undo/redo and the public model API retain their existing contract.
 
-See dev-docs/Python315Release.md and dev-docs/RELEASE_TODOS.md for evidence and
-known limitations. The original experiment, timings, cost records and independent
-reviews remain in dev-docs/ and are included in the source distribution.
+The end-user documentation includes progressive guides, eight runnable examples,
+field/callback reference and troubleshooting:
+https://owebeeone.github.io/yidl-undoable/
+
+The 414-test suite passes on CPython 3.12–3.15 with Python and native Rust
+backends. Gearu also checks built wheel/sdist installation and regeneration.
+Original accessor/cache measurements and independent reviews remain in dev-docs/.
+The existing schema field-name limitation and Windows CPython 3.15 dependency-wheel
+qualification limit remain documented. This release does not add disk-backed undo
+history or concurrent-manager isolation.
 """

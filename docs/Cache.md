@@ -1,8 +1,8 @@
 # Cache generated builders
 
-This page describes the current main checkout. Builder caching and these controls
-are not available in the published `yidl-undoable==0.1.1` package. Install the
-checkout to try them; a package release is separate from this documentation update.
+Builder caching and these controls are added in `yidl-undoable==0.1.2`.
+They are not available in version 0.1.1. This is generated-code caching, not
+storage of undo history.
 
 Undoable normally persists compiled model-builder code using YIDL Cache. A hit
 skips YIDL/Astichi assembly and compilation for that model shape, then creates a

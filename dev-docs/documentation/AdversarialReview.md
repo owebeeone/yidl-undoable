@@ -256,3 +256,125 @@ a99ae8532608b4525c0c50a6560af45fc1c0ab64aefbe38c9d689c3fa73e11e2  tests/cache_sc
 3e35959dc441bd2277b8b262eb691faebc636c0270fbd85d21b8e4efb37cb205  tests/test_code_cache.py
 ec9910e160b62def2a853b4d4245303097370f53aa287f83485c43928f42cb5b  tests/test_specialized.py
 ```
+
+## Publication and 0.1.2 release amendment — 2026-10-29
+
+**Verdict: GO for the amended documentation/direct-script remediation and Gearu
+0.1.2 release preparation.** No new blocking finding remains. This amendment
+preserves the earlier report and manifests as historical evidence, while
+superseding its statement that a package release was outside the authorized
+scope. The user has now explicitly authorized that separate patch release.
+It does not assert that 0.1.2 is already on PyPI or that Gearu/release checks
+have finished.
+
+The amendment was reviewed against commit
+`4440b26ff02184c83aceb1fd65a5c895b6172d16`. Runtime and specialized/cache source
+are unchanged: the reviewer recomputed every file digest in the prior seam
+manifest and confirmed they still match. This is a bounded publication amendment,
+not a new architecture or behavioral review. Only this report was edited by the
+reviewer; no push, tag, release or deployment was performed.
+
+### Direct-script collision and verification remediation
+
+The documented first-use program runs as a script, which puts its containing
+`examples` directory on the import path. The former `examples/collections.py`
+could therefore shadow stdlib `collections` during a cold interpreter's imports.
+Runpy execution in an already initialized process did not reproduce that startup
+route, so the earlier example checks did not establish safe direct invocation.
+The later build failure exposed a real verification gap; the prior passing
+runpy-based evidence is retained above with this correction to its practical
+limits.
+
+`examples/edit_collections.py` is byte-for-byte equal to the former example;
+`examples/collections.py` has been removed. The reviewer independently checked
+this equality against the amendment baseline and found no active public guide
+or example-index link to the deleted path. Historical review manifests correctly
+retain its old name. The example verifier now uses `sys.executable` to launch each
+script in a fresh subprocess from the repository root. This reproduces script
+startup and isolates each example's global/module state; sequential guide blocks
+retain their existing per-page namespace convention.
+
+Independent execution on CPython 3.12.12 with checkout Undoable and installed
+registry dependencies passed **all eight direct-script subprocesses and eighteen
+guide blocks**. Final strict MkDocs build, local link/asset/search checks, and
+whitespace checks passed: **14 HTML pages, 434 local links/assets, 35 search
+entries**. These checks cover the newly exposed script-startup route; this report
+does not falsely present them as a new full release matrix run.
+
+### Release wording and authority
+
+README, Cache, API and architecture now identify the additions by version 0.1.2
+and retain the explicit statement that 0.1.1 lacks them. They describe versioned
+behavior rather than claiming an already completed registry upload. RELEASE.md
+and Gearu notes identify the authorized patch and leave publication with the
+existing trusted-publisher workflow. The integration record explicitly records
+release authorization and says the final outcome will be recorded separately.
+This is consistent with release preparation still pending.
+
+The initial R1 counterexample remains true for installed 0.1.1. Its current
+resolution is the newly authorized 0.1.2 release plus the explicit version
+boundary, replacing the earlier main-only/unreleased wording. Successful Gearu
+checks and registry publication must still be confirmed before the parent
+reports 0.1.2 as published; this review is not evidence of that outcome. No
+release tag may be moved or reused to correct older artifacts.
+
+The release notes' 414-test/version/backend statement is supported by the parent
+integration evidence and its reported completed GitHub matrix; this reviewer
+has not independently repeated all eight matrix cells. Release preparation's
+existing mandatory checks remain in place. No SDK or cache implementation change
+was introduced by this amendment.
+
+### Amended candidate manifests
+
+The public manifest below replaces the prior public candidate identity for this
+amendment. The prior specialized/cache seam manifest remains current and was
+independently verified unchanged. Release preparation files have their own
+manifest. This report itself remains excluded from all digest manifests.
+
+#### Amended public documentation candidate
+
+Manifest SHA-256: `8760c24cfc09404b7322b8e92b0eb3b65f1116774b90168e548568912edb4def`.
+
+```text
+3284540d0ae81972e4ff385a3a13460700ef34fe18438a38f5be4306a0f23cb6  .github/workflows/docs.yml
+b030fe74b6f1fa6f45853459c375d6bc3d198fc6e6478fa08be7d29f4c2d9857  CONTRIBUTING.md
+082f2d069144b8bf6c0a5549dc40c961aec120d28f25283bd02f055d0bde98fc  README.md
+82af0f523fad482c0922f804db8d026696a0376c52fab81f8f5eee62407781bf  dev-docs/documentation/Specification.md
+e01b572063613781c5d5ba0fb49454bd783662997f4b28b20908ce3a8645110c  dev-docs/documentation/check_site.py
+d3b17e95db69314c5d7d37f8c6239f78864f95530a53e8f5dc508426bfd9b006  dev-docs/documentation/site_hooks.py
+bc44a84c9c66e8c89dc1f03d1c97e4a9d3a8ff6cba464d691ca9bc0351d21489  dev-docs/documentation/verify_examples.py
+dcaede80d4840150535ddacd7723e95b04bd604f12dbf7605dc63acd51dfb182  docs-requirements.txt
+c8c54056211d9098f9c42a8e42dc1dba9e5884fcbc80d582e0945b1eb71854d6  docs/API.md
+8a31a6dcdd301db289bd94a9f269c7792ef92e754ed2f3c2c6e60b4e73a488c9  docs/Architecture.md
+3bb2c0f4a9fb4f58ab8987684088750716e8241875a9f73aab69f0ed5ab01d65  docs/Cache.md
+b9cbf9199126e60076098ca2d072d2c2b7ac28d2974b5761d28e203a10598d53  docs/Collections.md
+6165e69bfe6ed24568c0e82a7270416ea519f58cabc3eb5f3e97ea6f0369ab75  docs/Comparisons.md
+49393461f11fa08592a9f1f77267533dd4bff28075e7f7e8307e07baa963ee08  docs/Concepts.md
+1cc45c5f9d14b5b02f693b9d582d630decae349fdc0b018f6854ffc505ca3576  docs/GettingStarted.md
+994817f65869cc0c6f186452d887747b34037c87b14581b2a71de463ad13db57  docs/Initialization.md
+6c574bf729e2681a50efd511cd55616f5e702497dec9d79825241bb758516a6d  docs/ObjectGraphs.md
+ea4e164fdb4a7e832c6156a321e33fbbdd42d88a94c867dcc248295f4f797a90  docs/Snapshots.md
+34e6d6086111e764e388c4b3062f41851a3fdce71bb64921813b4242b882d567  docs/Transactions.md
+fe9aaebbd31a1ad462d55fbfb393b6b7ee25707eda6dcaaccfc7fb9855e04c8b  docs/Troubleshooting.md
+871b20f9565f367470c7dbffcf0bc8efdaa381478ccf4e42320063f94ee079ce  docs/index.md
+616e4ddaa48ded2ee0fb9a13ecbb01a575de6265283cde1fa1f46e0de98d3b80  examples/README.md
+03aebc4bd26d6438640a508f8e65947c33f3703deec4d4485edfbd90115e534a  examples/dependent_fields.py
+13fe22a5c35c09a92c97297caafac9240722cbcc575add7871317026a0ca29da  examples/edit_collections.py
+bf031dbabee1cd702d4a040073e2080a050490f5cf08adc3edcd34612cf47038  examples/field_boundaries.py
+d5a477f669d86ad1dd0cb5c65f322fcbd937841a364717e2d002fe578b1ca9d9  examples/first_use.py
+d4312cf0e5a3d6ef5df73d68ce6e80f841b95a1e527541fc56b4fe3fbc1438fc  examples/nested.py
+307cbb01ecffa1b8571f448146b94935c7aa399458e203896ac6e03e7a995090  examples/object_graphs.py
+62a5dc76d40be147e6976b4706a8f880b04df9d09a99cafe31de242e1c908ac7  examples/snapshots.py
+8c1db71ee89c679d5ff01f90e9ab74abfc0a5b1319dc35860871cdce2d1c38d1  examples/validation.py
+36964a5ff24545c26dc9892d8414734b39103a4e1947c66326ad92ff6e5a7962  mkdocs.yml
+```
+
+#### Release preparation amendment
+
+Manifest SHA-256: `d97a8031b7e9763cda7e3642e10a34e730f678f0c5d67850079204566cb08321`.
+
+```text
+1de017f5ce153274c0ed818190958f966939b2b2c9580a1ddf0afe6cc8c3a7dd  RELEASE.md
+fe4d641e34d3e8abdf82fdad7bc89ada4725e0a8f1f815b48ad0a9573370fbc1  dev-docs/SpecializedAccessorIntegration.md
+712375a7be67e10eede1df03e8108f895de4b7661846e020738c5019e5b8eea0  gearu.toml
+```

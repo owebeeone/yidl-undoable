@@ -261,6 +261,6 @@ not claimed by the Python 3.15 qualification.
 
 ## Generated builder cache
 
-On current main, the normal decorator uses shipped specialized accessors and optional
-compiled-builder reuse. These additions are not in published 0.1.1. See [cache controls, diagnostics and maintenance](Cache.md). Class instances,
+From 0.1.2, the normal decorator uses shipped specialized accessors and optional
+compiled-builder reuse. These additions are not in 0.1.1. See [cache controls, diagnostics and maintenance](Cache.md). Class instances,
 callbacks and schemas are bound afresh; model source inspection remains available.
