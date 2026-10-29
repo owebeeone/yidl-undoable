@@ -1,0 +1,328 @@
+"""Paired, fresh-process accessor experiment; reports observations, not gates.
+
+Run in the same dependency environment as check_specialized.py. The coordinator
+launches fresh workers with this interpreter. Preparation is outside timed loops;
+each sample gets fresh state, so commit histories grow equally in both variants.
+"""
+
+import argparse
+import gc
+import importlib.metadata
+import json
+import os
+from pathlib import Path
+import platform
+import random
+import statistics
+import subprocess
+import sys
+import time
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+
+
+def make_declaration():
+    from yidl_undoable import (
+        field,
+        const,
+        managed,
+        lazy,
+        transient,
+        binding,
+        local_store,
+    )
+
+    return type(
+        "Bench",
+        (),
+        {
+            "__annotations__": {
+                "plain": int,
+                "constant": int,
+                "value": int,
+                "delayed": int,
+                "scratch": list,
+                "resource": object,
+                "cache": dict,
+            },
+            "plain": field(default=1),
+            "constant": const(default=2),
+            "value": managed(default=1),
+            "delayed": lazy(default_factory=int, mutable=True),
+            "scratch": transient(default_factory=list, working_default_factory=list),
+            "resource": binding(default=None),
+            "cache": local_store(default_factory=dict),
+        },
+    )
+
+
+def prepare(model, case):
+    from yidl_undoable import UndoRedoManager
+
+    history = UndoRedoManager()
+    node = model(transaction_manager=history)
+    history.initialize(node)
+    depth = 128 if "128" in case else 1
+    for value in range(2, depth + 1):
+        with history.begin():
+            node.value = value
+    assert node.value == depth
+    assert node.delayed == 0  # Materialization is outside the hot-read timings.
+    current, working = node.current, node.working
+    if case.startswith("working_") or case in {
+        "transient_edit",
+        "managed_noop",
+        "managed_change",
+    }:
+        history.begin()
+    if case.startswith("working_dirty"):
+        node.value = depth + 1
+    if case == "transient_edit":
+        assert working.scratch == []
+    if case == "managed_noop":
+        assert working.value == 1
+    if case == "undo_redo_128":
+        assert history.can_undo()
+
+    statements = {
+        "plain_read": "node.plain",
+        "const_read": "node.constant",
+        "lazy_ready": "node.delayed",
+        "local_store_read": "node.cache",
+        "binding_read": "node.resource",
+        "transient_baseline": "node.scratch",
+        "transient_edit": "working.scratch",
+        "plain_write": "node.plain = 7",
+        "lazy_write": "node.delayed = 7",
+        "managed_read_1": "node.value",
+        "managed_read_128": "node.value",
+        "current_read_128": "current.value",
+        "working_clean_128": "working.value",
+        "working_dirty_128": "working.value",
+        "managed_noop": "node.value = 1",
+        "managed_change": "node.value = 7; node.value = 8",
+        "undo_redo_128": "history.undo(); history.redo()",
+    }
+    if case in statements:
+        import timeit
+
+        timer = timeit.Timer(
+            statements[case],
+            globals={
+                "node": node,
+                "current": current,
+                "working": working,
+                "history": history,
+            },
+        )
+        return timer.timeit
+
+    counter = depth
+
+    def transactions(number):
+        nonlocal counter
+        start = time.perf_counter_ns()
+        for _ in range(number):
+            counter += 1
+            if case.startswith("commit_"):
+                with history.begin():
+                    node.value = counter
+            else:
+                history.begin()
+                node.value = counter
+                history.rollback()
+        return (time.perf_counter_ns() - start) / 1e9
+
+    return transactions
+
+
+CASES = (
+    "plain_read",
+    "const_read",
+    "lazy_ready",
+    "local_store_read",
+    "binding_read",
+    "transient_baseline",
+    "transient_edit",
+    "plain_write",
+    "lazy_write",
+    "managed_read_1",
+    "managed_read_128",
+    "current_read_128",
+    "working_clean_128",
+    "working_dirty_128",
+    "managed_noop",
+    "managed_change",
+    "commit_1",
+    "commit_128",
+    "rollback_128",
+    "undo_redo_128",
+)
+
+
+def worker(seed, samples, loops):
+    start = time.perf_counter_ns()
+    from functools import partial
+    from yidl_undoable.undoable import _decorate
+    from yidl_undoable import _generated_undoable_base
+    from yidl_undoable.comparison_captures import ComparisonCaptures
+
+    baseline = partial(
+        _decorate, eq=False, order=False, generation_module=_generated_undoable_base,
+        capture_type=ComparisonCaptures,
+    )
+
+    package_import_ns = time.perf_counter_ns() - start
+    from yidl_undoable.specialized import undoable as specialized, generation_module
+
+    start = time.perf_counter_ns()
+    generation_module()
+    builder_compile_ns = time.perf_counter_ns() - start
+    decorators = {"baseline": baseline, "specialized": specialized}
+    models, generation, sizes = {}, {}, {}
+    for label, decorate in decorators.items():
+        # First model warms shared resource-template caches; measure subsequent
+        # fresh class decoration separately from the experimental builder compile.
+        decorate(make_declaration())
+        timings = []
+        for _ in range(5):
+            declaration = make_declaration()
+            start = time.perf_counter_ns()
+            model = decorate(declaration)
+            timings.append(time.perf_counter_ns() - start)
+        models[label] = model
+        generation[label] = timings
+        code_bytes = 0
+        for view in model.__undoable_views__.values():
+            for value in view.__dict__.values():
+                if isinstance(value, property):
+                    for function in (value.fget, value.fset, value.fdel):
+                        if function is not None:
+                            code_bytes += len(function.__code__.co_code)
+        sizes[label] = {
+            "source_bytes": len(model.__undoable_source__.encode()),
+            "accessor_bytecode_bytes": code_bytes,
+        }
+    rng = random.Random(seed)
+    measurements = {}
+    was_enabled = gc.isenabled()
+    gc.disable()
+    try:
+        for case in CASES:
+            count = (
+                64
+                if case.startswith(("commit_", "rollback_"))
+                else (1000 if case == "undo_redo_128" else loops)
+            )
+            values = {label: [] for label in models}
+            for _ in range(samples):
+                labels = list(models)
+                rng.shuffle(labels)
+                for label in labels:
+                    # Warm a distinct instance, then measure fresh equivalent
+                    # state. In particular, never time an ever-growing edit log.
+                    prepare(models[label], case)(min(count, 100))
+                    elapsed = prepare(models[label], case)(count)
+                    operations = count * (2 if case == "managed_change" else 1)
+                    values[label].append(elapsed * 1e9 / operations)
+            measurements[case] = {"iterations": count, "ns_per_operation": values}
+    finally:
+        if was_enabled:
+            gc.enable()
+    return {
+        "seed": seed,
+        "package_import_ns": package_import_ns,
+        "specialized_builder_compile_ns": builder_compile_ns,
+        "warm_decoration_ns": generation,
+        "sizes": sizes,
+        "measurements": measurements,
+    }
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--worker", type=int)
+    parser.add_argument("--processes", type=int, default=5)
+    parser.add_argument("--samples", type=int, default=5)
+    parser.add_argument("--loops", type=int, default=40000)
+    parser.add_argument("--output", type=Path)
+    args = parser.parse_args()
+    if min(args.processes, args.samples, args.loops) < 1:
+        parser.error("processes, samples and loops must be positive")
+    if args.worker is not None:
+        print(json.dumps(worker(args.worker, args.samples, args.loops)))
+        return
+    runs = []
+    environment = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
+    for seed in range(args.processes):
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(Path(__file__).resolve()),
+                "--worker",
+                str(seed),
+                "--samples",
+                str(args.samples),
+                "--loops",
+                str(args.loops),
+            ],
+            check=True,
+            text=True,
+            capture_output=True,
+            env=environment,
+        )
+        runs.append(json.loads(result.stdout))
+        print(
+            f"Completed paired worker {seed + 1}/{args.processes}",
+            file=sys.stderr,
+            flush=True,
+        )
+    summary = {}
+    for case in CASES:
+        ratios, medians = [], {"baseline": [], "specialized": []}
+        for run in runs:
+            data = run["measurements"][case]["ns_per_operation"]
+            base = statistics.median(data["baseline"])
+            special = statistics.median(data["specialized"])
+            medians["baseline"].append(base)
+            medians["specialized"].append(special)
+            ratios.append(base / special)
+        summary[case] = {
+            "baseline_ns": statistics.median(medians["baseline"]),
+            "specialized_ns": statistics.median(medians["specialized"]),
+            "paired_speedup_median": statistics.median(ratios),
+            "paired_speedup_min": min(ratios),
+            "paired_speedup_max": max(ratios),
+        }
+    payload = {
+        "python": sys.version,
+        "platform": platform.system(),
+        "machine": platform.machine(),
+        "dependencies": {
+            name: importlib.metadata.version(name)
+            for name in (
+                "yidl",
+                "astichi",
+                "yidl-lifecycle",
+                "yidl-dataclass",
+            )
+        },
+        "lowering_engine": os.environ.get("ASTICHI_LOWER_ENGINE", "default"),
+        "parameters": {
+            "processes": args.processes,
+            "samples": args.samples,
+            "loops": args.loops,
+        },
+        "summary": summary,
+        "runs": runs,
+    }
+    rendered = json.dumps(payload, indent=2) + "\n"
+    if args.output:
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(rendered)
+    print(json.dumps(summary, indent=2))
+
+
+if __name__ == "__main__":
+    main()

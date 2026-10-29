@@ -48,11 +48,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def value(self):
-            return self._u_read_managed('value')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'value' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'value' + ': unresolved constructor field')
+                return state.values['value']
+            return state.manager._read_managed(self, 'value')
 
         @value.setter
         def value(self, value):
-            self._u_write_managed('value', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('value' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'value', value)
 
     class Child_Current(Child):
         __slots__ = ()
@@ -89,11 +98,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def value(self):
-            return self._u_read_current_managed('value')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'value' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'value' + ': unresolved constructor field')
+                return state.values['value']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'value')
+            return state.manager._committed_value(self, 'value')
 
         @value.setter
         def value(self, value):
-            self._u_write_current_managed('value', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('value' + ': current managed facade is read-only')
 
     class Child_Working(Child):
         __slots__ = ()
@@ -130,11 +148,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def value(self):
-            return self._u_read_working_managed('value')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'value' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'value' + ': unresolved constructor field')
+                return state.values['value']
+            return state.manager._read_managed(self, 'value')
 
         @value.setter
         def value(self, value):
-            self._u_write_managed('value', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('value' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'value', value)
     Child.__undoable_views__ = {'default': Child, 'current': Child_Current, 'working': Child_Working}
     return Child
 
@@ -164,11 +191,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
 
     class Parent_Current(Parent):
         __slots__ = ()
@@ -181,11 +217,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_current_managed('children')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'children')
+            return state.manager._committed_value(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_current_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('children' + ': current managed facade is read-only')
 
     class Parent_Working(Parent):
         __slots__ = ()
@@ -198,11 +243,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_working_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
     Parent.__undoable_views__ = {'default': Parent, 'current': Parent_Current, 'working': Parent_Working}
     return Parent
 
@@ -232,11 +286,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
 
     class Parent_False_False_legacy_identity_Current(Parent_False_False_legacy_identity):
         __slots__ = ()
@@ -249,11 +312,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_current_managed('children')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'children')
+            return state.manager._committed_value(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_current_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('children' + ': current managed facade is read-only')
 
     class Parent_False_False_legacy_identity_Working(Parent_False_False_legacy_identity):
         __slots__ = ()
@@ -266,11 +338,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_working_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
     Parent_False_False_legacy_identity.__undoable_views__ = {'default': Parent_False_False_legacy_identity, 'current': Parent_False_False_legacy_identity_Current, 'working': Parent_False_False_legacy_identity_Working}
     return Parent_False_False_legacy_identity
 
@@ -300,11 +381,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
 
     class Parent_False_False_legacy_value_Current(Parent_False_False_legacy_value):
         __slots__ = ()
@@ -317,11 +407,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_current_managed('children')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'children')
+            return state.manager._committed_value(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_current_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('children' + ': current managed facade is read-only')
 
     class Parent_False_False_legacy_value_Working(Parent_False_False_legacy_value):
         __slots__ = ()
@@ -334,11 +433,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_working_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
     Parent_False_False_legacy_value.__undoable_views__ = {'default': Parent_False_False_legacy_value, 'current': Parent_False_False_legacy_value_Current, 'working': Parent_False_False_legacy_value_Working}
     return Parent_False_False_legacy_value
 
@@ -368,11 +476,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
 
     class Parent_False_False_new_identity_Current(Parent_False_False_new_identity):
         __slots__ = ()
@@ -385,11 +502,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_current_managed('children')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'children')
+            return state.manager._committed_value(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_current_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('children' + ': current managed facade is read-only')
 
     class Parent_False_False_new_identity_Working(Parent_False_False_new_identity):
         __slots__ = ()
@@ -402,11 +528,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_working_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
     Parent_False_False_new_identity.__undoable_views__ = {'default': Parent_False_False_new_identity, 'current': Parent_False_False_new_identity_Current, 'working': Parent_False_False_new_identity_Working}
     return Parent_False_False_new_identity
 
@@ -436,11 +571,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
 
     class Parent_False_False_new_value_Current(Parent_False_False_new_value):
         __slots__ = ()
@@ -453,11 +597,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_current_managed('children')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'children')
+            return state.manager._committed_value(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_current_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('children' + ': current managed facade is read-only')
 
     class Parent_False_False_new_value_Working(Parent_False_False_new_value):
         __slots__ = ()
@@ -470,11 +623,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_working_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
     Parent_False_False_new_value.__undoable_views__ = {'default': Parent_False_False_new_value, 'current': Parent_False_False_new_value_Current, 'working': Parent_False_False_new_value_Working}
     return Parent_False_False_new_value
 
@@ -504,11 +666,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
 
     class Parent_False_True_legacy_identity_Current(Parent_False_True_legacy_identity):
         __slots__ = ()
@@ -521,11 +692,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_current_managed('children')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'children')
+            return state.manager._committed_value(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_current_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('children' + ': current managed facade is read-only')
 
     class Parent_False_True_legacy_identity_Working(Parent_False_True_legacy_identity):
         __slots__ = ()
@@ -538,11 +718,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_working_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
     Parent_False_True_legacy_identity.__undoable_views__ = {'default': Parent_False_True_legacy_identity, 'current': Parent_False_True_legacy_identity_Current, 'working': Parent_False_True_legacy_identity_Working}
     return Parent_False_True_legacy_identity
 
@@ -572,11 +761,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
 
     class Parent_False_True_legacy_value_Current(Parent_False_True_legacy_value):
         __slots__ = ()
@@ -589,11 +787,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_current_managed('children')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'children')
+            return state.manager._committed_value(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_current_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('children' + ': current managed facade is read-only')
 
     class Parent_False_True_legacy_value_Working(Parent_False_True_legacy_value):
         __slots__ = ()
@@ -606,11 +813,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_working_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
     Parent_False_True_legacy_value.__undoable_views__ = {'default': Parent_False_True_legacy_value, 'current': Parent_False_True_legacy_value_Current, 'working': Parent_False_True_legacy_value_Working}
     return Parent_False_True_legacy_value
 
@@ -640,11 +856,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
 
     class Parent_False_True_new_identity_Current(Parent_False_True_new_identity):
         __slots__ = ()
@@ -657,11 +882,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_current_managed('children')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'children')
+            return state.manager._committed_value(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_current_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('children' + ': current managed facade is read-only')
 
     class Parent_False_True_new_identity_Working(Parent_False_True_new_identity):
         __slots__ = ()
@@ -674,11 +908,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_working_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
     Parent_False_True_new_identity.__undoable_views__ = {'default': Parent_False_True_new_identity, 'current': Parent_False_True_new_identity_Current, 'working': Parent_False_True_new_identity_Working}
     return Parent_False_True_new_identity
 
@@ -708,11 +951,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
 
     class Parent_False_True_new_value_Current(Parent_False_True_new_value):
         __slots__ = ()
@@ -725,11 +977,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_current_managed('children')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'children')
+            return state.manager._committed_value(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_current_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('children' + ': current managed facade is read-only')
 
     class Parent_False_True_new_value_Working(Parent_False_True_new_value):
         __slots__ = ()
@@ -742,11 +1003,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_working_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
     Parent_False_True_new_value.__undoable_views__ = {'default': Parent_False_True_new_value, 'current': Parent_False_True_new_value_Current, 'working': Parent_False_True_new_value_Working}
     return Parent_False_True_new_value
 
@@ -784,11 +1054,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
 
     class Parent_True_False_legacy_identity_Current(Parent_True_False_legacy_identity):
         __slots__ = ()
@@ -809,11 +1088,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_current_managed('children')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'children')
+            return state.manager._committed_value(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_current_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('children' + ': current managed facade is read-only')
 
     class Parent_True_False_legacy_identity_Working(Parent_True_False_legacy_identity):
         __slots__ = ()
@@ -834,11 +1122,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_working_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
     Parent_True_False_legacy_identity.__undoable_views__ = {'default': Parent_True_False_legacy_identity, 'current': Parent_True_False_legacy_identity_Current, 'working': Parent_True_False_legacy_identity_Working}
     return Parent_True_False_legacy_identity
 
@@ -876,11 +1173,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
 
     class Parent_True_False_legacy_value_Current(Parent_True_False_legacy_value):
         __slots__ = ()
@@ -901,11 +1207,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_current_managed('children')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'children')
+            return state.manager._committed_value(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_current_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('children' + ': current managed facade is read-only')
 
     class Parent_True_False_legacy_value_Working(Parent_True_False_legacy_value):
         __slots__ = ()
@@ -926,11 +1241,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_working_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
     Parent_True_False_legacy_value.__undoable_views__ = {'default': Parent_True_False_legacy_value, 'current': Parent_True_False_legacy_value_Current, 'working': Parent_True_False_legacy_value_Working}
     return Parent_True_False_legacy_value
 
@@ -968,11 +1292,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
 
     class Parent_True_False_new_identity_Current(Parent_True_False_new_identity):
         __slots__ = ()
@@ -993,11 +1326,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_current_managed('children')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'children')
+            return state.manager._committed_value(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_current_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('children' + ': current managed facade is read-only')
 
     class Parent_True_False_new_identity_Working(Parent_True_False_new_identity):
         __slots__ = ()
@@ -1018,11 +1360,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_working_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
     Parent_True_False_new_identity.__undoable_views__ = {'default': Parent_True_False_new_identity, 'current': Parent_True_False_new_identity_Current, 'working': Parent_True_False_new_identity_Working}
     return Parent_True_False_new_identity
 
@@ -1060,11 +1411,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
 
     class Parent_True_False_new_value_Current(Parent_True_False_new_value):
         __slots__ = ()
@@ -1085,11 +1445,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_current_managed('children')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'children')
+            return state.manager._committed_value(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_current_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('children' + ': current managed facade is read-only')
 
     class Parent_True_False_new_value_Working(Parent_True_False_new_value):
         __slots__ = ()
@@ -1110,11 +1479,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_working_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
     Parent_True_False_new_value.__undoable_views__ = {'default': Parent_True_False_new_value, 'current': Parent_True_False_new_value_Current, 'working': Parent_True_False_new_value_Working}
     return Parent_True_False_new_value
 
@@ -1152,11 +1530,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
 
     class Parent_True_True_legacy_identity_Current(Parent_True_True_legacy_identity):
         __slots__ = ()
@@ -1177,11 +1564,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_current_managed('children')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'children')
+            return state.manager._committed_value(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_current_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('children' + ': current managed facade is read-only')
 
     class Parent_True_True_legacy_identity_Working(Parent_True_True_legacy_identity):
         __slots__ = ()
@@ -1202,11 +1598,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_working_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
     Parent_True_True_legacy_identity.__undoable_views__ = {'default': Parent_True_True_legacy_identity, 'current': Parent_True_True_legacy_identity_Current, 'working': Parent_True_True_legacy_identity_Working}
     return Parent_True_True_legacy_identity
 
@@ -1244,11 +1649,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
 
     class Parent_True_True_legacy_value_Current(Parent_True_True_legacy_value):
         __slots__ = ()
@@ -1269,11 +1683,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_current_managed('children')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'children')
+            return state.manager._committed_value(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_current_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('children' + ': current managed facade is read-only')
 
     class Parent_True_True_legacy_value_Working(Parent_True_True_legacy_value):
         __slots__ = ()
@@ -1294,11 +1717,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_working_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
     Parent_True_True_legacy_value.__undoable_views__ = {'default': Parent_True_True_legacy_value, 'current': Parent_True_True_legacy_value_Current, 'working': Parent_True_True_legacy_value_Working}
     return Parent_True_True_legacy_value
 
@@ -1336,11 +1768,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
 
     class Parent_True_True_new_identity_Current(Parent_True_True_new_identity):
         __slots__ = ()
@@ -1361,11 +1802,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_current_managed('children')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'children')
+            return state.manager._committed_value(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_current_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('children' + ': current managed facade is read-only')
 
     class Parent_True_True_new_identity_Working(Parent_True_True_new_identity):
         __slots__ = ()
@@ -1386,11 +1836,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_working_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
     Parent_True_True_new_identity.__undoable_views__ = {'default': Parent_True_True_new_identity, 'current': Parent_True_True_new_identity_Current, 'working': Parent_True_True_new_identity_Working}
     return Parent_True_True_new_identity
 
@@ -1428,11 +1887,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
 
     class Parent_True_True_new_value_Current(Parent_True_True_new_value):
         __slots__ = ()
@@ -1453,11 +1921,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_current_managed('children')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'children')
+            return state.manager._committed_value(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_current_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('children' + ': current managed facade is read-only')
 
     class Parent_True_True_new_value_Working(Parent_True_True_new_value):
         __slots__ = ()
@@ -1478,11 +1955,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_working_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
     Parent_True_True_new_value.__undoable_views__ = {'default': Parent_True_True_new_value, 'current': Parent_True_True_new_value_Current, 'working': Parent_True_True_new_value_Working}
     return Parent_True_True_new_value
 
@@ -1520,11 +2006,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
 
     class Parent_True_True_new_identity_Current(Parent_True_True_new_identity):
         __slots__ = ()
@@ -1545,11 +2040,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_current_managed('children')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'children')
+            return state.manager._committed_value(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_current_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('children' + ': current managed facade is read-only')
 
     class Parent_True_True_new_identity_Working(Parent_True_True_new_identity):
         __slots__ = ()
@@ -1570,10 +2074,19 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def children(self):
-            return self._u_read_working_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
     Parent_True_True_new_identity.__undoable_views__ = {'default': Parent_True_True_new_identity, 'current': Parent_True_True_new_identity_Current, 'working': Parent_True_True_new_identity_Working}
     return Parent_True_True_new_identity

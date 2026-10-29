@@ -1,0 +1,70 @@
+site_name: YIDL Undoable
+site_description: Make edits to Python models, then undo and redo committed frames.
+site_url: https://owebeeone.github.io/yidl-undoable/
+repo_url: https://github.com/owebeeone/yidl-undoable
+repo_name: owebeeone/yidl-undoable
+edit_uri: edit/main/docs/
+docs_dir: docs
+site_dir: build/docs-site
+strict: true
+exclude_docs: |
+  /validation/
+hooks:
+  - dev-docs/documentation/site_hooks.py
+theme:
+  name: material
+  palette:
+    - media: '(prefers-color-scheme: light)'
+      scheme: default
+      primary: deep purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: '(prefers-color-scheme: dark)'
+      scheme: slate
+      primary: deep purple
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.footer
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+plugins:
+  - search
+markdown_extensions:
+  - admonition
+  - attr_list
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences
+validation:
+  nav:
+    omitted_files: warn
+    not_found: warn
+  links:
+    not_found: warn
+    anchors: warn
+    unrecognized_links: warn
+nav:
+  - Home: index.md
+  - Start Here:
+      - Your first undo: GettingStarted.md
+      - Frames, fields and views: Concepts.md
+  - Guides:
+      - Edit collections: Collections.md
+      - Group and validate edits: Transactions.md
+      - Manage nested objects: ObjectGraphs.md
+      - Initialize dependent values: Initialization.md
+      - Keep snapshots: Snapshots.md
+      - Compare models: Comparisons.md
+      - Cache generated builders: Cache.md
+  - Reference:
+      - Public API and fields: API.md
+      - Generation and history: Architecture.md
+  - Troubleshooting: Troubleshooting.md

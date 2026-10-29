@@ -1,5 +1,8 @@
 # Generation and history architecture
 
+This page describes current main. Specialized accessors and compiled-builder
+caching are unreleased additions relative to the published 0.1.1 package.
+
 Undoable declarations wrap the actual Lifecycle marker factories with immutable
 logical comparison/write-policy facts. Lifecycle marker objects and APIs are unchanged. The harvester supplies a
 synthetic declaration without generated bases to Lifecycle normalization, then
@@ -8,16 +11,16 @@ Undoable field IDs survive compatible overrides.
 
 Typed facts enter the generated YIDL container and Astichi assembly. The assembly
 emits an executable builder AST; the builder binds the schema/defaults/converters and
-creates three plain facade classes. Generated properties call cohesive runtime
+creates three plain facade classes. Generated properties use field-specific straight-line bodies alongside shared runtime
 mechanics; field kinds, constructor shapes, lazy policies, binding shape, transient
 factory presence, and managed view/thaw selection are chosen by YIDL matchers.
 
 The concept chain is `UndoableCore -> UndoableConstStatic -> UndoableManaged ->
 UndoableDefaultFactories -> UndoableTransient -> UndoableBinding -> UndoableLocalStore
--> UndoableViews -> UndoableComparison -> UndoableBase`. Extensions add variants, computed collections,
+-> UndoableViews -> UndoableComparison -> UndoableBase -> SpecializedUndoable`. Extensions add variants, computed collections,
 resources, contributions, matchers and ordered phases. Canonical intermediate-layer
 fixtures compile and execute each concept independently. `_generated_undoable_base.py`
-is generated from packaged Undoable resources plus the authoritative comparison
+and `_generated_specialized_base.py` are generated from packaged Undoable resources plus the authoritative comparison
 resource loaded from pinned installed Dataclass at regeneration time; the command checks
 by default and writes only with `--write`.
 
@@ -66,8 +69,9 @@ context. Results install only if the captured context remains intact. Behavior-b
 Setup/Idle/Editing/Completing/Faulted state objects control lifecycle transitions.
 Unexpected completion failures retain confirmed history and reject further editing.
 
-The package has no cache, GUI, ownership protocol, persistence, notification or recovery
-dependency. Lifecycle resource bindings remain nonversioned and application-owned.
+Compiled model-builder code optionally uses YIDL Cache; see [cache controls](Cache.md).
+The package has no GUI, ownership protocol, history persistence, notification or recovery
+facility. Lifecycle resource bindings remain nonversioned and application-owned.
 
 Comparison captures use private generation-only aliases disjoint from all three
 public class identifiers. Internal ClassId/CmpClassId associations select direct

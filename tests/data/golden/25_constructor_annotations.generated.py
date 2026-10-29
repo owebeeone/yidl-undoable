@@ -28,19 +28,25 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def required(self):
-            return self._u_read_const('required')
+            state = self._u_state
+            if 'required' not in state.values:
+                raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'required' + ': unresolved constructor field')
+            return state.values['required']
 
         @required.setter
         def required(self, value):
-            self._u_write_const('required', value)
+            raise AttributeError('required' + ': const reference is read-only')
 
         @property
         def payload(self):
-            return self._u_read_const('payload')
+            state = self._u_state
+            if 'payload' not in state.values:
+                raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'payload' + ': unresolved constructor field')
+            return state.values['payload']
 
         @payload.setter
         def payload(self, value):
-            self._u_write_const('payload', value)
+            raise AttributeError('payload' + ': const reference is read-only')
 
         @property
         def seed(self):
@@ -52,19 +58,37 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def label(self):
-            return self._u_read_managed('label')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'label' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'label' + ': unresolved constructor field')
+                return state.values['label']
+            return state.manager._read_managed(self, 'label')
 
         @label.setter
         def label(self, value):
-            self._u_write_managed('label', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('label' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'label', value)
 
         @property
         def count(self):
-            return self._u_read_managed('count')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'count' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'count' + ': unresolved constructor field')
+                return state.values['count']
+            return state.manager._read_managed(self, 'count')
 
         @count.setter
         def count(self, value):
-            self._u_write_managed('count', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('count' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'count', value)
 
     class Model_Current(Model):
         __slots__ = ()
@@ -77,19 +101,37 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def label(self):
-            return self._u_read_current_managed('label')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'label' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'label' + ': unresolved constructor field')
+                return state.values['label']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'label')
+            return state.manager._committed_value(self, 'label')
 
         @label.setter
         def label(self, value):
-            self._u_write_current_managed('label', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('label' + ': current managed facade is read-only')
 
         @property
         def count(self):
-            return self._u_read_current_managed('count')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'count' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'count' + ': unresolved constructor field')
+                return state.values['count']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'count')
+            return state.manager._committed_value(self, 'count')
 
         @count.setter
         def count(self, value):
-            self._u_write_current_managed('count', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('count' + ': current managed facade is read-only')
 
     class Model_Working(Model):
         __slots__ = ()
@@ -102,18 +144,36 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def label(self):
-            return self._u_read_working_managed('label')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'label' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'label' + ': unresolved constructor field')
+                return state.values['label']
+            return state.manager._read_managed(self, 'label')
 
         @label.setter
         def label(self, value):
-            self._u_write_managed('label', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('label' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'label', value)
 
         @property
         def count(self):
-            return self._u_read_working_managed('count')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'count' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'count' + ': unresolved constructor field')
+                return state.values['count']
+            return state.manager._read_managed(self, 'count')
 
         @count.setter
         def count(self, value):
-            self._u_write_managed('count', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('count' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'count', value)
     Model.__undoable_views__ = {'default': Model, 'current': Model_Current, 'working': Model_Working}
     return Model

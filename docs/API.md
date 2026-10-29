@@ -1,8 +1,12 @@
 # API and field guide
 
+New here? Start with [your first undo](GettingStarted.md) and [frames and views](Concepts.md).
+This reference retains the detailed operation, field and failure contracts.
+
+
 Decorate a declaration with `@undoable`, and construct it with the required keyword
-`transaction_manager=manager`. Defaults and factories are per-instance; explicit
-values bypass factories. Constructor fields are keyword-only. Generated classes
+`transaction_manager=manager`. Factories run according to field policy; literal defaults retain their supplied
+object references. Explicit values bypass factories. Constructor fields are keyword-only. Generated classes
 have declared slots and ordinary application methods; support records use dataclasses.
 Single generated inheritance preserves field IDs. Kind/key overrides and multiple
 generated bases fail at decoration. A declaration without constructor fields,
@@ -59,6 +63,65 @@ returns committed current roots. `node.present` follows the corresponding graph;
 | `initvar` | Constructor-only input, retained privately for factory dependencies. | Not accessible as a facade field. |
 | `classvar` | Class storage; no constructor input. | Nonversioned. |
 
+### Declaration options and defaults
+
+Import marker functions from `yidl_undoable`. They return field declarations,
+not stored values. These descriptive signatures show supported options; Python's
+wrapper signature is `**options`. `MISSING` means omitted, while `None` is an
+explicit value. All options after `*` are keyword-only.
+
+```text
+field(*, default=MISSING, default_factory=MISSING,
+      allow_self_factory=False, init=True, compare=True)
+const(*, default=MISSING, default_factory=MISSING,
+      allow_self_factory=False, init=True, compare=True)
+lazy(*, default=MISSING, default_factory=MISSING,
+     allow_self_factory=False, init=True, mutable=False, compare=True)
+static = lazy
+managed(tx_key=DEFAULT_TRANSACTION, *, default=MISSING, default_factory=MISSING,
+        allow_self_factory=False, init=True, freeze=MISSING, thaw=MISSING,
+        compare=True, write_compare="value")
+transient(tx_key=DEFAULT_TRANSACTION, *, default=MISSING, default_factory=MISSING,
+          allow_self_factory=False, working_default_factory=MISSING,
+          init=True, compare=False)
+binding(*, default=MISSING, default_factory=MISSING,
+        allow_self_factory=False, init=True, compare=True)
+local_store(*, default=MISSING, default_factory=MISSING, compare=False)
+initvar(*, default=MISSING, default_factory=MISSING,
+        allow_self_factory=False, init=True, compare=False)
+classvar(*, default=MISSING, compare=False)
+validate_commit(tx_key=DEFAULT_TRANSACTION)
+```
+
+For `managed`, omission of `write_compare` defaults to value comparison; the
+legacy string `compare` spelling is accepted only when `write_compare` is omitted.
+The descriptive default above does not mean an explicitly supplied
+`write_compare="value"` can be combined with legacy `compare="value"`.
+`validate_commit()` or `validate_commit(key)` decorates an instance method;
+`validate_commit(tx_key=key)` is also accepted. Use parentheses.
+
+| Option | Meaning and constraints |
+| --- | --- |
+| `default` | Use this object if the constructor omits the field. Mutable literal defaults can be shared; use a factory for fresh storage. |
+| `default_factory` | Callable used when the input is omitted; mutually exclusive with `default`. Normally construction-time, first-read for lazy fields. |
+| `init=True` | Include a keyword-only constructor input. Explicit values bypass its factory. |
+| `init=False` | Omit that input. An initvar needs a default/factory; other policies still need a usable initialization path when read. |
+| `allow_self_factory=False` | Opt in to `self` injection for factories that request it, including working factories. Not an option on local_store or classvar. |
+| `mutable=False` | Lazy/static replacement is write-once by default; True permits later nontransactional replacement. Does not recursively freeze contents. |
+| `working_default_factory` | Transient-only initializer for the transaction-local value. Commit and rollback both discard it. |
+| `freeze` / `thaw` | Managed-only callable conversions for stable/working representations; each gets one positional value. Converters for nullable values must handle None explicitly; Undoable still passes None to a provided converter. |
+| `compare` | Exact boolean controlling logical comparison participation; excluded families reject True. |
+| `write_compare` | Managed-only exact string `"value"` or `"identity"`, controlling redundant setter detection independently of logical equality. |
+| `tx_key` | Managed/transient/validator key, which must match the owning manager's hashable key. |
+
+Factories are inspected for named providers; see the
+[callback argument summary](Initialization.md#callback-argument-summary).
+Required positional-only and variadic factory parameters are rejected; optional
+positional-only parameters are omitted. Builtin/class callables follow Lifecycle's
+signature harvesting (optional class parameters are not required providers).
+Unknown providers, unsupported options and invalid combinations fail at declaration,
+decoration or contextual factory use; annotations alone do not validate types.
+
 Managed stable values admit exact built-in scalar types, recursive tuples/frozensets,
 framework-owned immutable mappings and node references. Mutable/custom input needs a
 `freeze` conversion to this surface. Read-only mapping wrappers are copied into private
@@ -113,7 +176,7 @@ facade class: default, current and working are distinct classes, as are differen
 models and user subclasses. Pinned handles of one current class compare their
 exposed revisions. Reads retain existing lazy/thaw/absence effects; comparison
 neither commits nor navigates, and is not an atomic multi-field snapshot. On tested
-CPython 3.12 equality uses ordered tuples; 3.13/3.14 use ordered field comparisons
+CPython 3.12 equality uses ordered tuples; 3.13–3.15 use ordered field comparisons
 and the self shortcut. Every enabled facade has __hash__=None, so using it as a
 hash-container element/key raises TypeError; this restriction never changes by
 context. Data-only SnapshotNode equality/hash are unchanged.
@@ -195,3 +258,9 @@ A declared field named `schema` currently collides with a generated class captur
 and raises `NameError` during decoration. Use a different name. This existing
 limitation is documented for the 0.1.1 release; arbitrary field-name support is
 not claimed by the Python 3.15 qualification.
+
+## Generated builder cache
+
+On current main, the normal decorator uses shipped specialized accessors and optional
+compiled-builder reuse. These additions are not in published 0.1.1. See [cache controls, diagnostics and maintenance](Cache.md). Class instances,
+callbacks and schemas are bound afresh; model source inspection remains available.

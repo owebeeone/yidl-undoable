@@ -26,27 +26,54 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def doubled(self):
-            return self._u_read_managed('doubled')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'doubled' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'doubled' + ': unresolved constructor field')
+                return state.values['doubled']
+            return state.manager._read_managed(self, 'doubled')
 
         @doubled.setter
         def doubled(self, value):
-            self._u_write_managed('doubled', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('doubled' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'doubled', value)
 
         @property
         def base(self):
-            return self._u_read_managed('base')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'base' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'base' + ': unresolved constructor field')
+                return state.values['base']
+            return state.manager._read_managed(self, 'base')
 
         @base.setter
         def base(self, value):
-            self._u_write_managed('base', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('base' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'base', value)
 
         @property
         def derived(self):
-            return self._u_read_managed('derived')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'derived' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'derived' + ': unresolved constructor field')
+                return state.values['derived']
+            return state.manager._read_managed(self, 'derived')
 
         @derived.setter
         def derived(self, value):
-            self._u_write_managed('derived', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('derived' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'derived', value)
 
     class Constructed_Current(Constructed):
         __slots__ = ()
@@ -59,27 +86,54 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def doubled(self):
-            return self._u_read_current_managed('doubled')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'doubled' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'doubled' + ': unresolved constructor field')
+                return state.values['doubled']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'doubled')
+            return state.manager._committed_value(self, 'doubled')
 
         @doubled.setter
         def doubled(self, value):
-            self._u_write_current_managed('doubled', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('doubled' + ': current managed facade is read-only')
 
         @property
         def base(self):
-            return self._u_read_current_managed('base')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'base' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'base' + ': unresolved constructor field')
+                return state.values['base']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'base')
+            return state.manager._committed_value(self, 'base')
 
         @base.setter
         def base(self, value):
-            self._u_write_current_managed('base', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('base' + ': current managed facade is read-only')
 
         @property
         def derived(self):
-            return self._u_read_current_managed('derived')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'derived' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'derived' + ': unresolved constructor field')
+                return state.values['derived']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'derived')
+            return state.manager._committed_value(self, 'derived')
 
         @derived.setter
         def derived(self, value):
-            self._u_write_current_managed('derived', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('derived' + ': current managed facade is read-only')
 
     class Constructed_Working(Constructed):
         __slots__ = ()
@@ -92,27 +146,54 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def doubled(self):
-            return self._u_read_working_managed('doubled')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'doubled' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'doubled' + ': unresolved constructor field')
+                return state.values['doubled']
+            return state.manager._read_managed(self, 'doubled')
 
         @doubled.setter
         def doubled(self, value):
-            self._u_write_managed('doubled', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('doubled' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'doubled', value)
 
         @property
         def base(self):
-            return self._u_read_working_managed('base')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'base' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'base' + ': unresolved constructor field')
+                return state.values['base']
+            return state.manager._read_managed(self, 'base')
 
         @base.setter
         def base(self, value):
-            self._u_write_managed('base', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('base' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'base', value)
 
         @property
         def derived(self):
-            return self._u_read_working_managed('derived')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'derived' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'derived' + ': unresolved constructor field')
+                return state.values['derived']
+            return state.manager._read_managed(self, 'derived')
 
         @derived.setter
         def derived(self, value):
-            self._u_write_managed('derived', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('derived' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'derived', value)
     Constructed.__undoable_views__ = {'default': Constructed, 'current': Constructed_Current, 'working': Constructed_Working}
     return Constructed
 
@@ -143,19 +224,37 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def base(self):
-            return self._u_read_managed('base')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'base' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'base' + ': unresolved constructor field')
+                return state.values['base']
+            return state.manager._read_managed(self, 'base')
 
         @base.setter
         def base(self, value):
-            self._u_write_managed('base', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('base' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'base', value)
 
         @property
         def bad(self):
-            return self._u_read_managed('bad')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'bad' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'bad' + ': unresolved constructor field')
+                return state.values['bad']
+            return state.manager._read_managed(self, 'bad')
 
         @bad.setter
         def bad(self, value):
-            self._u_write_managed('bad', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('bad' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'bad', value)
 
     class ConstructorWrite_Current(ConstructorWrite):
         __slots__ = ()
@@ -168,19 +267,37 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def base(self):
-            return self._u_read_current_managed('base')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'base' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'base' + ': unresolved constructor field')
+                return state.values['base']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'base')
+            return state.manager._committed_value(self, 'base')
 
         @base.setter
         def base(self, value):
-            self._u_write_current_managed('base', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('base' + ': current managed facade is read-only')
 
         @property
         def bad(self):
-            return self._u_read_current_managed('bad')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'bad' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'bad' + ': unresolved constructor field')
+                return state.values['bad']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'bad')
+            return state.manager._committed_value(self, 'bad')
 
         @bad.setter
         def bad(self, value):
-            self._u_write_current_managed('bad', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('bad' + ': current managed facade is read-only')
 
     class ConstructorWrite_Working(ConstructorWrite):
         __slots__ = ()
@@ -193,19 +310,37 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def base(self):
-            return self._u_read_working_managed('base')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'base' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'base' + ': unresolved constructor field')
+                return state.values['base']
+            return state.manager._read_managed(self, 'base')
 
         @base.setter
         def base(self, value):
-            self._u_write_managed('base', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('base' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'base', value)
 
         @property
         def bad(self):
-            return self._u_read_working_managed('bad')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'bad' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'bad' + ': unresolved constructor field')
+                return state.values['bad']
+            return state.manager._read_managed(self, 'bad')
 
         @bad.setter
         def bad(self, value):
-            self._u_write_managed('bad', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('bad' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'bad', value)
     ConstructorWrite.__undoable_views__ = {'default': ConstructorWrite, 'current': ConstructorWrite_Current, 'working': ConstructorWrite_Working}
     return ConstructorWrite
 
@@ -236,19 +371,37 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def a(self):
-            return self._u_read_managed('a')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'a' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'a' + ': unresolved constructor field')
+                return state.values['a']
+            return state.manager._read_managed(self, 'a')
 
         @a.setter
         def a(self, value):
-            self._u_write_managed('a', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('a' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'a', value)
 
         @property
         def b(self):
-            return self._u_read_managed('b')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'b' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'b' + ': unresolved constructor field')
+                return state.values['b']
+            return state.manager._read_managed(self, 'b')
 
         @b.setter
         def b(self, value):
-            self._u_write_managed('b', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('b' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'b', value)
 
     class Recursive_Current(Recursive):
         __slots__ = ()
@@ -261,19 +414,37 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def a(self):
-            return self._u_read_current_managed('a')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'a' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'a' + ': unresolved constructor field')
+                return state.values['a']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'a')
+            return state.manager._committed_value(self, 'a')
 
         @a.setter
         def a(self, value):
-            self._u_write_current_managed('a', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('a' + ': current managed facade is read-only')
 
         @property
         def b(self):
-            return self._u_read_current_managed('b')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'b' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'b' + ': unresolved constructor field')
+                return state.values['b']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'b')
+            return state.manager._committed_value(self, 'b')
 
         @b.setter
         def b(self, value):
-            self._u_write_current_managed('b', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('b' + ': current managed facade is read-only')
 
     class Recursive_Working(Recursive):
         __slots__ = ()
@@ -286,19 +457,37 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def a(self):
-            return self._u_read_working_managed('a')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'a' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'a' + ': unresolved constructor field')
+                return state.values['a']
+            return state.manager._read_managed(self, 'a')
 
         @a.setter
         def a(self, value):
-            self._u_write_managed('a', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('a' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'a', value)
 
         @property
         def b(self):
-            return self._u_read_working_managed('b')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'b' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'b' + ': unresolved constructor field')
+                return state.values['b']
+            return state.manager._read_managed(self, 'b')
 
         @b.setter
         def b(self, value):
-            self._u_write_managed('b', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('b' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'b', value)
     Recursive.__undoable_views__ = {'default': Recursive, 'current': Recursive_Current, 'working': Recursive_Working}
     return Recursive
 
@@ -329,19 +518,37 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def first(self):
-            return self._u_read_managed('first')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'first' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'first' + ': unresolved constructor field')
+                return state.values['first']
+            return state.manager._read_managed(self, 'first')
 
         @first.setter
         def first(self, value):
-            self._u_write_managed('first', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('first' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'first', value)
 
         @property
         def later(self):
-            return self._u_read_managed('later')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'later' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'later' + ': unresolved constructor field')
+                return state.values['later']
+            return state.manager._read_managed(self, 'later')
 
         @later.setter
         def later(self, value):
-            self._u_write_managed('later', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('later' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'later', value)
 
     class Unresolved_Current(Unresolved):
         __slots__ = ()
@@ -354,19 +561,37 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def first(self):
-            return self._u_read_current_managed('first')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'first' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'first' + ': unresolved constructor field')
+                return state.values['first']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'first')
+            return state.manager._committed_value(self, 'first')
 
         @first.setter
         def first(self, value):
-            self._u_write_current_managed('first', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('first' + ': current managed facade is read-only')
 
         @property
         def later(self):
-            return self._u_read_current_managed('later')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'later' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'later' + ': unresolved constructor field')
+                return state.values['later']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'later')
+            return state.manager._committed_value(self, 'later')
 
         @later.setter
         def later(self, value):
-            self._u_write_current_managed('later', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('later' + ': current managed facade is read-only')
 
     class Unresolved_Working(Unresolved):
         __slots__ = ()
@@ -379,18 +604,36 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def first(self):
-            return self._u_read_working_managed('first')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'first' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'first' + ': unresolved constructor field')
+                return state.values['first']
+            return state.manager._read_managed(self, 'first')
 
         @first.setter
         def first(self, value):
-            self._u_write_managed('first', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('first' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'first', value)
 
         @property
         def later(self):
-            return self._u_read_working_managed('later')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'later' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'later' + ': unresolved constructor field')
+                return state.values['later']
+            return state.manager._read_managed(self, 'later')
 
         @later.setter
         def later(self, value):
-            self._u_write_managed('later', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('later' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'later', value)
     Unresolved.__undoable_views__ = {'default': Unresolved, 'current': Unresolved_Current, 'working': Unresolved_Working}
     return Unresolved

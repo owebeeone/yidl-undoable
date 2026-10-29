@@ -26,27 +26,54 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def value(self):
-            return self._u_read_managed('value')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'value' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'value' + ': unresolved constructor field')
+                return state.values['value']
+            return state.manager._read_managed(self, 'value')
 
         @value.setter
         def value(self, value):
-            self._u_write_managed('value', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('value' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'value', value)
 
         @property
         def children(self):
-            return self._u_read_managed('children')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            return state.manager._read_managed(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
 
         @property
         def nested(self):
-            return self._u_read_managed('nested')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'nested' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'nested' + ': unresolved constructor field')
+                return state.values['nested']
+            return state.manager._read_managed(self, 'nested')
 
         @nested.setter
         def nested(self, value):
-            self._u_write_managed('nested', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('nested' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'nested', value)
 
     class Node_Current(Node):
         __slots__ = ()
@@ -59,27 +86,54 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def value(self):
-            return self._u_read_current_managed('value')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'value' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'value' + ': unresolved constructor field')
+                return state.values['value']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'value')
+            return state.manager._committed_value(self, 'value')
 
         @value.setter
         def value(self, value):
-            self._u_write_current_managed('value', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('value' + ': current managed facade is read-only')
 
         @property
         def children(self):
-            return self._u_read_current_managed('children')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'children' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                return state.values['children']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'children')
+            return state.manager._committed_value(self, 'children')
 
         @children.setter
         def children(self, value):
-            self._u_write_current_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('children' + ': current managed facade is read-only')
 
         @property
         def nested(self):
-            return self._u_read_current_managed('nested')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'nested' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'nested' + ': unresolved constructor field')
+                return state.values['nested']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'nested')
+            return state.manager._committed_value(self, 'nested')
 
         @nested.setter
         def nested(self, value):
-            self._u_write_current_managed('nested', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('nested' + ': current managed facade is read-only')
 
     class Node_Working(Node):
         __slots__ = ()
@@ -92,26 +146,57 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def value(self):
-            return self._u_read_thaw_managed('value')
+            state = self._u_state
+            if self._u_pin is not None or state.constructing or state.manager._selection is None:
+                state.manager._require_confirmed()
+                if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                    if 'value' not in state.values:
+                        raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'value' + ': unresolved constructor field')
+                    return state.values['value']
+                return state.manager._read_managed(self, 'value')
+            return state.manager._read_managed(self, 'value', allow_thaw=True)
 
         @value.setter
         def value(self, value):
-            self._u_write_managed('value', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('value' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'value', value)
 
         @property
         def children(self):
-            return self._u_read_thaw_managed('children')
+            state = self._u_state
+            if self._u_pin is not None or state.constructing or state.manager._selection is None:
+                state.manager._require_confirmed()
+                if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                    if 'children' not in state.values:
+                        raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'children' + ': unresolved constructor field')
+                    return state.values['children']
+                return state.manager._read_managed(self, 'children')
+            return state.manager._read_managed(self, 'children', allow_thaw=True)
 
         @children.setter
         def children(self, value):
-            self._u_write_managed('children', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('children' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'children', value)
 
         @property
         def nested(self):
-            return self._u_read_working_managed('nested')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'nested' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'nested' + ': unresolved constructor field')
+                return state.values['nested']
+            return state.manager._read_managed(self, 'nested')
 
         @nested.setter
         def nested(self, value):
-            self._u_write_managed('nested', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('nested' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'nested', value)
     Node.__undoable_views__ = {'default': Node, 'current': Node_Current, 'working': Node_Working}
     return Node

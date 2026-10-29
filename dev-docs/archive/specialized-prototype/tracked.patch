@@ -1,0 +1,45 @@
+diff --git a/dev-docs/README.md b/dev-docs/README.md
+index bc045dc..bf136d6 100644
+--- a/dev-docs/README.md
++++ b/dev-docs/README.md
+@@ -1,5 +1,8 @@
+ # Developer Documents
+ 
++- [Specialized accessor experiment](SpecializedAccessorExperiment.md): opt-in
++  field-specific facade bodies, semantic parity and paired timing results.
++
+ - [Undoable design](UndoableDesign.md): proposed API, field policies, sparse
+   storage, nested-object visibility, failure contracts, generation architecture,
+   and implementation checks.
+diff --git a/src/yidl_undoable/undoable.py b/src/yidl_undoable/undoable.py
+index 8c9f104..f538cf7 100644
+--- a/src/yidl_undoable/undoable.py
++++ b/src/yidl_undoable/undoable.py
+@@ -90,7 +90,9 @@ def build_composable(schema, *, generation_module=generated):
+     return generated.build_UndoableModule(generated.build_container(builder))
+ 
+ 
+-def _decorate(cls, *, eq, order):
++def _decorate(
++    cls, *, eq, order, generation_module=generated, capture_type=ComparisonCaptures
++):
+     if not isinstance(cls, type):
+         raise TypeError("@undoable can only decorate classes")
+     if eq:
+@@ -111,14 +113,14 @@ def _decorate(cls, *, eq, order):
+                     )
+     schema = harvest_undoable_definition(cls, eq=eq, order=order)
+     try:
+-        composable = build_composable(schema)
++        composable = build_composable(schema, generation_module=generation_module)
+         module = composable.to_executable_ast()
+         source = ast.unparse(module) + "\n"
+         namespace = {
+             "__name__": cls.__module__,
+             **dict.fromkeys(
+                 capture_ids(schema.name),
+-                ComparisonCaptures(
++                capture_type(
+                     _historical_write_scope,
+                     RuntimeFacade.__eq__,
+                     RuntimeFacade.__hash__,

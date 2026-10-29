@@ -1,5 +1,12 @@
 # Developer Documents
 
+- [Specialized/cache integration](SpecializedAccessorIntegration.md): normal decorator, shipped builder, regression matrix and publication boundary.
+- [Builder-cache probe](SpecializedAccessorCacheProbe.md): bounded cold/warm/fresh-process measurements.
+- [End-user documentation specification](documentation/Specification.md) and [independent review](documentation/AdversarialReview.md).
+
+- [Specialized accessor experiment](SpecializedAccessorExperiment.md): opt-in
+  field-specific facade bodies, semantic parity and paired timing results.
+
 - [Undoable design](UndoableDesign.md): proposed API, field policies, sparse
   storage, nested-object visibility, failure contracts, generation architecture,
   and implementation checks.

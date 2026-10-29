@@ -24,11 +24,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def value(self):
-            return self._u_read_managed('value')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'value' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'value' + ': unresolved constructor field')
+                return state.values['value']
+            return state.manager._read_managed(self, 'value')
 
         @value.setter
         def value(self, value):
-            self._u_write_managed('value', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('value' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'value', value)
 
     class Custom_Current(Custom):
         __slots__ = ()
@@ -41,11 +50,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def value(self):
-            return self._u_read_current_managed('value')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'value' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'value' + ': unresolved constructor field')
+                return state.values['value']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'value')
+            return state.manager._committed_value(self, 'value')
 
         @value.setter
         def value(self, value):
-            self._u_write_current_managed('value', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('value' + ': current managed facade is read-only')
 
     class Custom_Working(Custom):
         __slots__ = ()
@@ -58,11 +76,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def value(self):
-            return self._u_read_working_managed('value')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'value' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'value' + ': unresolved constructor field')
+                return state.values['value']
+            return state.manager._read_managed(self, 'value')
 
         @value.setter
         def value(self, value):
-            self._u_write_managed('value', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('value' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'value', value)
     Custom.__undoable_views__ = {'default': Custom, 'current': Custom_Current, 'working': Custom_Working}
     return Custom
 
@@ -107,67 +134,149 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def constant(self):
-            return self._u_read_const('constant')
+            state = self._u_state
+            if 'constant' not in state.values:
+                raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'constant' + ': unresolved constructor field')
+            return state.values['constant']
 
         @constant.setter
         def constant(self, value):
-            self._u_write_const('constant', value)
+            raise AttributeError('constant' + ': const reference is read-only')
 
         @property
         def plain(self):
-            return self._u_read_plain('plain')
+            state = self._u_state
+            if 'plain' not in state.values:
+                raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'plain' + ': unresolved constructor field')
+            return state.values['plain']
 
         @plain.setter
         def plain(self, value):
-            self._u_write_plain('plain', value)
+            self._u_state.values['plain'] = value
 
         @property
         def resource(self):
-            return self._u_read_binding('resource')
+            state = self._u_state
+            if 'resource' not in state.values:
+                raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'resource' + ': unresolved constructor field')
+            return state.values['resource']
 
         @resource.setter
         def resource(self, value):
-            self._u_write_scalar_binding('resource', value)
+            state = self._u_state
+            result = None
+            validator = _u_capture_0.scalar_binding
+            result = state.manager._call(f'{state.schema.name}.' + 'resource' + ': binding validation', lambda: validator('resource', value))
+            state.values['resource'] = result
 
         @property
         def cache(self):
-            return self._u_read_plain('cache')
+            state = self._u_state
+            if 'cache' not in state.values:
+                raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'cache' + ': unresolved constructor field')
+            return state.values['cache']
 
         @cache.setter
         def cache(self, value):
-            self._u_write_plain('cache', value)
+            self._u_state.values['cache'] = value
 
         @property
         def delayed(self):
-            return self._u_read_factory_static('delayed')
+            state = self._u_state
+            if 'delayed' not in state.values:
+                raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'delayed' + ': unresolved constructor field')
+            value = state.values['delayed']
+            if value is _u_capture_0.missing:
+                if 'delayed' in state.resolving:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'delayed' + ': recursive lazy provider')
+                fact = state.schema.by_name['delayed']
+                state.resolving.add('delayed')
+                try:
+                    value = self._u_factory(fact, 'default')
+                finally:
+                    state.resolving.remove('delayed')
+                state.values['delayed'] = value
+            return value
 
         @delayed.setter
         def delayed(self, value):
-            self._u_write_once_static('delayed', value)
+            state = self._u_state
+            if state.values['delayed'] is not _u_capture_0.missing:
+                raise AttributeError('delayed' + ': lazy reference is already initialized')
+            state.values['delayed'] = value
 
         @property
         def replaceable(self):
-            return self._u_read_default_static('replaceable')
+            state = self._u_state
+            if 'replaceable' not in state.values:
+                raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'replaceable' + ': unresolved constructor field')
+            value = state.values['replaceable']
+            if value is _u_capture_0.missing:
+                if 'replaceable' in state.resolving:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'replaceable' + ': recursive lazy provider')
+                fact = state.schema.by_name['replaceable']
+                state.resolving.add('replaceable')
+                try:
+                    value = fact['default_value']
+                finally:
+                    state.resolving.remove('replaceable')
+                state.values['replaceable'] = value
+            return value
 
         @replaceable.setter
         def replaceable(self, value):
-            self._u_write_mutable_static('replaceable', value)
+            self._u_state.values['replaceable'] = value
 
         @property
         def temporary(self):
-            return self._u_read_factory_transient('temporary')
+            state = self._u_state
+            if state.constructing:
+                if 'temporary' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'temporary' + ': unresolved constructor field')
+                return state.values['temporary']
+            edit = state.manager._edit
+            historical_pin = self._u_pin is not None and (not isinstance(self._u_pin, _u_capture_0.candidate_type))
+            if edit is None or self._u_view == 'current' or historical_pin:
+                if 'temporary' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'temporary' + ': unresolved constructor field')
+                return state.values['temporary']
+            key = (state.node_id, 'temporary')
+            if key not in edit.transient:
+                if 'temporary' in state.resolving:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'temporary' + ': recursive transient provider')
+                state.resolving.add('temporary')
+                try:
+                    value = None
+                    fact = state.schema.by_name['temporary']
+                    value = self._u_factory(fact, 'working_default')
+                finally:
+                    state.resolving.remove('temporary')
+                edit.transient[key] = value
+            return edit.transient[key]
 
         @temporary.setter
         def temporary(self, value):
-            self._u_write_transient('temporary', value)
+            edit = self._u_state.manager._require_edit()
+            if self._u_view == 'current' or self._u_pin is not None:
+                raise _u_capture_0.transaction_error('current transient facade is read-only')
+            edit.transient[self.node_id, 'temporary'] = value
 
         @property
         def value(self):
-            return self._u_read_managed('value')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'value' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'value' + ': unresolved constructor field')
+                return state.values['value']
+            return state.manager._read_managed(self, 'value')
 
         @value.setter
         def value(self, value):
-            self._u_write_managed('value', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('value' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'value', value)
 
     class Fields_Current(Fields):
         __slots__ = ()
@@ -180,11 +289,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def value(self):
-            return self._u_read_current_managed('value')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'value' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'value' + ': unresolved constructor field')
+                return state.values['value']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'value')
+            return state.manager._committed_value(self, 'value')
 
         @value.setter
         def value(self, value):
-            self._u_write_current_managed('value', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('value' + ': current managed facade is read-only')
 
     class Fields_Working(Fields):
         __slots__ = ()
@@ -197,11 +315,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def value(self):
-            return self._u_read_working_managed('value')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'value' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'value' + ': unresolved constructor field')
+                return state.values['value']
+            return state.manager._read_managed(self, 'value')
 
         @value.setter
         def value(self, value):
-            self._u_write_managed('value', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('value' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'value', value)
     Fields.__undoable_views__ = {'default': Fields, 'current': Fields_Current, 'working': Fields_Working}
     return Fields
 
@@ -247,75 +374,166 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def constant(self):
-            return self._u_read_const('constant')
+            state = self._u_state
+            if 'constant' not in state.values:
+                raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'constant' + ': unresolved constructor field')
+            return state.values['constant']
 
         @constant.setter
         def constant(self, value):
-            self._u_write_const('constant', value)
+            raise AttributeError('constant' + ': const reference is read-only')
 
         @property
         def plain(self):
-            return self._u_read_plain('plain')
+            state = self._u_state
+            if 'plain' not in state.values:
+                raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'plain' + ': unresolved constructor field')
+            return state.values['plain']
 
         @plain.setter
         def plain(self, value):
-            self._u_write_plain('plain', value)
+            self._u_state.values['plain'] = value
 
         @property
         def resource(self):
-            return self._u_read_binding('resource')
+            state = self._u_state
+            if 'resource' not in state.values:
+                raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'resource' + ': unresolved constructor field')
+            return state.values['resource']
 
         @resource.setter
         def resource(self, value):
-            self._u_write_scalar_binding('resource', value)
+            state = self._u_state
+            result = None
+            validator = _u_capture_0.scalar_binding
+            result = state.manager._call(f'{state.schema.name}.' + 'resource' + ': binding validation', lambda: validator('resource', value))
+            state.values['resource'] = result
 
         @property
         def cache(self):
-            return self._u_read_plain('cache')
+            state = self._u_state
+            if 'cache' not in state.values:
+                raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'cache' + ': unresolved constructor field')
+            return state.values['cache']
 
         @cache.setter
         def cache(self, value):
-            self._u_write_plain('cache', value)
+            self._u_state.values['cache'] = value
 
         @property
         def delayed(self):
-            return self._u_read_factory_static('delayed')
+            state = self._u_state
+            if 'delayed' not in state.values:
+                raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'delayed' + ': unresolved constructor field')
+            value = state.values['delayed']
+            if value is _u_capture_0.missing:
+                if 'delayed' in state.resolving:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'delayed' + ': recursive lazy provider')
+                fact = state.schema.by_name['delayed']
+                state.resolving.add('delayed')
+                try:
+                    value = self._u_factory(fact, 'default')
+                finally:
+                    state.resolving.remove('delayed')
+                state.values['delayed'] = value
+            return value
 
         @delayed.setter
         def delayed(self, value):
-            self._u_write_once_static('delayed', value)
+            state = self._u_state
+            if state.values['delayed'] is not _u_capture_0.missing:
+                raise AttributeError('delayed' + ': lazy reference is already initialized')
+            state.values['delayed'] = value
 
         @property
         def replaceable(self):
-            return self._u_read_default_static('replaceable')
+            state = self._u_state
+            if 'replaceable' not in state.values:
+                raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'replaceable' + ': unresolved constructor field')
+            value = state.values['replaceable']
+            if value is _u_capture_0.missing:
+                if 'replaceable' in state.resolving:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'replaceable' + ': recursive lazy provider')
+                fact = state.schema.by_name['replaceable']
+                state.resolving.add('replaceable')
+                try:
+                    value = fact['default_value']
+                finally:
+                    state.resolving.remove('replaceable')
+                state.values['replaceable'] = value
+            return value
 
         @replaceable.setter
         def replaceable(self, value):
-            self._u_write_mutable_static('replaceable', value)
+            self._u_state.values['replaceable'] = value
 
         @property
         def temporary(self):
-            return self._u_read_factory_transient('temporary')
+            state = self._u_state
+            if state.constructing:
+                if 'temporary' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'temporary' + ': unresolved constructor field')
+                return state.values['temporary']
+            edit = state.manager._edit
+            historical_pin = self._u_pin is not None and (not isinstance(self._u_pin, _u_capture_0.candidate_type))
+            if edit is None or self._u_view == 'current' or historical_pin:
+                if 'temporary' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'temporary' + ': unresolved constructor field')
+                return state.values['temporary']
+            key = (state.node_id, 'temporary')
+            if key not in edit.transient:
+                if 'temporary' in state.resolving:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'temporary' + ': recursive transient provider')
+                state.resolving.add('temporary')
+                try:
+                    value = None
+                    fact = state.schema.by_name['temporary']
+                    value = self._u_factory(fact, 'working_default')
+                finally:
+                    state.resolving.remove('temporary')
+                edit.transient[key] = value
+            return edit.transient[key]
 
         @temporary.setter
         def temporary(self, value):
-            self._u_write_transient('temporary', value)
+            edit = self._u_state.manager._require_edit()
+            if self._u_view == 'current' or self._u_pin is not None:
+                raise _u_capture_0.transaction_error('current transient facade is read-only')
+            edit.transient[self.node_id, 'temporary'] = value
 
         @property
         def value(self):
-            return self._u_read_managed('value')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'value' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'value' + ': unresolved constructor field')
+                return state.values['value']
+            return state.manager._read_managed(self, 'value')
 
         @value.setter
         def value(self, value):
-            self._u_write_managed('value', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('value' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'value', value)
 
         @property
         def extra(self):
-            return self._u_read_managed('extra')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'extra' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'extra' + ': unresolved constructor field')
+                return state.values['extra']
+            return state.manager._read_managed(self, 'extra')
 
         @extra.setter
         def extra(self, value):
-            self._u_write_managed('extra', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('extra' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'extra', value)
 
     class Sub_Current(Sub):
         __slots__ = ()
@@ -328,19 +546,37 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def value(self):
-            return self._u_read_current_managed('value')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'value' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'value' + ': unresolved constructor field')
+                return state.values['value']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'value')
+            return state.manager._committed_value(self, 'value')
 
         @value.setter
         def value(self, value):
-            self._u_write_current_managed('value', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('value' + ': current managed facade is read-only')
 
         @property
         def extra(self):
-            return self._u_read_current_managed('extra')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'extra' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'extra' + ': unresolved constructor field')
+                return state.values['extra']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'extra')
+            return state.manager._committed_value(self, 'extra')
 
         @extra.setter
         def extra(self, value):
-            self._u_write_current_managed('extra', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('extra' + ': current managed facade is read-only')
 
     class Sub_Working(Sub):
         __slots__ = ()
@@ -353,18 +589,36 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def value(self):
-            return self._u_read_working_managed('value')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'value' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'value' + ': unresolved constructor field')
+                return state.values['value']
+            return state.manager._read_managed(self, 'value')
 
         @value.setter
         def value(self, value):
-            self._u_write_managed('value', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('value' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'value', value)
 
         @property
         def extra(self):
-            return self._u_read_working_managed('extra')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'extra' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'extra' + ': unresolved constructor field')
+                return state.values['extra']
+            return state.manager._read_managed(self, 'extra')
 
         @extra.setter
         def extra(self, value):
-            self._u_write_managed('extra', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('extra' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'extra', value)
     Sub.__undoable_views__ = {'default': Sub, 'current': Sub_Current, 'working': Sub_Working}
     return Sub

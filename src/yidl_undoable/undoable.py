@@ -6,8 +6,10 @@ from .undoable_harvester import harvest_undoable_definition
 from .facades import RuntimeFacade
 from .errors import UndoableDefinitionError
 from .write_comparison_context import _historical_write_scope
-from .comparison_captures import ComparisonCaptures, capture_ids
-from . import _generated_undoable_base as generated
+from .comparison_captures import capture_ids
+from .accessor_captures import AccessorCaptures
+from .code_cache import compiled_builder, source_from_code, with_source
+from yidl_cache import CompilationContext
 
 RECORDS = {
     "field": "PlainField",
@@ -22,7 +24,9 @@ RECORDS = {
 }
 
 
-def build_composable(schema, *, generation_module=generated):
+def build_composable(schema, *, generation_module=None):
+    if generation_module is None:
+        from . import _generated_specialized_base as generation_module
     generated = generation_module
     builder = generated.new_builder()
     aliases = capture_ids(schema.name)
@@ -90,7 +94,9 @@ def build_composable(schema, *, generation_module=generated):
     return generated.build_UndoableModule(generated.build_container(builder))
 
 
-def _decorate(cls, *, eq, order):
+def _decorate(
+    cls, *, eq, order, generation_module=None, capture_type=AccessorCaptures
+):
     if not isinstance(cls, type):
         raise TypeError("@undoable can only decorate classes")
     if eq:
@@ -111,14 +117,28 @@ def _decorate(cls, *, eq, order):
                     )
     schema = harvest_undoable_definition(cls, eq=eq, order=order)
     try:
-        composable = build_composable(schema)
-        module = composable.to_executable_ast()
-        source = ast.unparse(module) + "\n"
+        compilation = CompilationContext(filename=f"<undoable.{cls.__qualname__}>")
+
+        def produce():
+            composable = build_composable(schema, generation_module=generation_module)
+            module = composable.to_executable_ast()
+            source = ast.unparse(module) + "\n"
+            code = compile(
+                module, compilation.filename, "exec", flags=compilation.flags,
+                dont_inherit=compilation.dont_inherit, optimize=compilation.optimize,
+            )
+            return with_source(code, source)
+
+        code = (
+            compiled_builder(schema, cls, compilation, produce)
+            if generation_module is None else produce()
+        )
+        source = source_from_code(code)
         namespace = {
             "__name__": cls.__module__,
             **dict.fromkeys(
                 capture_ids(schema.name),
-                ComparisonCaptures(
+                capture_type(
                     _historical_write_scope,
                     RuntimeFacade.__eq__,
                     RuntimeFacade.__hash__,
@@ -129,7 +149,7 @@ def _decorate(cls, *, eq, order):
                 ),
             ),
         }
-        exec(compile(module, f"<undoable.{cls.__qualname__}>", "exec"), namespace)
+        exec(code, namespace)
     except Exception as exc:
         raise UndoableDefinitionError(
             f"{cls.__qualname__}: Undoable AST generation/execution failed: {exc}"

@@ -1,0 +1,369 @@
+module undoable.experimental.specialized
+import "../undoable_base.yidl" as baseline
+export concept SpecializedUndoable
+
+# The history engine and constructor/provider lifecycle remain shared. These
+# resources specialize facade access bodies, preserving callback fences/errors.
+concept SpecializedUndoable extends baseline.UndoableBase {
+    resource DirectModuleRoot = code $[
+        from yidl_undoable.undoable_markers import _HAS_DEFAULT_FACTORY
+        def build_undoable_class(base_cls, *, schema):
+            astichi_hole(class_body)
+            astichi_hole(return_statement)
+    ]$
+    production DirectModuleProduction -> composable {
+        root Root = DirectModuleRoot
+        phase classes from cls: Classes { apply classes using ClassDefinitions }
+        phase result from cls: Classes { apply results using Results }
+    }
+    assembly SpecializedModule = DirectModuleProduction
+
+    resource DirectPlainProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            state = self._u_state
+            if astichi_bind_external(field_name) not in state.values:
+                raise astichi_ref(external=getter_capture).definition_error(f"{state.schema.name}." + astichi_bind_external(field_name) + ": unresolved constructor field")
+            return state.values[astichi_bind_external(field_name)]
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            self._u_state.values[astichi_bind_external(field_name)] = value
+    ]$
+    contribution DirectPlainAccessor = DirectPlainProperty {
+        external getter_capture = ClassId
+        index FieldOrder order FieldOrder target properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    matcher PlainAccessors(field: PlainFields) -> contribution {
+        rule direct_plain when FieldKind == "field" -> DirectPlainAccessor weight 100
+    }
+    matcher LocalStoreFieldAccessors(field: LocalStoreFields) -> contribution {
+        rule direct_local when FieldKind == "local_store" -> DirectPlainAccessor weight 100
+    }
+
+    resource DirectConstProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            state = self._u_state
+            if astichi_bind_external(field_name) not in state.values:
+                raise astichi_ref(external=getter_capture).definition_error(f"{state.schema.name}." + astichi_bind_external(field_name) + ": unresolved constructor field")
+            return state.values[astichi_bind_external(field_name)]
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            raise AttributeError(astichi_bind_external(field_name) + ": const reference is read-only")
+    ]$
+    contribution DirectConstAccessor = DirectConstProperty {
+        external getter_capture = ClassId
+        index FieldOrder order FieldOrder target properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    matcher ConstFieldAccessors(field: ConstFields) -> contribution {
+        rule direct_const when FieldKind == "const" -> DirectConstAccessor weight 100
+    }
+
+    resource DirectManagedProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if astichi_bind_external(field_name) not in state.values:
+                    raise astichi_ref(external=getter_capture).definition_error(f"{state.schema.name}." + astichi_bind_external(field_name) + ": unresolved constructor field")
+                return state.values[astichi_bind_external(field_name)]
+            return state.manager._read_managed(self, astichi_bind_external(field_name))
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            astichi_ref(external=setter_capture).mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise astichi_ref(external=setter_capture).transaction_error(astichi_bind_external(field_name) + ": constructor baselines are read-only")
+            self._u_state.manager._write_managed(self, astichi_bind_external(field_name), value)
+    ]$
+    contribution DirectManagedAccessor = DirectManagedProperty {
+        external getter_capture = ClassId
+        external setter_capture = ClassId
+        index FieldOrder order FieldOrder target properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    matcher ManagedFieldAccessors(field: ManagedFields) -> contribution {
+        rule direct_managed when FieldKind == "managed" -> DirectManagedAccessor weight 100
+    }
+
+    resource DirectCurrentManagedProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if astichi_bind_external(field_name) not in state.values:
+                    raise astichi_ref(external=getter_capture).definition_error(f"{state.schema.name}." + astichi_bind_external(field_name) + ": unresolved constructor field")
+                return state.values[astichi_bind_external(field_name)]
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, astichi_bind_external(field_name))
+            return state.manager._committed_value(self, astichi_bind_external(field_name))
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            astichi_ref(external=setter_capture).mutation_guard(self._u_state.manager)
+            raise astichi_ref(external=setter_capture).transaction_error(astichi_bind_external(field_name) + ": current managed facade is read-only")
+    ]$
+    contribution DirectCurrentManagedAccessor = DirectCurrentManagedProperty {
+        external getter_capture = ClassId
+        external setter_capture = ClassId
+        index FieldOrder order FieldOrder target current_properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    contribution DirectWorkingManagedAccessor = DirectManagedProperty {
+        external getter_capture = ClassId
+        external setter_capture = ClassId
+        index FieldOrder order FieldOrder target working_properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    resource DirectThawManagedProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            state = self._u_state
+            if self._u_pin is not None or state.constructing or state.manager._selection is None:
+                state.manager._require_confirmed()
+                if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                    if astichi_bind_external(field_name) not in state.values:
+                        raise astichi_ref(external=getter_capture).definition_error(f"{state.schema.name}." + astichi_bind_external(field_name) + ": unresolved constructor field")
+                    return state.values[astichi_bind_external(field_name)]
+                return state.manager._read_managed(self, astichi_bind_external(field_name))
+            return state.manager._read_managed(self, astichi_bind_external(field_name), allow_thaw=True)
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            astichi_ref(external=setter_capture).mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise astichi_ref(external=setter_capture).transaction_error(astichi_bind_external(field_name) + ": constructor baselines are read-only")
+            self._u_state.manager._write_managed(self, astichi_bind_external(field_name), value)
+    ]$
+    contribution DirectThawManagedAccessor = DirectThawManagedProperty {
+        external getter_capture = ClassId
+        external setter_capture = ClassId
+        index FieldOrder order FieldOrder target working_properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    matcher ManagedViewAccessors(field: ManagedAccessViews) -> contribution {
+        rule direct_current when View == "current" -> DirectCurrentManagedAccessor weight 100
+        rule direct_thaw when View == "working" and HasThaw == True -> DirectThawManagedAccessor weight 100
+        rule direct_working when View == "working" and HasThaw == False -> DirectWorkingManagedAccessor weight 100
+    }
+
+    resource DirectLazyProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            state = self._u_state
+            if astichi_bind_external(field_name) not in state.values:
+                raise astichi_ref(external=getter_capture).definition_error(f"{state.schema.name}." + astichi_bind_external(field_name) + ": unresolved constructor field")
+            value = state.values[astichi_bind_external(field_name)]
+            if value is astichi_ref(external=getter_capture).missing:
+                if astichi_bind_external(field_name) in state.resolving:
+                    raise astichi_ref(external=getter_capture).definition_error(f"{state.schema.name}." + astichi_bind_external(field_name) + ": recursive lazy provider")
+                fact = state.schema.by_name[astichi_bind_external(field_name)]
+                state.resolving.add(astichi_bind_external(field_name))
+                try:
+                    with astichi_hole(lazy_initial_value) as astichi_fallback:
+                        value = self._u_factory(fact, "default")
+                finally:
+                    state.resolving.remove(astichi_bind_external(field_name))
+                state.values[astichi_bind_external(field_name)] = value
+            return value
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            astichi_hole(lazy_setter)
+    ]$ { keep state, value, fact }
+    resource DirectUnsetLazyProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            state = self._u_state
+            if astichi_bind_external(field_name) not in state.values:
+                raise astichi_ref(external=getter_capture).definition_error(f"{state.schema.name}." + astichi_bind_external(field_name) + ": unresolved constructor field")
+            value = state.values[astichi_bind_external(field_name)]
+            if value is astichi_ref(external=getter_capture).missing:
+                raise AttributeError(astichi_bind_external(field_name) + ": lazy field is unset")
+            return value
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            astichi_hole(lazy_setter)
+    ]$
+    contribution DirectLazyAccessor = DirectLazyProperty {
+        external getter_capture = ClassId
+        as DirectStaticAccessor index FieldOrder order FieldOrder target properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    contribution DirectUnsetLazyAccessor = DirectUnsetLazyProperty {
+        external getter_capture = ClassId
+        as DirectUnsetStaticAccessor index FieldOrder order FieldOrder target properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    resource DirectLazyDefault = template $[
+        astichi_pass(value, outer_bind=True)._ = astichi_pass(fact, outer_bind=True)["default_value"]
+    ]$ { keep value, fact }
+    contribution DirectLazyDefaultContribution = DirectLazyDefault {
+        index FieldOrder order FieldOrder target lazy_initial_value { build /ClassDef/DirectStaticAccessor[FieldOrder] }
+    }
+    resource DirectMutableLazySetter = template $[
+        astichi_pass(self, outer_bind=True)._u_state.values[astichi_bind_external(field_name)] = astichi_pass(value, outer_bind=True)
+    ]$
+    contribution DirectMutableLazySetterContribution = DirectMutableLazySetter {
+        index FieldOrder order FieldOrder target lazy_setter { build /ClassDef/DirectStaticAccessor[FieldOrder] }
+        external field_name = FieldName
+    }
+    contribution DirectMutableUnsetLazySetterContribution = DirectMutableLazySetter {
+        index FieldOrder order FieldOrder target lazy_setter { build /ClassDef/DirectUnsetStaticAccessor[FieldOrder] }
+        external field_name = FieldName
+    }
+    matcher StaticFieldAccessors(field: StaticFields) -> contribution {
+        rule direct_lazy_factory when HasDefaultFactory == True -> DirectLazyAccessor weight 100
+        rule direct_lazy_default when HasDefaultFactory == False and HasDefault == True -> DirectLazyAccessor weight 100
+        rule direct_lazy_unset when HasDefaultFactory == False and HasDefault == False -> DirectUnsetLazyAccessor weight 100
+    }
+    matcher DirectLazyDefaults(field: StaticFields) -> contribution {
+        rule default_value when HasDefaultFactory == False and HasDefault == True -> DirectLazyDefaultContribution
+    }
+    resource DirectOnceLazySetter = template $[
+        state = astichi_pass(self, outer_bind=True)._u_state
+        if state.values[astichi_bind_external(field_name)] is not astichi_ref(external=setter_capture).missing:
+            raise AttributeError(astichi_bind_external(field_name) + ": lazy reference is already initialized")
+        state.values[astichi_bind_external(field_name)] = astichi_pass(value, outer_bind=True)
+    ]$ { keep state }
+    contribution DirectOnceLazySetterContribution = DirectOnceLazySetter {
+        index FieldOrder order FieldOrder target lazy_setter { build /ClassDef/DirectStaticAccessor[FieldOrder] }
+        external setter_capture = ClassId
+        external field_name = FieldName
+    }
+    contribution DirectOnceUnsetLazySetterContribution = DirectOnceLazySetter {
+        index FieldOrder order FieldOrder target lazy_setter { build /ClassDef/DirectUnsetStaticAccessor[FieldOrder] }
+        external setter_capture = ClassId
+        external field_name = FieldName
+    }
+    matcher MutableStaticSetters(field: StaticFields) -> contribution {
+        rule direct_once_factory when Mutable == False and HasDefaultFactory == True -> DirectOnceLazySetterContribution weight 100
+        rule direct_once_default when Mutable == False and HasDefaultFactory == False and HasDefault == True -> DirectOnceLazySetterContribution weight 100
+        rule direct_once_unset when Mutable == False and HasDefaultFactory == False and HasDefault == False -> DirectOnceUnsetLazySetterContribution weight 100
+        rule direct_mutable_factory when Mutable == True and HasDefaultFactory == True -> DirectMutableLazySetterContribution weight 100
+        rule direct_mutable_default when Mutable == True and HasDefaultFactory == False and HasDefault == True -> DirectMutableLazySetterContribution weight 100
+        rule direct_mutable_unset when Mutable == True and HasDefaultFactory == False and HasDefault == False -> DirectMutableUnsetLazySetterContribution weight 100
+    }
+    extend production ClassProduction {
+        phase direct_lazy_defaults after properties_static from field: StaticFields { apply direct_lazy_defaults using DirectLazyDefaults }
+    }
+
+    resource DirectTransientProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            state = self._u_state
+            if state.constructing:
+                if astichi_bind_external(field_name) not in state.values:
+                    raise astichi_ref(external=getter_capture).definition_error(f"{state.schema.name}." + astichi_bind_external(field_name) + ": unresolved constructor field")
+                return state.values[astichi_bind_external(field_name)]
+            edit = state.manager._edit
+            historical_pin = self._u_pin is not None and not isinstance(self._u_pin, astichi_ref(external=getter_capture).candidate_type)
+            if edit is None or self._u_view == "current" or historical_pin:
+                if astichi_bind_external(field_name) not in state.values:
+                    raise astichi_ref(external=getter_capture).definition_error(f"{state.schema.name}." + astichi_bind_external(field_name) + ": unresolved constructor field")
+                return state.values[astichi_bind_external(field_name)]
+            key = (state.node_id, astichi_bind_external(field_name))
+            if key not in edit.transient:
+                if astichi_bind_external(field_name) in state.resolving:
+                    raise astichi_ref(external=getter_capture).definition_error(f"{state.schema.name}." + astichi_bind_external(field_name) + ": recursive transient provider")
+                state.resolving.add(astichi_bind_external(field_name))
+                try:
+                    value = None
+                    with astichi_hole(transient_initial_value) as astichi_fallback:
+                        fact = state.schema.by_name[astichi_bind_external(field_name)]
+                        value = self._u_factory(fact, "working_default")
+                finally:
+                    state.resolving.remove(astichi_bind_external(field_name))
+                edit.transient[key] = value
+            return edit.transient[key]
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            edit = self._u_state.manager._require_edit()
+            if self._u_view == "current" or self._u_pin is not None:
+                raise astichi_ref(external=setter_capture).transaction_error("current transient facade is read-only")
+            edit.transient[(self.node_id, astichi_bind_external(field_name))] = value
+    ]$ { keep state, value }
+    contribution DirectTransientAccessor = DirectTransientProperty {
+        external getter_capture = ClassId
+        external setter_capture = ClassId
+        as DirectTransient index FieldOrder order FieldOrder target properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    resource DirectTransientBaseline = template $[
+        if astichi_bind_external(field_name) not in astichi_pass(state, outer_bind=True).values:
+            raise astichi_ref(external=getter_capture).definition_error(f"{astichi_pass(state, outer_bind=True).schema.name}." + astichi_bind_external(field_name) + ": unresolved constructor field")
+        astichi_pass(value, outer_bind=True)._ = astichi_pass(state, outer_bind=True).values[astichi_bind_external(field_name)]
+    ]$ { keep state, value }
+    contribution DirectTransientBaselineContribution = DirectTransientBaseline {
+        external getter_capture = ClassId
+        index FieldOrder order FieldOrder target transient_initial_value { build /ClassDef/DirectTransient[FieldOrder] }
+        external field_name = FieldName
+    }
+    matcher TransientFieldAccessors(field: TransientFields) -> contribution {
+        rule direct_transient when FieldKind == "transient" -> DirectTransientAccessor weight 100
+    }
+    matcher DirectTransientDefaults(field: TransientFields) -> contribution {
+        rule baseline when HasWorkingDefaultFactory == False -> DirectTransientBaselineContribution
+    }
+    extend production ClassProduction {
+        phase direct_transient_defaults after properties_transient from field: TransientFields { apply direct_transient_defaults using DirectTransientDefaults }
+    }
+
+    resource DirectBindingProperty = template $[
+        @property
+        def getter__astichi_arg__(self):
+            state = self._u_state
+            if astichi_bind_external(field_name) not in state.values:
+                raise astichi_ref(external=getter_capture).definition_error(f"{state.schema.name}." + astichi_bind_external(field_name) + ": unresolved constructor field")
+            return state.values[astichi_bind_external(field_name)]
+        @setter_target__astichi_arg__.setter
+        def setter__astichi_arg__(self, value):
+            state = self._u_state
+            result = None
+            astichi_hole(binding_validation)
+            state.values[astichi_bind_external(field_name)] = result
+    ]$ { keep state, result, value }
+    contribution DirectBindingAccessor = DirectBindingProperty {
+        external getter_capture = ClassId
+        as DirectBinding index FieldOrder order FieldOrder target properties { build /ClassDef }
+        ident getter = FieldName ident setter_target = FieldName ident setter = FieldName
+        external field_name = FieldName
+    }
+    resource DirectScalarBindingValidation = template $[
+        validator = astichi_ref(external=validation_capture).scalar_binding
+        astichi_pass(result, outer_bind=True)._ = astichi_pass(state, outer_bind=True).manager._call(f"{astichi_pass(state, outer_bind=True).schema.name}." + astichi_bind_external(field_name) + ": binding validation", lambda: validator(astichi_bind_external(field_name), astichi_pass(value, outer_bind=True)))
+    ]$ { keep state, result, value, validator }
+    contribution DirectScalarBindingValidationContribution = DirectScalarBindingValidation {
+        external validation_capture = ClassId
+        index FieldOrder order FieldOrder target binding_validation { build /ClassDef/DirectBinding[FieldOrder] }
+        external field_name = FieldName
+    }
+    resource DirectMapBindingValidation = template $[
+        validator = astichi_ref(external=validation_capture).map_binding
+        astichi_pass(result, outer_bind=True)._ = astichi_pass(state, outer_bind=True).manager._call(f"{astichi_pass(state, outer_bind=True).schema.name}." + astichi_bind_external(field_name) + ": binding validation", lambda: validator(astichi_bind_external(field_name), astichi_pass(value, outer_bind=True)))
+    ]$ { keep state, result, value, validator }
+    contribution DirectMapBindingValidationContribution = DirectMapBindingValidation {
+        external validation_capture = ClassId
+        index FieldOrder order FieldOrder target binding_validation { build /ClassDef/DirectBinding[FieldOrder] }
+        external field_name = FieldName
+    }
+    matcher BindingFieldAccessors(field: BindingFields) -> contribution {
+        rule direct_binding when FieldKind == "binding" -> DirectBindingAccessor weight 100
+    }
+    matcher DirectBindingValidation(field: BindingFields) -> contribution {
+        rule direct_scalar when BindingShape == "scalar" -> DirectScalarBindingValidationContribution
+        rule direct_map when BindingShape == "map" -> DirectMapBindingValidationContribution
+    }
+    extend production ClassProduction {
+        phase direct_binding_validation after properties_binding from field: BindingFields { apply direct_binding_validation using DirectBindingValidation }
+    }
+}

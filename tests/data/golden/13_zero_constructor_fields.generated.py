@@ -118,11 +118,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def value(self):
-            return self._u_read_managed('value')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'value' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'value' + ': unresolved constructor field')
+                return state.values['value']
+            return state.manager._read_managed(self, 'value')
 
         @value.setter
         def value(self, value):
-            self._u_write_managed('value', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('value' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'value', value)
 
     class NoInputs_Current(NoInputs):
         __slots__ = ()
@@ -135,11 +144,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def value(self):
-            return self._u_read_current_managed('value')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'value' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'value' + ': unresolved constructor field')
+                return state.values['value']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'value')
+            return state.manager._committed_value(self, 'value')
 
         @value.setter
         def value(self, value):
-            self._u_write_current_managed('value', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('value' + ': current managed facade is read-only')
 
     class NoInputs_Working(NoInputs):
         __slots__ = ()
@@ -152,11 +170,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def value(self):
-            return self._u_read_working_managed('value')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'value' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'value' + ': unresolved constructor field')
+                return state.values['value']
+            return state.manager._read_managed(self, 'value')
 
         @value.setter
         def value(self, value):
-            self._u_write_managed('value', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('value' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'value', value)
     NoInputs.__undoable_views__ = {'default': NoInputs, 'current': NoInputs_Current, 'working': NoInputs_Working}
     return NoInputs
 
@@ -186,11 +213,14 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def cache(self):
-            return self._u_read_plain('cache')
+            state = self._u_state
+            if 'cache' not in state.values:
+                raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'cache' + ': unresolved constructor field')
+            return state.values['cache']
 
         @cache.setter
         def cache(self, value):
-            self._u_write_plain('cache', value)
+            self._u_state.values['cache'] = value
 
     class ScratchOnly_Current(ScratchOnly):
         __slots__ = ()
@@ -240,11 +270,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def value(self):
-            return self._u_read_managed('value')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'value' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'value' + ': unresolved constructor field')
+                return state.values['value']
+            return state.manager._read_managed(self, 'value')
 
         @value.setter
         def value(self, value):
-            self._u_write_managed('value', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('value' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'value', value)
 
     class NoInputs_Current(NoInputs):
         __slots__ = ()
@@ -257,11 +296,20 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def value(self):
-            return self._u_read_current_managed('value')
+            state = self._u_state
+            state.manager._require_confirmed()
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'value' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'value' + ': unresolved constructor field')
+                return state.values['value']
+            if self._u_pin is not None:
+                return state.manager._read_managed(self, 'value')
+            return state.manager._committed_value(self, 'value')
 
         @value.setter
         def value(self, value):
-            self._u_write_current_managed('value', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            raise _u_capture_0.transaction_error('value' + ': current managed facade is read-only')
 
     class NoInputs_Working(NoInputs):
         __slots__ = ()
@@ -274,10 +322,19 @@ def build_undoable_class(base_cls, *, schema):
 
         @property
         def value(self):
-            return self._u_read_working_managed('value')
+            self._u_state.manager._require_confirmed()
+            state = self._u_state
+            if self._u_pin is None and (state.constructing or state.manager._selection is None):
+                if 'value' not in state.values:
+                    raise _u_capture_0.definition_error(f'{state.schema.name}.' + 'value' + ': unresolved constructor field')
+                return state.values['value']
+            return state.manager._read_managed(self, 'value')
 
         @value.setter
         def value(self, value):
-            self._u_write_managed('value', value)
+            _u_capture_0.mutation_guard(self._u_state.manager)
+            if self._u_state.constructing:
+                raise _u_capture_0.transaction_error('value' + ': constructor baselines are read-only')
+            self._u_state.manager._write_managed(self, 'value', value)
     NoInputs.__undoable_views__ = {'default': NoInputs, 'current': NoInputs_Current, 'working': NoInputs_Working}
     return NoInputs

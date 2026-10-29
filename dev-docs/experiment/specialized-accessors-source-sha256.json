@@ -1,0 +1,12 @@
+{
+  "src/yidl_undoable/undoable.py": "5ba572687a05228a16dbe33f9aee8218e5f1c3cdcd2339f48cff5c07b7844b9b",
+  "src/yidl_undoable/specialized.py": "2c904eb8c14161b5369452b3ae1f40ecbdcddbc1deb27ce601d836aa57b88457",
+  "src/yidl_undoable/yidl/experimental/specialized.yidl": "781b7644e16fb8e918bb6a3186d9ea9c50a231aff1191c126a387dcfcbcd8a94",
+  "src/yidl_undoable/_generated_undoable_base.py": "cc9692bb341584a947461b9d7dff537ac7fe767811d0e9e480135d14116a973d",
+  "src/yidl_undoable/facades.py": "0ef6f62c163a08bd865546e42ceabfb04a65ccac68e58ff5d0c178bfc1740a7d",
+  "src/yidl_undoable/transaction_yidl.py": "99ca200875fe1f74f8fd85b3f698d8f220124e9f6b4923fe0f728bb5c77b955b",
+  "scripts/benchmark_specialized.py": "913b23f07346eef5f893eb7ce8c1077b5e14f2266685c4b6908d3a37cd308197",
+  "scripts/check_specialized.py": "3070f06d6088ae2ffc1d5ab8510006db50858b620eae555f02bac1f190a7457e",
+  "tests/test_specialized.py": "ec9910e160b62def2a853b4d4245303097370f53aa287f83485c43928f42cb5b",
+  "src/yidl_undoable/comparison_captures.py": "bd948f9ad5895f3993ab06a92f21010c6ab748d19b89396fcc8f4b87ad035fbe"
+}

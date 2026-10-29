@@ -15,6 +15,7 @@ _PACKAGE_ROOT = Path(__file__).resolve().parent
 _PROJECT_ROOT = _PACKAGE_ROOT.parent.parent
 _YIDL_SOURCE_DIR = _PACKAGE_ROOT / "yidl"
 _GENERATED_BASE_PATH = _PACKAGE_ROOT / "_generated_undoable_base.py"
+_SPECIALIZED_BASE_PATH = _PACKAGE_ROOT / "_generated_specialized_base.py"
 _ENTRY_PATH = _YIDL_SOURCE_DIR / "undoable_base.yidl"
 _CONCEPT_NAME = "UndoableBase"
 _LOGICAL_RESOURCE_ROOT = Path("undoable")
@@ -24,9 +25,9 @@ _SHARED_DIGEST = "2f7e6df989b0714d8764de84d8a6f6b03f39c3ad7f57dba5e55f5131b8354e
 
 def generation_sources(source_dir: Path = _YIDL_SOURCE_DIR) -> dict[str, str]:
     """Load consumer sources plus the pinned authoritative build-time resource."""
-    paths = tuple(sorted(source_dir.glob("*.yidl")))
+    paths = tuple(sorted(source_dir.rglob("*.yidl")))
     sources = {
-        (_LOGICAL_RESOURCE_ROOT / path.name).as_posix(): path.read_text(
+        (_LOGICAL_RESOURCE_ROOT / path.relative_to(source_dir)).as_posix(): path.read_text(
             encoding="utf-8"
         )
         for path in paths
@@ -47,6 +48,7 @@ def render_undoable_base_source(
     source_dir: Path = _YIDL_SOURCE_DIR,
     entry_path: Path = _ENTRY_PATH,
     project_root: Path = _PROJECT_ROOT,
+    concept_name: str = _CONCEPT_NAME,
 ) -> str:
     """Render layers with stable logical names across source and wheel layouts.
 
@@ -58,9 +60,9 @@ def render_undoable_base_source(
 
     sources = generation_sources(source_dir)
     compiled = compile_yidl_files(
-        sources, (_LOGICAL_RESOURCE_ROOT / entry_path.name).as_posix()
+        sources, (_LOGICAL_RESOURCE_ROOT / entry_path.relative_to(source_dir)).as_posix()
     )
-    concept = compiled.concepts[_CONCEPT_NAME]
+    concept = compiled.concepts[concept_name]
     rendered = emit_concept_runtime_source(
         concept.plan.build_data_definition(),
         resources=concept.resources,
@@ -79,6 +81,13 @@ def render_undoable_base_source(
     )
 
 
+def render_specialized_base_source() -> str:
+    return render_undoable_base_source(
+        entry_path=_YIDL_SOURCE_DIR / "experimental" / "specialized.yidl",
+        concept_name="SpecializedUndoable",
+    ) + "\nbuild_UndoableModule = build_SpecializedModule\n"
+
+
 def check_undoable_base(
     *,
     generated_path: Path = _GENERATED_BASE_PATH,
@@ -88,7 +97,10 @@ def check_undoable_base(
     expected = generated_path.read_text(encoding="utf-8")
     actual = render_undoable_base_source()
     if actual == expected:
-        return True, ""
+        specialized = render_specialized_base_source()
+        if _SPECIALIZED_BASE_PATH.read_text(encoding="utf-8") == specialized:
+            return True, ""
+        return False, "generated specialized undoable base differs from its resources"
     diff = "\n".join(
         difflib.unified_diff(
             expected.splitlines(),
@@ -108,6 +120,7 @@ def write_undoable_base(
     """Rewrite the committed generated base from the checked-in YIDL layers."""
 
     generated_path.write_text(render_undoable_base_source(), encoding="utf-8")
+    _SPECIALIZED_BASE_PATH.write_text(render_specialized_base_source(), encoding="utf-8")
 
 
 def main(argv: list[str] | None = None) -> int:

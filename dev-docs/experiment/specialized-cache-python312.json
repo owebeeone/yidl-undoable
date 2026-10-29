@@ -1,0 +1,1013 @@
+{
+  "python": "3.12.12",
+  "platform": "darwin",
+  "machine": "arm64",
+  "engine": "python",
+  "process_pairs": 5,
+  "model_fields": 7,
+  "source_sha256": "266e68211f126ade3e2ad8e407b82aaf848bef6860ae065d4120777b45c8eff0",
+  "versions": {
+    "yidl": "0.1.2",
+    "astichi": "1.1.3",
+    "yidl-cache": "0.1.0",
+    "yidl-lifecycle": "0.1.1",
+    "yidl-dataclass": "0.1.1"
+  },
+  "summary": {
+    "baseline": {
+      "off": {
+        "first_ms": 58.604709,
+        "warm_ms": 24.059375
+      },
+      "seed": {
+        "first_ms": 48.785542,
+        "warm_ms": 0.263042
+      },
+      "disk": {
+        "first_ms": 1.878416,
+        "warm_ms": 0.249875
+      }
+    },
+    "specialized": {
+      "off": {
+        "first_ms": 966.162333,
+        "warm_ms": 218.178875
+      },
+      "seed": {
+        "first_ms": 953.971792,
+        "warm_ms": 0.255875
+      },
+      "disk": {
+        "first_ms": 1.085125,
+        "warm_ms": 0.249167
+      }
+    }
+  },
+  "workers": [
+    {
+      "mode": "off",
+      "seed": 1,
+      "inventory_ns": 11612042,
+      "dependency_digest": "982873b9606709c693e2caff62a6ed4e65c503cbf5ccde67aeaac81452a30e83",
+      "variants": {
+        "specialized": {
+          "first_ns": 958137708,
+          "warm_ns": [
+            218178875,
+            219244834,
+            219014250,
+            204419792,
+            215128250
+          ],
+          "producer_calls": 6,
+          "outcomes": [
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass"
+          ],
+          "generated": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        "baseline": {
+          "first_ns": 58604709,
+          "warm_ns": [
+            24177875,
+            24209875,
+            24111958,
+            24121458,
+            24027167
+          ],
+          "producer_calls": 6,
+          "outcomes": [
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass"
+          ],
+          "generated": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ]
+        }
+      },
+      "wall_ns": 2396469041
+    },
+    {
+      "mode": "seed",
+      "seed": 1,
+      "inventory_ns": 11110500,
+      "dependency_digest": "982873b9606709c693e2caff62a6ed4e65c503cbf5ccde67aeaac81452a30e83",
+      "variants": {
+        "specialized": {
+          "first_ns": 953971792,
+          "warm_ns": [
+            397000,
+            283291,
+            254083,
+            246541,
+            243792
+          ],
+          "producer_calls": 2,
+          "outcomes": [
+            "CacheMiss",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheMiss"
+          ],
+          "generated": [
+            true,
+            false,
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        "baseline": {
+          "first_ns": 47945708,
+          "warm_ns": [
+            336167,
+            263042,
+            246084,
+            238666,
+            235041
+          ],
+          "producer_calls": 2,
+          "outcomes": [
+            "CacheMiss",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheMiss"
+          ],
+          "generated": [
+            true,
+            false,
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        }
+      },
+      "wall_ns": 1444202333
+    },
+    {
+      "mode": "disk",
+      "seed": 100,
+      "inventory_ns": 11011125,
+      "dependency_digest": "982873b9606709c693e2caff62a6ed4e65c503cbf5ccde67aeaac81452a30e83",
+      "variants": {
+        "specialized": {
+          "first_ns": 2962583,
+          "warm_ns": [
+            343084,
+            273458,
+            249167,
+            243666,
+            236500
+          ],
+          "producer_calls": 0,
+          "outcomes": [
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit"
+          ],
+          "generated": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        "baseline": {
+          "first_ns": 392833,
+          "warm_ns": [
+            231750,
+            233500,
+            223333,
+            301583,
+            227250
+          ],
+          "producer_calls": 0,
+          "outcomes": [
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit"
+          ],
+          "generated": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      },
+      "wall_ns": 169922916
+    },
+    {
+      "mode": "off",
+      "seed": 1001,
+      "inventory_ns": 11285750,
+      "dependency_digest": "982873b9606709c693e2caff62a6ed4e65c503cbf5ccde67aeaac81452a30e83",
+      "variants": {
+        "specialized": {
+          "first_ns": 985738667,
+          "warm_ns": [
+            226498333,
+            220096125,
+            220146334,
+            204403333,
+            215611542
+          ],
+          "producer_calls": 6,
+          "outcomes": [
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass"
+          ],
+          "generated": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        "baseline": {
+          "first_ns": 58754125,
+          "warm_ns": [
+            24300000,
+            24125000,
+            23908833,
+            24059375,
+            23898958
+          ],
+          "producer_calls": 6,
+          "outcomes": [
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass"
+          ],
+          "generated": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ]
+        }
+      },
+      "wall_ns": 2436251541
+    },
+    {
+      "mode": "seed",
+      "seed": 1001,
+      "inventory_ns": 11021500,
+      "dependency_digest": "982873b9606709c693e2caff62a6ed4e65c503cbf5ccde67aeaac81452a30e83",
+      "variants": {
+        "specialized": {
+          "first_ns": 949962959,
+          "warm_ns": [
+            397333,
+            282625,
+            255875,
+            240125,
+            238917
+          ],
+          "producer_calls": 2,
+          "outcomes": [
+            "CacheMiss",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheMiss"
+          ],
+          "generated": [
+            true,
+            false,
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        "baseline": {
+          "first_ns": 48158458,
+          "warm_ns": [
+            376208,
+            271792,
+            249208,
+            240500,
+            234000
+          ],
+          "producer_calls": 2,
+          "outcomes": [
+            "CacheMiss",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheMiss"
+          ],
+          "generated": [
+            true,
+            false,
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        }
+      },
+      "wall_ns": 1444480333
+    },
+    {
+      "mode": "disk",
+      "seed": 1100,
+      "inventory_ns": 11127834,
+      "dependency_digest": "982873b9606709c693e2caff62a6ed4e65c503cbf5ccde67aeaac81452a30e83",
+      "variants": {
+        "specialized": {
+          "first_ns": 2956792,
+          "warm_ns": [
+            353917,
+            273625,
+            248125,
+            238125,
+            268041
+          ],
+          "producer_calls": 0,
+          "outcomes": [
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit"
+          ],
+          "generated": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        "baseline": {
+          "first_ns": 403125,
+          "warm_ns": [
+            248875,
+            233209,
+            222125,
+            295125,
+            226583
+          ],
+          "producer_calls": 0,
+          "outcomes": [
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit"
+          ],
+          "generated": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      },
+      "wall_ns": 173249083
+    },
+    {
+      "mode": "off",
+      "seed": 2001,
+      "inventory_ns": 11592459,
+      "dependency_digest": "982873b9606709c693e2caff62a6ed4e65c503cbf5ccde67aeaac81452a30e83",
+      "variants": {
+        "specialized": {
+          "first_ns": 966162333,
+          "warm_ns": [
+            219497667,
+            219018084,
+            219499625,
+            205877083,
+            215139458
+          ],
+          "producer_calls": 6,
+          "outcomes": [
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass"
+          ],
+          "generated": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        "baseline": {
+          "first_ns": 58670625,
+          "warm_ns": [
+            23908333,
+            24041000,
+            24075166,
+            24143208,
+            24186500
+          ],
+          "producer_calls": 6,
+          "outcomes": [
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass"
+          ],
+          "generated": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ]
+        }
+      },
+      "wall_ns": 2409005875
+    },
+    {
+      "mode": "seed",
+      "seed": 2001,
+      "inventory_ns": 11239500,
+      "dependency_digest": "982873b9606709c693e2caff62a6ed4e65c503cbf5ccde67aeaac81452a30e83",
+      "variants": {
+        "specialized": {
+          "first_ns": 963774917,
+          "warm_ns": [
+            410708,
+            302875,
+            279542,
+            267875,
+            264125
+          ],
+          "producer_calls": 2,
+          "outcomes": [
+            "CacheMiss",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheMiss"
+          ],
+          "generated": [
+            true,
+            false,
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        "baseline": {
+          "first_ns": 48785542,
+          "warm_ns": [
+            362708,
+            287250,
+            262875,
+            263042,
+            259959
+          ],
+          "producer_calls": 2,
+          "outcomes": [
+            "CacheMiss",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheMiss"
+          ],
+          "generated": [
+            true,
+            false,
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        }
+      },
+      "wall_ns": 1464674875
+    },
+    {
+      "mode": "disk",
+      "seed": 2100,
+      "inventory_ns": 11065125,
+      "dependency_digest": "982873b9606709c693e2caff62a6ed4e65c503cbf5ccde67aeaac81452a30e83",
+      "variants": {
+        "baseline": {
+          "first_ns": 1878416,
+          "warm_ns": [
+            334291,
+            274166,
+            251250,
+            233292,
+            240000
+          ],
+          "producer_calls": 0,
+          "outcomes": [
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit"
+          ],
+          "generated": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        "specialized": {
+          "first_ns": 1021625,
+          "warm_ns": [
+            241083,
+            255083,
+            238750,
+            326834,
+            243458
+          ],
+          "producer_calls": 0,
+          "outcomes": [
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit"
+          ],
+          "generated": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      },
+      "wall_ns": 170879542
+    },
+    {
+      "mode": "off",
+      "seed": 3001,
+      "inventory_ns": 11320209,
+      "dependency_digest": "982873b9606709c693e2caff62a6ed4e65c503cbf5ccde67aeaac81452a30e83",
+      "variants": {
+        "baseline": {
+          "first_ns": 56488542,
+          "warm_ns": [
+            23801583,
+            24031125,
+            23823584,
+            24127750,
+            23833875
+          ],
+          "producer_calls": 6,
+          "outcomes": [
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass"
+          ],
+          "generated": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        "specialized": {
+          "first_ns": 953478125,
+          "warm_ns": [
+            218846750,
+            219391750,
+            207048250,
+            216817625,
+            217173125
+          ],
+          "producer_calls": 6,
+          "outcomes": [
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass"
+          ],
+          "generated": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ]
+        }
+      },
+      "wall_ns": 2391047375
+    },
+    {
+      "mode": "seed",
+      "seed": 3001,
+      "inventory_ns": 11043292,
+      "dependency_digest": "982873b9606709c693e2caff62a6ed4e65c503cbf5ccde67aeaac81452a30e83",
+      "variants": {
+        "baseline": {
+          "first_ns": 59033833,
+          "warm_ns": [
+            379542,
+            292791,
+            266375,
+            317042,
+            236959
+          ],
+          "producer_calls": 2,
+          "outcomes": [
+            "CacheMiss",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheMiss"
+          ],
+          "generated": [
+            true,
+            false,
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        "specialized": {
+          "first_ns": 949149250,
+          "warm_ns": [
+            404417,
+            299750,
+            269875,
+            260916,
+            251333
+          ],
+          "producer_calls": 2,
+          "outcomes": [
+            "CacheMiss",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheMiss"
+          ],
+          "generated": [
+            true,
+            false,
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        }
+      },
+      "wall_ns": 1453467958
+    },
+    {
+      "mode": "disk",
+      "seed": 3100,
+      "inventory_ns": 11085042,
+      "dependency_digest": "982873b9606709c693e2caff62a6ed4e65c503cbf5ccde67aeaac81452a30e83",
+      "variants": {
+        "baseline": {
+          "first_ns": 1891042,
+          "warm_ns": [
+            326042,
+            274166,
+            249875,
+            238291,
+            234333
+          ],
+          "producer_calls": 0,
+          "outcomes": [
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit"
+          ],
+          "generated": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        "specialized": {
+          "first_ns": 1004583,
+          "warm_ns": [
+            265208,
+            256125,
+            240584,
+            323792,
+            230667
+          ],
+          "producer_calls": 0,
+          "outcomes": [
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit"
+          ],
+          "generated": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      },
+      "wall_ns": 172226291
+    },
+    {
+      "mode": "off",
+      "seed": 4001,
+      "inventory_ns": 11377916,
+      "dependency_digest": "982873b9606709c693e2caff62a6ed4e65c503cbf5ccde67aeaac81452a30e83",
+      "variants": {
+        "baseline": {
+          "first_ns": 56336292,
+          "warm_ns": [
+            24035916,
+            23943875,
+            23863375,
+            23811834,
+            23777041
+          ],
+          "producer_calls": 6,
+          "outcomes": [
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass"
+          ],
+          "generated": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        "specialized": {
+          "first_ns": 971337833,
+          "warm_ns": [
+            218245458,
+            219486334,
+            204297708,
+            215741041,
+            216499125
+          ],
+          "producer_calls": 6,
+          "outcomes": [
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass",
+            "CacheBypass"
+          ],
+          "generated": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ]
+        }
+      },
+      "wall_ns": 2409868042
+    },
+    {
+      "mode": "seed",
+      "seed": 4001,
+      "inventory_ns": 11232916,
+      "dependency_digest": "982873b9606709c693e2caff62a6ed4e65c503cbf5ccde67aeaac81452a30e83",
+      "variants": {
+        "baseline": {
+          "first_ns": 58805334,
+          "warm_ns": [
+            354959,
+            272375,
+            249000,
+            314500,
+            235250
+          ],
+          "producer_calls": 2,
+          "outcomes": [
+            "CacheMiss",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheMiss"
+          ],
+          "generated": [
+            true,
+            false,
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        },
+        "specialized": {
+          "first_ns": 954231417,
+          "warm_ns": [
+            376875,
+            269875,
+            254916,
+            242708,
+            232625
+          ],
+          "producer_calls": 2,
+          "outcomes": [
+            "CacheMiss",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheMiss"
+          ],
+          "generated": [
+            true,
+            false,
+            false,
+            false,
+            false,
+            false,
+            true
+          ]
+        }
+      },
+      "wall_ns": 1456284833
+    },
+    {
+      "mode": "disk",
+      "seed": 4100,
+      "inventory_ns": 11137375,
+      "dependency_digest": "982873b9606709c693e2caff62a6ed4e65c503cbf5ccde67aeaac81452a30e83",
+      "variants": {
+        "baseline": {
+          "first_ns": 1981584,
+          "warm_ns": [
+            345083,
+            287875,
+            262500,
+            250125,
+            249417
+          ],
+          "producer_calls": 0,
+          "outcomes": [
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit"
+          ],
+          "generated": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        "specialized": {
+          "first_ns": 1085125,
+          "warm_ns": [
+            255292,
+            248416,
+            243292,
+            321708,
+            245750
+          ],
+          "producer_calls": 0,
+          "outcomes": [
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit",
+            "CacheHit"
+          ],
+          "generated": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      },
+      "wall_ns": 176876917
+    }
+  ]
+}

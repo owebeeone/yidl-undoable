@@ -22,7 +22,12 @@ def run_story(story):
 
 
 def golden_path(story):
+    # Native hygiene spells a few private capture aliases differently. Preserve
+    # exact inspectable source for each backend instead of normalizing it away.
+    from astichi.lower_engine import select_effective_lower_engine
+    native = select_effective_lower_engine().selected_engine.startswith("native")
+    suffix = ".native" if native and story.stem.startswith(("16_", "20_", "21_")) else ""
     if story.stem.startswith(("21_", "22_", "23_", "24_")):
         minor = f"py{sys.version_info.major}{sys.version_info.minor}"
-        return GOLDEN / f"{story.stem}.{minor}.generated.py"
-    return GOLDEN / (story.stem + ".generated.py")
+        return GOLDEN / f"{story.stem}.{minor}{suffix}.generated.py"
+    return GOLDEN / (story.stem + suffix + ".generated.py")

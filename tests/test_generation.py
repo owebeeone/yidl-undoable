@@ -18,11 +18,12 @@ def test_matcher_selected_executable_surface():
     tree = ast.parse(Selected.__undoable_source__)
     classes = [n for n in ast.walk(tree) if isinstance(n, ast.ClassDef)]
     assert len(classes) == 3
-    assert "_u_read_current_managed" in Selected.__undoable_source__
-    assert "_u_read_working_managed" in Selected.__undoable_source__
-    assert "_u_write_mutable_static" in Selected.__undoable_source__
-    assert "_u_read_factory_static" in Selected.__undoable_source__
-    assert "_u_read_factory_transient" in Selected.__undoable_source__
+    assert "manager._committed_value(self, 'required')" in Selected.__undoable_source__
+    assert "allow_thaw=True" not in Selected.__undoable_source__
+    assert "_u_read_current_managed" not in Selected.__undoable_source__
+    assert "_u_write_mutable_static" not in Selected.__undoable_source__
+    assert "_u_read_factory_static" not in Selected.__undoable_source__
+    assert "_u_read_factory_transient" not in Selected.__undoable_source__
     assert check_undoable_base() == (True, "")
 
 
