@@ -1,5 +1,7 @@
 # YIDL Undoable
 
+> **Full documentation:** [User guides and API reference](https://owebeeone.github.io/yidl-undoable/).
+
 Make an edit to a Python model, undo it, and redo it. Declare which fields belong
 to history; Undoable supplies guarded transactions and a shared history for the
 root objects and their managed descendants. You do not need to write YIDL.
